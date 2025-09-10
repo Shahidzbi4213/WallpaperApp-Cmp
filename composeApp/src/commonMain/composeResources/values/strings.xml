@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name" translatable="false">Screeny</string>
+    <string name="home">Home</string>
+    <string name="category">Category</string>
+    <string name="favourite">Favourite</string>
+    <string name="settings">Settings</string>
+    <string name="search_wallpaper">Search Wallpaper</string>
+    <string name="download">Download</string>
+    <string name="downloading_wallpaper">Downloading Wallpaper</string>
+    <string name="downloading">Downloading</string>
+    <string name="set_as_home_screen">Set on home screen</string>
+    <string name="set_as_lock_screen">Set on lock screen</string>
+    <string name="set_as_both">Set on both screen</string>
+    <string name="wallpaper_dialog_title">What would you like to do?</string>
+    <string name="cancel">Cancel</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="wallpaper_set_successfully">Wallpaper set successfully!</string>
+    <string name="recent_searchs">Recent Searches</string>
+    <string name="your_favorite_wallpapers_will_appear_here_start_exploring_and_add_some_to_your_favorites">Your favorite wallpapers will appear here!\nStart exploring and add some to your favorites!</string>
+    <string name="explore_wallpapers">Explore Wallpapers</string>
+    <string name="apply">Apply</string>
+    <string name="language">Languages</string>
+    <string name="current_language">Current Language</string>
+    <string name="all_languages">All Language</string>
+    <string name="general">General</string>
+    <string name="app_lanuage">App Language</string>
+    <string name="dynamic_color">Dynamic Color</string>
+    <string name="app_mode">App Mode</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
+    <string name="system_default">System Default</string>
+    <string name="dark">Dark</string>
+    <string name="light">Light</string>
+    <string name="categories">Categories</string>
+    <string name="selected_language">Selected Language</string>
+    <string name="others">Others</string>
+    <string name="share_app">Share App</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="feedback">Feedback</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="your_opinion_matters_to_us">Your opinion matters to us!</string>
+    <string name="submit">Submit</string>
+
+</resources>
