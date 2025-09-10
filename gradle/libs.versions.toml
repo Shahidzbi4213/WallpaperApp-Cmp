@@ -15,9 +15,7 @@ kotlin = "2.2.10"
 
 navigationCompose = "2.9.0-rc01"
 landscapistCoil3 = "2.5.2"
-pager3Version = "3.4.0-alpha03"
 
-kotlinXserialization = "1.9.0"
 
 
 
@@ -39,11 +37,6 @@ landscapist-coil3 = { module = "com.github.skydoves:landscapist-coil3", version.
 #Navigations
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 
-#Pager
-pagging-library = { module = "androidx.paging:paging-compose", version.ref = "pager3Version" }
-
-#kotlinX-Serialization
-kotlinX-serialization = {module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinXserialization"}
 
 
 

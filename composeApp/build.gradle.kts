@@ -50,11 +50,7 @@ kotlin {
             //Navigation
             implementation(libs.navigation.compose)
 
-            //Paging Library
-            //implementation(libs.pagging.library)
 
-            //KotlinX Serialization
-            implementation(libs.kotlinX.serialization)
 
         }
         commonTest.dependencies {
