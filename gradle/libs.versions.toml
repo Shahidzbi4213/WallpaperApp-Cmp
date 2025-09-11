@@ -11,10 +11,19 @@ androidx-lifecycle = "2.9.3"
 androidx-testExt = "1.3.0"
 composeMultiplatform = "1.8.2"
 junit = "4.13.2"
+
 kotlin = "2.2.10"
+kspVersion = "2.2.10-2.0.2"
+
 
 navigationCompose = "2.9.0-rc01"
 landscapistCoil3 = "2.5.2"
+
+koin-bom = "4.1.1"
+koin-annotation = "2.1.0"
+
+ktor = "3.2.3"
+
 
 
 
@@ -37,7 +46,28 @@ landscapist-coil3 = { module = "com.github.skydoves:landscapist-coil3", version.
 #Navigations
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 
+#Koin
+koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
+koin-core = { module = "io.insert-koin:koin-core" }
+koin-compose = { module = "io.insert-koin:koin-androidx-compose" }
+koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel" }
+koin-compose-viewmodel-navigation = { module = "io.insert-koin:koin-compose-viewmodel-navigation" }
+koin-annotations ={module = "io.insert-koin:koin-annotations", version.ref = "koin-annotation"}
+koin-ksp-compiler= {module = "io.insert-koin:koin-ksp-compiler",version.ref = "koin-annotation"}
 
+#Ktor
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+ktor-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-client-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+
+
+
+[bundles]
+koin-di = ["koin-core","koin-compose","koin-compose-viewmodel","koin-compose-viewmodel-navigation"]
+ktor-networking = ["ktor-client-core","ktor-client-logging","ktor-content-negotiation","ktor-client-serialization"]
 
 
 
@@ -48,3 +78,5 @@ composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMul
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
+

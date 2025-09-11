@@ -2,37 +2,69 @@ package com.google.wallpaperapp
 
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.paging.PagingData
+import app.cash.paging.compose.collectAsLazyPagingItems
+import com.google.wallpaperapp.domain.models.Wallpaper
+import com.google.wallpaperapp.ui.components.BottomNavigationBar
+import com.google.wallpaperapp.ui.components.TopBar
+import com.google.wallpaperapp.ui.composables.ManageBarVisibility
+import com.google.wallpaperapp.ui.composables.titleMapper
 import com.google.wallpaperapp.ui.routs.Routs
+import com.google.wallpaperapp.ui.screens.home.HomeScreen
 import com.google.wallpaperapp.ui.screens.splash.SplashScreen
 import com.google.wallpaperapp.ui.theme.ScreenyTheme
-import org.jetbrains.compose.resources.painterResource
+import kotlinx.coroutines.flow.flow
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import wallpaperapp.composeapp.generated.resources.Res
-import wallpaperapp.composeapp.generated.resources.app_logo
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 @Preview
-fun App() {
+fun App(modifier: Modifier = Modifier) {
 
     val navController = rememberNavController()
+    var canShowBottomBar by rememberSaveable { mutableStateOf(false) }
+    var canShowTopBar by rememberSaveable { mutableStateOf(false) }
+    val stackEntry by navController.currentBackStackEntryAsState()
 
+    val list = flow {
+        emit(PagingData.empty<Wallpaper>())
+    }.collectAsLazyPagingItems()
+
+    ManageBarVisibility(
+        currentEntry = { stackEntry },
+        showTopBar = { canShowTopBar = it },
+        showBottomBar = { canShowBottomBar = it },
+    )
 
     ScreenyTheme(dynamicColor = true, darkTheme = isSystemInDarkTheme()) {
 
-        Scaffold { innerPadding ->
+        Scaffold(
+            bottomBar = { if (canShowBottomBar) BottomNavigationBar(navController) },
+            topBar = {
+                if (canShowTopBar) {
+                    val title = titleMapper(stackEntry?.destination?.route?.substringAfterLast("."))
+                    TopBar(title = title) { navController.navigate(Routs.SearchedWallpaper) }
+                }
+            }, modifier = modifier
+                .fillMaxSize(),
+            contentWindowInsets = WindowInsets(0.dp)
+        ) { innerPadding ->
 
             SharedTransitionLayout(
                 modifier = Modifier
@@ -46,8 +78,8 @@ fun App() {
                     composable<Routs.Splash> {
                         SplashScreen(onProgressFinish = {
                             navController
-                                .navigate(Routs.Home){
-                                    popUpTo(Routs.Splash){
+                                .navigate(Routs.Home) {
+                                    popUpTo(Routs.Splash) {
                                         inclusive = true
                                     }
                                 }
@@ -55,10 +87,11 @@ fun App() {
                     }
 
                     composable<Routs.Home> {
-                        Box {
-                            Image(painter = painterResource(Res.drawable.app_logo), contentDescription = null)
-                            Text("Welcome Home")
-                        }
+                        HomeScreen(
+                            list,
+                            onBack = {},
+                            onWallpaperClick = {}
+                        )
                     }
 
                 }

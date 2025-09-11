@@ -1,4 +1,4 @@
-package com.google.screeny.ui.components
+package com.google.wallpaperapp.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -22,6 +22,7 @@ fun SplashProgressBar(
     trackColor: Color = MaterialTheme.colorScheme.secondaryContainer,
     shape: Shape = RoundedCornerShape(16.dp)
 ) {
+
 
     Box(
         modifier = modifier
