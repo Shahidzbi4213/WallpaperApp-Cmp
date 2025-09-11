@@ -1,4 +1,4 @@
-package com.google.wallpaperapp.domain.models
+package com.google.wallpaperapp.data.remote.models
 
 import androidx.compose.runtime.Immutable
 import kotlinx.serialization.SerialName
@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Immutable
 @Serializable
-data class Src(
+data class SrcResponse(
     @SerialName("medium")
     val medium: String,
     @SerialName("portrait")

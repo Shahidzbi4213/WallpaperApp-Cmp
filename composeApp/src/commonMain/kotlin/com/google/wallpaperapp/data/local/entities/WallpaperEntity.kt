@@ -1,0 +1,20 @@
+package com.google.wallpaperapp.data.local.entities
+
+import androidx.room.ColumnInfo
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.google.screeny.data.utils.Constant.PEXEL_WALLPAPER_TABLE
+
+
+@Entity(tableName = PEXEL_WALLPAPER_TABLE)
+data class WallpaperEntity(
+    @PrimaryKey(autoGenerate = false)
+    val id: Long,
+    @ColumnInfo("photographer")
+    val photographerName: String,
+    @ColumnInfo("photographer_url")
+    val photographerUrl: String,
+    @Embedded val wallpaperSource: SrcEntity,
+    var page: Int = 0
+)

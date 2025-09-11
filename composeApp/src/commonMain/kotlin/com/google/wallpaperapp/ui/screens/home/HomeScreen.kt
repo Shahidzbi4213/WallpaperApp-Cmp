@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import app.cash.paging.compose.LazyPagingItems
 import com.google.wallpaperapp.core.platform.BackHandler
+import com.google.wallpaperapp.data.remote.models.WallpaperResponse
 import com.google.wallpaperapp.domain.models.Wallpaper
 import com.google.wallpaperapp.ui.components.Footer
 import com.google.wallpaperapp.ui.components.LoadingPlaceHolder
@@ -50,12 +51,12 @@ fun HomeScreen(
         }
 
 
-        items(wallpapers.itemCount, key = { "${wallpapers[it]?.id}.${wallpapers[it]?.page}" }) { index ->
+        items(wallpapers.itemCount, key = { "${wallpapers[it]?.id}.${wallpapers[it]?.id}" }) { index ->
 
             val wallpaper = wallpapers[index]
             if (wallpaper != null) {
                 WallpaperItem(
-                    wallpaper = wallpaper.wallpaperSource.portrait,
+                    wallpaper = wallpaper.portrait,
                 ) {
                     onWallpaperClick(wallpaper)
                 }

@@ -25,6 +25,7 @@ import com.google.wallpaperapp.core.platform.BackHandler
 import com.google.wallpaperapp.ui.theme.getScreenyFontFamily
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 import wallpaperapp.composeapp.generated.resources.Res
 import wallpaperapp.composeapp.generated.resources.app_logo
 import wallpaperapp.composeapp.generated.resources.app_name
@@ -34,7 +35,7 @@ import wallpaperapp.composeapp.generated.resources.app_name
 @Composable
 fun SplashScreen(
     modifier: Modifier = Modifier,
-    splashViewModel: SplashViewModel = viewModel { SplashViewModel() },
+    splashViewModel: SplashViewModel = koinViewModel(),
     onProgressFinish: () -> Unit
 ) {
 

@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.kotlin.ksp)
+    alias(libs.plugins.androidx.room)
 
 }
 
@@ -63,6 +64,12 @@ kotlin {
 
             //Ktor
             implementation(libs.bundles.ktor.networking)
+
+            //Room
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.androidx.sqlite.bundled)
+            implementation(libs.androidx.room.paging)
+
 
         }
         commonTest.dependencies {
@@ -121,12 +128,21 @@ dependencies {
     debugImplementation(compose.uiTooling)
 
     add("kspCommonMainMetadata", libs.koin.ksp.compiler)
+
     add("kspAndroid", libs.koin.ksp.compiler)
     add("kspIosArm64", libs.koin.ksp.compiler)
     add("kspIosSimulatorArm64", libs.koin.ksp.compiler)
+
+    add("kspAndroid", libs.androidx.room.compiler)
+    add("kspIosArm64", libs.androidx.room.compiler)
+    add("kspIosSimulatorArm64", libs.androidx.room.compiler)
 }
 
 // Trigger Common Metadata Generation from Native tasks
 tasks.matching { it.name.startsWith("ksp") && it.name != "kspCommonMainKotlinMetadata" }.configureEach {
     dependsOn("kspCommonMainKotlinMetadata")
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }

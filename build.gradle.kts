@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform) apply false
     alias(libs.plugins.kotlinx.serialization) apply false
     alias(libs.plugins.kotlin.ksp) apply false
+    alias(libs.plugins.androidx.room) apply false
 
 
 }
