@@ -31,6 +31,7 @@ import com.google.wallpaperapp.ui.routs.Routs
 import com.google.wallpaperapp.ui.screens.category.CategoryDetailScreen
 import com.google.wallpaperapp.ui.screens.category.CategoryScreen
 import com.google.wallpaperapp.ui.screens.category.CategoryViewModel
+import com.google.wallpaperapp.ui.screens.favourite.FavouriteScreen
 import com.google.wallpaperapp.ui.screens.home.HomeScreen
 import com.google.wallpaperapp.ui.screens.splash.SplashScreen
 import com.google.wallpaperapp.ui.theme.ScreenyTheme
@@ -121,6 +122,17 @@ fun App(
                             onBackClick = {
                                 navController.navigateUp()
                                 categoryViewModel.updateQuery(null)
+                            })
+                    }
+
+                    composable<Routs.Favourite> {
+                        FavouriteScreen(
+                            animatedVisibilityScope = this,
+                            onExplore = {
+                                navController.navigate(Routs.Home)
+                            },
+                            onWallpaperClick = { id, wallpaper ->
+
                             })
                     }
 

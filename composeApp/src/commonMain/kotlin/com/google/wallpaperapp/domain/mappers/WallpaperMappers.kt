@@ -1,9 +1,11 @@
 package com.google.wallpaperapp.domain.mappers
 
+import com.google.wallpaperapp.data.local.entities.FavouriteWallpaperEntity
 import com.google.wallpaperapp.data.local.entities.SrcEntity
 import com.google.wallpaperapp.data.local.entities.WallpaperEntity
 import com.google.wallpaperapp.data.remote.models.SrcResponse
 import com.google.wallpaperapp.data.remote.models.WallpaperResponse
+import com.google.wallpaperapp.domain.models.FavouriteWallpaper
 import com.google.wallpaperapp.domain.models.Wallpaper
 
 
@@ -43,3 +45,12 @@ fun WallpaperEntity.toWallpaper(): Wallpaper {
         photographerName = photographerName
     )
 }
+
+fun FavouriteWallpaperEntity.toFavouriteWallpaper(): FavouriteWallpaper {
+    return FavouriteWallpaper(id = id, wallpaper = wallpaper)
+}
+
+fun List<FavouriteWallpaperEntity>.toFavouriteWallpapers(): List<FavouriteWallpaper> = map { it.toFavouriteWallpaper() }
+
+
+fun Wallpaper.toFavouriteWallpaper(): FavouriteWallpaper = FavouriteWallpaper(wallpaper = portrait, id = id)

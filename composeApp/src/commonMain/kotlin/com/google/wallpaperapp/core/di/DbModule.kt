@@ -3,6 +3,7 @@ package com.google.wallpaperapp.core.di
 import androidx.room.RoomDatabase
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import com.google.wallpaperapp.data.local.ScreenyDatabase
+import com.google.wallpaperapp.data.local.dao.FavouriteWallpaperDao
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperDao
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperRemoteKeysDao
 import kotlinx.coroutines.Dispatchers
@@ -21,6 +22,11 @@ class DbModule {
             .setDriver(BundledSQLiteDriver())
             .setQueryCoroutineContext(Dispatchers.IO)
             .build()
+    }
+
+    @Single
+    fun provideFavouriteWallpapersDao(db: ScreenyDatabase): FavouriteWallpaperDao{
+        return db.favouriteWallpaperDao()
     }
 
     @Single

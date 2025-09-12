@@ -1,12 +1,15 @@
 package com.google.wallpaperapp.core.di
 
+import com.google.wallpaperapp.data.local.dao.FavouriteWallpaperDao
 import com.google.wallpaperapp.ui.screens.splash.SplashViewModel
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperDao
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperRemoteKeysDao
 import com.google.wallpaperapp.data.remote.PexelWallpapersApi
+import com.google.wallpaperapp.data.repositories.FavouriteRepo
 import com.google.wallpaperapp.data.repositories.SearchWallpapersRepository
 import com.google.wallpaperapp.data.repositories.WallpaperRepository
 import com.google.wallpaperapp.ui.screens.category.CategoryViewModel
+import com.google.wallpaperapp.ui.screens.favourite.FavouriteViewModel
 import com.google.wallpaperapp.ui.screens.home.HomeScreenViewModel
 import org.koin.android.annotation.KoinViewModel
 import org.koin.core.annotation.Factory
@@ -47,4 +50,8 @@ class AppModule {
     ): WallpaperRepository {
         return WallpaperRepository(wallpaperDao, keysDao, api)
     }
+
+
+
+
 }
