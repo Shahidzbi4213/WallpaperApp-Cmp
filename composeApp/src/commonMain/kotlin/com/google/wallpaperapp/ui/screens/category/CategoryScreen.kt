@@ -36,7 +36,9 @@ import com.google.wallpaperapp.ui.components.LoadingPlaceHolder
 import com.google.wallpaperapp.ui.composables.shimmerBrush
 import com.google.wallpaperapp.ui.theme.getScreenyFontFamily
 import com.skydoves.landscapist.ImageOptions
+import com.skydoves.landscapist.animation.crossfade.CrossfadePlugin
 import com.skydoves.landscapist.coil3.CoilImage
+import com.skydoves.landscapist.components.rememberImageComponent
 import kotlinx.coroutines.delay
 
 
@@ -111,6 +113,9 @@ fun CategoryItem(category: Category, onClick: () -> Unit) {
                 requestSize = IntSize(800, 800)
 
             ),
+            component = rememberImageComponent {
+                CrossfadePlugin()
+            },
             modifier = Modifier
                 .matchParentSize()
                 .background(

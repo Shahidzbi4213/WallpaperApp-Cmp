@@ -51,6 +51,8 @@ kotlin {
 
             //ImageLoading
             implementation(libs.landscapist.coil3)
+            implementation(libs.landscapist.animation)
+            implementation(libs.landscapist.transformation)
 
             //Navigation
             implementation(libs.navigation.compose)

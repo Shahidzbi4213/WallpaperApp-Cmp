@@ -48,6 +48,8 @@ androidx-lifecycle-runtimeCompose = { module = "org.jetbrains.androidx.lifecycle
 
 #ImageLoading
 landscapist-coil3 = { module = "com.github.skydoves:landscapist-coil3", version.ref = "landscapistCoil3" }
+landscapist-animation = {module = "com.github.skydoves:landscapist-animation",version.ref ="landscapistCoil3"}
+landscapist-transformation = { module = "com.github.skydoves:landscapist-transformation",version.ref = "landscapistCoil3" }
 
 #Navigations
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }

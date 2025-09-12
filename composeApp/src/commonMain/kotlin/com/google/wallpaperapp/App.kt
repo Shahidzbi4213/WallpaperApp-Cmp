@@ -31,6 +31,7 @@ import com.google.wallpaperapp.ui.routs.Routs
 import com.google.wallpaperapp.ui.screens.category.CategoryDetailScreen
 import com.google.wallpaperapp.ui.screens.category.CategoryScreen
 import com.google.wallpaperapp.ui.screens.category.CategoryViewModel
+import com.google.wallpaperapp.ui.screens.detail.WallpaperDetailScreen
 import com.google.wallpaperapp.ui.screens.favourite.FavouriteScreen
 import com.google.wallpaperapp.ui.screens.home.HomeScreen
 import com.google.wallpaperapp.ui.screens.splash.SplashScreen
@@ -100,7 +101,21 @@ fun App(
                             onBack = {
                                 exitApp()
                             },
-                            onWallpaperClick = {}
+                            onWallpaperClick = { wallpaper ->
+                                navController.navigate(Routs.WallpaperDetail(wallpaper.id))
+                            }
+                        )
+                    }
+
+                    composable<Routs.WallpaperDetail> {
+                        val id = it.toRoute<Routs.WallpaperDetail>().wallpaperId
+                        WallpaperDetailScreen(
+                            wallpapers = wallpapers.itemSnapshotList.items,
+                            clickedWallpaperId = id,
+                            onBack = {
+                                navController.navigateUp()
+                            }
+
                         )
                     }
 

@@ -3,9 +3,7 @@ package com.google.wallpaperapp.ui.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
@@ -16,7 +14,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.google.wallpaperapp.ui.composables.shimmerBrush
 import com.skydoves.landscapist.ImageOptions
+import com.skydoves.landscapist.animation.crossfade.CrossfadePlugin
 import com.skydoves.landscapist.coil3.CoilImage
+import com.skydoves.landscapist.components.ImageComponent
+import com.skydoves.landscapist.components.rememberImageComponent
 
 @Composable
 fun WallpaperItem(
@@ -36,6 +37,9 @@ fun WallpaperItem(
             contentDescription = null,
             contentScale = ContentScale.Fit
         ),
+        component = rememberImageComponent{
+            CrossfadePlugin(250)
+        },
         modifier = modifier
             .height(200.dp)
             .clip(RoundedCornerShape(10.dp))

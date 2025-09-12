@@ -32,7 +32,7 @@ sealed interface Routs {
     data object SearchedWallpaper : Routs
 
     @Serializable
-    data object WallpaperDetail : Routs
+    data class WallpaperDetail(val wallpaperId: Long) : Routs
 
 
     @Serializable
