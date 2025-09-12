@@ -10,7 +10,6 @@ import com.google.wallpaperapp.data.local.entities.WallpaperEntity
 import com.google.wallpaperapp.data.local.entities.WallpaperRemoteKeyEntity
 import com.google.wallpaperapp.data.remote.PexelWallpapersApi
 import com.google.wallpaperapp.domain.mappers.toWallpaperEntity
-import com.google.wallpaperapp.data.remote.models.WallpaperResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.delay

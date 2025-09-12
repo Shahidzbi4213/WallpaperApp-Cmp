@@ -4,9 +4,12 @@ import com.google.wallpaperapp.ui.screens.splash.SplashViewModel
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperDao
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperRemoteKeysDao
 import com.google.wallpaperapp.data.remote.PexelWallpapersApi
+import com.google.wallpaperapp.data.repositories.SearchWallpapersRepository
 import com.google.wallpaperapp.data.repositories.WallpaperRepository
+import com.google.wallpaperapp.ui.screens.category.CategoryViewModel
 import com.google.wallpaperapp.ui.screens.home.HomeScreenViewModel
 import org.koin.android.annotation.KoinViewModel
+import org.koin.core.annotation.Factory
 import org.koin.core.annotation.Module
 import org.koin.core.annotation.Single
 
@@ -24,6 +27,17 @@ class AppModule {
         return HomeScreenViewModel(repository)
     }
 
+
+    @KoinViewModel
+    fun provideCategoryViewModel(repository: SearchWallpapersRepository): CategoryViewModel{
+        return CategoryViewModel(repository)
+    }
+
+
+    @Factory
+    fun provideSearchRepo(api: PexelWallpapersApi): SearchWallpapersRepository{
+        return SearchWallpapersRepository(api)
+    }
 
     @Single
     fun provideWallpaperRepo(

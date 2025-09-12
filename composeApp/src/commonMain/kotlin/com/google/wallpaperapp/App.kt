@@ -18,24 +18,29 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.google.wallpaperapp.data.repositories.WallpaperRepository
+import androidx.navigation.toRoute
+import com.google.wallpaperapp.core.platform.exitApp
+import com.google.wallpaperapp.domain.models.Wallpaper
 import com.google.wallpaperapp.ui.components.BottomNavigationBar
 import com.google.wallpaperapp.ui.components.TopBar
+import com.google.wallpaperapp.ui.composables.LazyPagingItems
 import com.google.wallpaperapp.ui.composables.ManageBarVisibility
 import com.google.wallpaperapp.ui.composables.collectAsLazyPagingItems
 import com.google.wallpaperapp.ui.composables.titleMapper
 import com.google.wallpaperapp.ui.routs.Routs
+import com.google.wallpaperapp.ui.screens.category.CategoryDetailScreen
+import com.google.wallpaperapp.ui.screens.category.CategoryScreen
+import com.google.wallpaperapp.ui.screens.category.CategoryViewModel
 import com.google.wallpaperapp.ui.screens.home.HomeScreen
-import com.google.wallpaperapp.ui.screens.home.HomeScreenViewModel
 import com.google.wallpaperapp.ui.screens.splash.SplashScreen
 import com.google.wallpaperapp.ui.theme.ScreenyTheme
-import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun App(
+    wallpapers: LazyPagingItems<Wallpaper>,
     modifier: Modifier = Modifier,
 ) {
 
@@ -44,8 +49,8 @@ fun App(
     var canShowTopBar by rememberSaveable { mutableStateOf(false) }
     val stackEntry by navController.currentBackStackEntryAsState()
 
-    val homeScreenViewModel = koinViewModel<HomeScreenViewModel>()
-    val wallpapers = homeScreenViewModel.wallpapers.collectAsLazyPagingItems()
+    val categoryViewModel = koinViewModel<CategoryViewModel>()
+    val wallpapersByCategory = categoryViewModel.wallpapers.collectAsLazyPagingItems()
 
 
 
@@ -91,15 +96,37 @@ fun App(
                     composable<Routs.Home> {
                         HomeScreen(
                             wallpapers,
-                            onBack = {},
+                            onBack = {
+                                exitApp()
+                            },
                             onWallpaperClick = {}
                         )
+                    }
+
+                    composable<Routs.Categories> {
+                        CategoryScreen(onCategoryClick = { name ->
+                            navController.navigate(Routs.CategoryDetail(name))
+                        })
+                    }
+
+                    composable<Routs.CategoryDetail> { backStack ->
+                        val query = backStack.toRoute<Routs.CategoryDetail>().query
+                        categoryViewModel.updateQuery(query)
+
+                        CategoryDetailScreen(
+                            query,
+                            wallpapersByCategory, onWallpaperClick = { wallpaper ->
+
+                            },
+                            onBackClick = {
+                                navController.navigateUp()
+                                categoryViewModel.updateQuery(null)
+                            })
                     }
 
                 }
             }
         }
     }
-
 
 }

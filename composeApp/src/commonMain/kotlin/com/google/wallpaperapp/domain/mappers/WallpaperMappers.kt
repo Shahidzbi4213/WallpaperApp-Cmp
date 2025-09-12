@@ -5,7 +5,6 @@ import com.google.wallpaperapp.data.local.entities.WallpaperEntity
 import com.google.wallpaperapp.data.remote.models.SrcResponse
 import com.google.wallpaperapp.data.remote.models.WallpaperResponse
 import com.google.wallpaperapp.domain.models.Wallpaper
-import kotlinx.coroutines.flow.merge
 
 
 fun WallpaperResponse.toWallpaperEntity(): WallpaperEntity {
@@ -14,6 +13,17 @@ fun WallpaperResponse.toWallpaperEntity(): WallpaperEntity {
         photographerName = photographerName,
         photographerUrl = photographerUrl,
         wallpaperSource = wallpaperSource.toSrcEntity()
+    )
+}
+
+fun WallpaperResponse.toWallpaper(): Wallpaper {
+    return Wallpaper(
+        id = id,
+        photographerName = photographerName,
+        photographerUrl = photographerUrl,
+        portrait = wallpaperSource.portrait,
+        medium = wallpaperSource.medium,
+        small = wallpaperSource.small
     )
 }
 
