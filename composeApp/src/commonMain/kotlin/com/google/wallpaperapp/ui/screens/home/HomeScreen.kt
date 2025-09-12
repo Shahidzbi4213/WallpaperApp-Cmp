@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
@@ -51,9 +52,9 @@ fun HomeScreen(
         }
 
 
-        items(wallpapers.itemCount, key = { "${wallpapers[it]?.id}.${wallpapers[it]?.id}" }) { index ->
+        items(wallpapers.itemCount, key = { "${wallpapers[it]?.medium}" }) { index ->
+            val wallpaper = remember { wallpapers[index] }
 
-            val wallpaper = wallpapers[index]
             if (wallpaper != null) {
                 WallpaperItem(
                     wallpaper = wallpaper.portrait,

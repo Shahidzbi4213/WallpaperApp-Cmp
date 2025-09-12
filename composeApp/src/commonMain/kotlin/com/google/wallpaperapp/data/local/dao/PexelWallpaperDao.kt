@@ -17,6 +17,5 @@ interface PexelWallpaperDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addWallpapers(wallpapers: List<WallpaperEntity>)
 
-    @Query("DELETE FROM pexel_wallpaper_table")
-    suspend fun deleteAllWallpapers()
+
 }

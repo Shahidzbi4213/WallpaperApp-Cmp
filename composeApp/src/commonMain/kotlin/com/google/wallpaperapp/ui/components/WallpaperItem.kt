@@ -16,7 +16,6 @@ import com.google.wallpaperapp.ui.composables.shimmerBrush
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.animation.crossfade.CrossfadePlugin
 import com.skydoves.landscapist.coil3.CoilImage
-import com.skydoves.landscapist.components.ImageComponent
 import com.skydoves.landscapist.components.rememberImageComponent
 
 @Composable

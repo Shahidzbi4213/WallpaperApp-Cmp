@@ -1,5 +1,6 @@
 package com.google.wallpaperapp.core.di
 
+import com.google.wallpaperapp.data.local.dao.CommonDao
 import com.google.wallpaperapp.data.local.dao.FavouriteWallpaperDao
 import com.google.wallpaperapp.ui.screens.splash.SplashViewModel
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperDao
@@ -32,13 +33,13 @@ class AppModule {
 
 
     @KoinViewModel
-    fun provideCategoryViewModel(repository: SearchWallpapersRepository): CategoryViewModel{
+    fun provideCategoryViewModel(repository: SearchWallpapersRepository): CategoryViewModel {
         return CategoryViewModel(repository)
     }
 
 
     @Factory
-    fun provideSearchRepo(api: PexelWallpapersApi): SearchWallpapersRepository{
+    fun provideSearchRepo(api: PexelWallpapersApi): SearchWallpapersRepository {
         return SearchWallpapersRepository(api)
     }
 
@@ -46,12 +47,11 @@ class AppModule {
     fun provideWallpaperRepo(
         wallpaperDao: PexelWallpaperDao,
         keysDao: PexelWallpaperRemoteKeysDao,
+        commonDao: CommonDao,
         api: PexelWallpapersApi
     ): WallpaperRepository {
-        return WallpaperRepository(wallpaperDao, keysDao, api)
+        return WallpaperRepository(wallpaperDao, keysDao, commonDao, api)
     }
-
-
 
 
 }

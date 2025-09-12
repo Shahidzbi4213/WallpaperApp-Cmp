@@ -34,6 +34,7 @@ import com.google.wallpaperapp.ui.screens.category.CategoryViewModel
 import com.google.wallpaperapp.ui.screens.detail.WallpaperDetailScreen
 import com.google.wallpaperapp.ui.screens.favourite.FavouriteScreen
 import com.google.wallpaperapp.ui.screens.home.HomeScreen
+import com.google.wallpaperapp.ui.screens.home.HomeScreenViewModel
 import com.google.wallpaperapp.ui.screens.splash.SplashScreen
 import com.google.wallpaperapp.ui.theme.ScreenyTheme
 import org.koin.compose.viewmodel.koinViewModel
@@ -42,10 +43,11 @@ import org.koin.compose.viewmodel.koinViewModel
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun App(
-    wallpapers: LazyPagingItems<Wallpaper>,
     modifier: Modifier = Modifier,
 ) {
 
+    val homeScreenViewModel = koinViewModel<HomeScreenViewModel>()
+    val wallpapers = homeScreenViewModel.wallpapers.collectAsLazyPagingItems()
     val navController = rememberNavController()
     var canShowBottomBar by rememberSaveable { mutableStateOf(false) }
     var canShowTopBar by rememberSaveable { mutableStateOf(false) }

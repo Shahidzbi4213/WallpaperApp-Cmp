@@ -5,6 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.google.wallpaperapp.data.local.dao.CommonDao
 import com.google.wallpaperapp.data.utils.Constant
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperDao
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperRemoteKeysDao
@@ -20,6 +21,7 @@ import kotlinx.coroutines.flow.map
 class WallpaperRepository(
     private val wallpaperDao: PexelWallpaperDao,
     private val remoteKeysDao: PexelWallpaperRemoteKeysDao,
+    private val commonDao: CommonDao,
     private val api: PexelWallpapersApi
 ) {
     fun getAllWallpapers(): Flow<PagingData<Wallpaper>> {
@@ -27,12 +29,12 @@ class WallpaperRepository(
             pageSize = Constant.PER_PAGE_ITEMS,
             initialLoadSize = Constant.PER_PAGE_ITEMS,
             prefetchDistance = 10,
-            enablePlaceholders = false
+            enablePlaceholders = false,
         )
 
         return Pager(
             config = pageConfig,
-            remoteMediator = PexelWallpaperRemoteMediator(wallpaperDao, remoteKeysDao, api),
+            remoteMediator = PexelWallpaperRemoteMediator(wallpaperDao, remoteKeysDao, commonDao,api),
             pagingSourceFactory = { wallpaperDao.getAllWallpapers() }
         ).flow.map { pagingData ->
             pagingData.map { entity -> entity.toWallpaper() }

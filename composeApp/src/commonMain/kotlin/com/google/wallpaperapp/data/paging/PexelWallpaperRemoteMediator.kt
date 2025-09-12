@@ -4,6 +4,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import com.google.wallpaperapp.data.local.dao.CommonDao
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperDao
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperRemoteKeysDao
 import com.google.wallpaperapp.data.local.entities.WallpaperEntity
@@ -12,34 +13,16 @@ import com.google.wallpaperapp.data.remote.PexelWallpapersApi
 import com.google.wallpaperapp.domain.mappers.toWallpaperEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import kotlin.time.Clock
-import kotlin.time.Duration.Companion.hours
-import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalPagingApi::class)
 class PexelWallpaperRemoteMediator(
     private val wallpaperDao: PexelWallpaperDao,
     private val remoteKeysDao: PexelWallpaperRemoteKeysDao,
+    private val commonDao: CommonDao,
     private val pexelWallpapersApi: PexelWallpapersApi
 ) : RemoteMediator<Int, WallpaperEntity>() {
 
-
-    @OptIn(ExperimentalTime::class)
-    override suspend fun initialize(): InitializeAction {
-        // 1 hour as Duration
-        val cacheTimeout = 1.hours
-
-        val now = Clock.System.now().toEpochMilliseconds()
-        val lastCreated = remoteKeysDao.getCreationTime() ?: 0
-
-        return if (now - lastCreated < cacheTimeout.inWholeMilliseconds) {
-            InitializeAction.SKIP_INITIAL_REFRESH
-        } else {
-            InitializeAction.LAUNCH_INITIAL_REFRESH
-        }
-    }
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, WallpaperEntity>): MediatorResult {
         return withContext(Dispatchers.IO) {
@@ -54,35 +37,34 @@ class PexelWallpaperRemoteMediator(
                     LoadType.PREPEND -> {
                         val remoteKeys = getRemoteKeyForFirstItem(state)
                         val prevPage = remoteKeys?.prevPage
-                        prevPage ?: return@withContext MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
+                        prevPage ?: 1
                     }
 
                     LoadType.APPEND -> {
                         val remoteKeys = getRemoteKeyForLastItem(state)
                         val nextPage = remoteKeys?.nextPage
-                        nextPage ?: return@withContext MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
+                        nextPage ?: return@withContext MediatorResult.Success(endOfPaginationReached = true)
                     }
                 }
 
                 val response = pexelWallpapersApi.getWallpapers(page = page)
-                val endOfPaginationReached = response.wallpapers.isEmpty()
+                val endOfPaginationReached = response.nextPage == null
 
 
-                withContext(Dispatchers.IO){
+                withContext(Dispatchers.IO) {
                     if (loadType == LoadType.REFRESH) {
-                        wallpaperDao.deleteAllWallpapers()
-                        remoteKeysDao.deleteAllRemoteKeys()
+                        commonDao.clearAllWallpapers()
                     }
 
-                    delay(1000)
-                    val prevPage = if (page > 1) page - 1 else null
+                    val prevPage = if (page > 1) page - 1 else if (page == 1) 1 else null
                     val nextPage = if (endOfPaginationReached) null else page + 1
 
-                    val keys = response.wallpapers.shuffled().map { wallpaper ->
+                    val keys = response.wallpapers.map { wallpaper ->
                         WallpaperRemoteKeyEntity(wallpaperId = wallpaper.id, prevPage, nextPage, page)
                     }
                     remoteKeysDao.addAllRemoteKeys(remoteKeys = keys)
-                    wallpaperDao.addWallpapers(response.wallpapers
+                    wallpaperDao.addWallpapers(
+                        response.wallpapers
                         .onEach { wallpaper -> wallpaper.page = page }
                         .map { it.toWallpaperEntity() }
                     )

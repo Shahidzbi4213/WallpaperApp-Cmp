@@ -33,7 +33,6 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
-        //    implementation(libs.paging.android)
 
         }
         commonMain.dependencies {
@@ -52,7 +51,6 @@ kotlin {
             //ImageLoading
             implementation(libs.landscapist.coil3)
             implementation(libs.landscapist.animation)
-            implementation(libs.landscapist.transformation)
 
             //Navigation
             implementation(libs.navigation.compose)
