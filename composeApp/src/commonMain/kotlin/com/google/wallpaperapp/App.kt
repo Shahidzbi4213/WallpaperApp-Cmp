@@ -18,6 +18,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.google.wallpaperapp.data.repositories.WallpaperRepository
 import com.google.wallpaperapp.ui.components.BottomNavigationBar
 import com.google.wallpaperapp.ui.components.TopBar
 import com.google.wallpaperapp.ui.composables.ManageBarVisibility
@@ -28,6 +29,7 @@ import com.google.wallpaperapp.ui.screens.home.HomeScreen
 import com.google.wallpaperapp.ui.screens.home.HomeScreenViewModel
 import com.google.wallpaperapp.ui.screens.splash.SplashScreen
 import com.google.wallpaperapp.ui.theme.ScreenyTheme
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
 

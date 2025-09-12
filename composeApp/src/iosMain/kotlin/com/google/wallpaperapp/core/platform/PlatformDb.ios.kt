@@ -14,16 +14,21 @@ import platform.Foundation.NSUserDomainMask
 actual fun platformDbModule(): Module {
     return module {
         single<RoomDatabase.Builder<ScreenyDatabase>> {
-            val documentDirectory = NSFileManager.defaultManager.URLForDirectory(
-                directory = NSDocumentDirectory,
-                inDomain = NSUserDomainMask,
-                appropriateForURL = null,
-                create = false,
-                error = null,
-            )
-            val dbFilePath = requireNotNull(documentDirectory?.path) + "/${ScreenyDatabase.SCREENY_DATABASE}"
-            Room.databaseBuilder<ScreenyDatabase>(name = dbFilePath,)
+            val dbFilePath = getDirectory() + "/${ScreenyDatabase.SCREENY_DATABASE}"
+            Room.databaseBuilder<ScreenyDatabase>(name = dbFilePath)
         }
     }
 }
 
+
+@OptIn(ExperimentalForeignApi::class)
+private fun getDirectory(): String {
+    val documentDirectory = NSFileManager.defaultManager.URLForDirectory(
+        directory = NSDocumentDirectory,
+        inDomain = NSUserDomainMask,
+        appropriateForURL = null,
+        create = false,
+        error = null,
+    )
+    return requireNotNull(documentDirectory?.path)
+}

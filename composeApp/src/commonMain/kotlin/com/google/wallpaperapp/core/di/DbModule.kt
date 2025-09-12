@@ -1,9 +1,12 @@
 package com.google.wallpaperapp.core.di
 
 import androidx.room.RoomDatabase
+import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import com.google.wallpaperapp.data.local.ScreenyDatabase
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperDao
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperRemoteKeysDao
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import org.koin.core.annotation.Module
 import org.koin.core.annotation.Single
 
@@ -15,6 +18,8 @@ class DbModule {
     fun provideScreenyDb(builder: RoomDatabase.Builder<ScreenyDatabase>): ScreenyDatabase {
         return builder
             .fallbackToDestructiveMigrationOnDowngrade(true)
+            .setDriver(BundledSQLiteDriver())
+            .setQueryCoroutineContext(Dispatchers.IO)
             .build()
     }
 

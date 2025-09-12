@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class SplashViewModel : ViewModel() {
+class SplashViewModel() : ViewModel() {
 
     private var _progress = MutableStateFlow(0f)
     val progress: StateFlow<Float> get() = _progress
