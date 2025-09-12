@@ -1,4 +1,4 @@
-package com.google.screeny.ui.screens.splash
+package com.google.wallpaperapp.ui.screens.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

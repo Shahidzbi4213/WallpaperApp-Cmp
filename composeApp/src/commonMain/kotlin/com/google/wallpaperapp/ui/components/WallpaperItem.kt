@@ -1,7 +1,10 @@
 package com.google.wallpaperapp.ui.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,33 +27,39 @@ fun WallpaperItem(
     onWallpaperClick: (String) -> Unit = {}
 ) {
 
-    var showShimmer by remember { mutableStateOf(false) }
+    var showShimmer by remember { mutableStateOf(true) }
+
 
     CoilImage(
         imageModel = { wallpaper },
         imageOptions = ImageOptions(
-            contentScale = ContentScale.Crop,
             contentDescription = null,
+            contentScale = ContentScale.Fit
         ),
         modifier = modifier
-            .fillMaxWidth()
+            .height(200.dp)
+            .clip(RoundedCornerShape(10.dp))
             .background(
                 shimmerBrush(targetValue = 1300f, showShimmer = showShimmer),
                 shape = RoundedCornerShape(10.dp)
             )
-            .clip(RoundedCornerShape(10.dp))
-            .height(200.dp)
             .clickable { onWallpaperClick(wallpaper) },
-        loading = { state ->
-            showShimmer = true
-        },
         success = { state, painter ->
             showShimmer = false
 
             if (isForApply) {
                 getPainter(painter)
             }
-        }
+
+            Image(
+                painter = painter,
+                contentDescription = null,
+                contentScale = ContentScale.Crop, // 👈 ensure no left/right cutting
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(10.dp))
+            )
+        },
 
     )
 

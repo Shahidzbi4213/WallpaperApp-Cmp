@@ -22,9 +22,7 @@ actual fun platformDbModule(): Module {
                 error = null,
             )
             val dbFilePath = requireNotNull(documentDirectory?.path) + "/${ScreenyDatabase.SCREENY_DATABASE}"
-            Room.databaseBuilder<ScreenyDatabase>(
-                name = dbFilePath,
-            )
+            Room.databaseBuilder<ScreenyDatabase>(name = dbFilePath,)
         }
     }
 }

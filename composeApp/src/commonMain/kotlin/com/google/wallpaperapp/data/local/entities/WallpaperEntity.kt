@@ -4,10 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.screeny.data.utils.Constant.PEXEL_WALLPAPER_TABLE
 
-
-@Entity(tableName = PEXEL_WALLPAPER_TABLE)
+@Entity("pexel_wallpaper_table")
 data class WallpaperEntity(
     @PrimaryKey(autoGenerate = false)
     val id: Long,

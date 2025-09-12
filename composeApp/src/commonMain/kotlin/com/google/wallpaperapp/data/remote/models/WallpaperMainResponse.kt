@@ -1,7 +1,9 @@
 package com.google.wallpaperapp.data.remote.models
 
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class WallpaperMainResponse(
     @SerialName("next_page")
     val nextPage: String? = null,

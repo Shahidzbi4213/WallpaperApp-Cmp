@@ -33,6 +33,8 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
+        //    implementation(libs.paging.android)
+
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -54,8 +56,8 @@ kotlin {
             implementation(libs.navigation.compose)
 
             //Pagination
-            implementation("app.cash.paging:paging-compose-common:3.3.0-alpha02-0.4.0")
-            implementation("app.cash.paging:paging-common:3.3.0-alpha02-0.4.0")
+            implementation(libs.paging.multiplatform.common)
+            implementation(libs.paging.multiplatform.compose.common)
 
             //Koin
             implementation(project.dependencies.platform(libs.koin.bom))
@@ -77,8 +79,9 @@ kotlin {
         }
 
         nativeMain.dependencies {
-            //Ktor Http Client for iOS
             implementation(libs.ktor.client.darwin)
+            //implementation(libs.paging.uikit)
+
         }
 
         // KSP Common sourceSet

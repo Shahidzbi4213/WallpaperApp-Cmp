@@ -1,5 +1,6 @@
 package com.google.wallpaperapp.core.di
 
+import androidx.room.RoomDatabase
 import com.google.wallpaperapp.data.local.ScreenyDatabase
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperDao
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperRemoteKeysDao
@@ -11,12 +12,19 @@ import org.koin.core.annotation.Single
 class DbModule {
 
     @Single
-    fun provideWallpaperDao(db: ScreenyDatabase): PexelWallpaperDao{
+    fun provideScreenyDb(builder: RoomDatabase.Builder<ScreenyDatabase>): ScreenyDatabase {
+        return builder
+            .fallbackToDestructiveMigrationOnDowngrade(true)
+            .build()
+    }
+
+    @Single
+    fun provideWallpaperDao(db: ScreenyDatabase): PexelWallpaperDao {
         return db.wallpaperDao()
     }
 
     @Single
-    fun provideRemoteKeysDao(db: ScreenyDatabase): PexelWallpaperRemoteKeysDao{
+    fun provideRemoteKeysDao(db: ScreenyDatabase): PexelWallpaperRemoteKeysDao {
         return db.remoteKeysDao()
     }
 }

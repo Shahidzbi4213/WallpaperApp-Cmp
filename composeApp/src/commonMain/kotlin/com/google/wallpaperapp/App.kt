@@ -18,37 +18,34 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import app.cash.paging.compose.collectAsLazyPagingItems
 import com.google.wallpaperapp.ui.components.BottomNavigationBar
 import com.google.wallpaperapp.ui.components.TopBar
 import com.google.wallpaperapp.ui.composables.ManageBarVisibility
+import com.google.wallpaperapp.ui.composables.collectAsLazyPagingItems
 import com.google.wallpaperapp.ui.composables.titleMapper
 import com.google.wallpaperapp.ui.routs.Routs
 import com.google.wallpaperapp.ui.screens.home.HomeScreen
 import com.google.wallpaperapp.ui.screens.home.HomeScreenViewModel
 import com.google.wallpaperapp.ui.screens.splash.SplashScreen
 import com.google.wallpaperapp.ui.theme.ScreenyTheme
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
-import org.koin.compose.KoinContext
-import org.koin.mp.KoinPlatform
 
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-@Preview
 fun App(
     modifier: Modifier = Modifier,
 ) {
 
-
-    val homeScreenViewModel: HomeScreenViewModel = koinViewModel()
     val navController = rememberNavController()
     var canShowBottomBar by rememberSaveable { mutableStateOf(false) }
     var canShowTopBar by rememberSaveable { mutableStateOf(false) }
     val stackEntry by navController.currentBackStackEntryAsState()
 
+    val homeScreenViewModel = koinViewModel<HomeScreenViewModel>()
     val wallpapers = homeScreenViewModel.wallpapers.collectAsLazyPagingItems()
+
+
 
     ManageBarVisibility(
         currentEntry = { stackEntry },

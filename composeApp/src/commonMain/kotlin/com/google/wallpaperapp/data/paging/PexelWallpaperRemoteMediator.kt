@@ -13,6 +13,7 @@ import com.google.wallpaperapp.domain.mappers.toWallpaperEntity
 import com.google.wallpaperapp.data.remote.models.WallpaperResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.hours
@@ -68,22 +69,26 @@ class PexelWallpaperRemoteMediator(
                 val endOfPaginationReached = response.wallpapers.isEmpty()
 
 
-                if (loadType == LoadType.REFRESH) {
-                    wallpaperDao.deleteAllWallpapers()
-                    remoteKeysDao.deleteAllRemoteKeys()
+                withContext(Dispatchers.IO){
+                    if (loadType == LoadType.REFRESH) {
+                        wallpaperDao.deleteAllWallpapers()
+                        remoteKeysDao.deleteAllRemoteKeys()
+                    }
+
+                    delay(1000)
+                    val prevPage = if (page > 1) page - 1 else null
+                    val nextPage = if (endOfPaginationReached) null else page + 1
+
+                    val keys = response.wallpapers.shuffled().map { wallpaper ->
+                        WallpaperRemoteKeyEntity(wallpaperId = wallpaper.id, prevPage, nextPage, page)
+                    }
+                    remoteKeysDao.addAllRemoteKeys(remoteKeys = keys)
+                    wallpaperDao.addWallpapers(response.wallpapers
+                        .onEach { wallpaper -> wallpaper.page = page }
+                        .map { it.toWallpaperEntity() }
+                    )
                 }
 
-                val prevPage = if (page > 1) page - 1 else null
-                val nextPage = if (endOfPaginationReached) null else page + 1
-
-                val keys = response.wallpapers.shuffled().map { wallpaper ->
-                    WallpaperRemoteKeyEntity(wallpaperId = wallpaper.id, prevPage, nextPage, page)
-                }
-                remoteKeysDao.addAllRemoteKeys(remoteKeys = keys)
-                wallpaperDao.addWallpapers(response.wallpapers
-                    .onEach { wallpaper -> wallpaper.page = page }
-                    .map { it.toWallpaperEntity() }
-                )
                 MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
             } catch (e: Exception) {
                 MediatorResult.Error(e)

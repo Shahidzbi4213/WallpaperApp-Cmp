@@ -18,9 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.wallpaperapp.ui.components.SplashProgressBar
-import com.google.screeny.ui.screens.splash.SplashViewModel
 import com.google.wallpaperapp.core.platform.BackHandler
 import com.google.wallpaperapp.ui.theme.getScreenyFontFamily
 import org.jetbrains.compose.resources.painterResource

@@ -4,16 +4,12 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.RemoteMediator
 import androidx.paging.map
-import app.cash.paging.PagingSource
-import app.cash.paging.createPagingSourceLoadResultPage
-import com.google.screeny.data.utils.Constant
+import com.google.wallpaperapp.data.utils.Constant
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperDao
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperRemoteKeysDao
 import com.google.wallpaperapp.data.paging.PexelWallpaperRemoteMediator
 import com.google.wallpaperapp.data.remote.PexelWallpapersApi
-import com.google.wallpaperapp.data.remote.models.WallpaperResponse
 import com.google.wallpaperapp.domain.mappers.toWallpaper
 import com.google.wallpaperapp.domain.models.Wallpaper
 import kotlinx.coroutines.flow.Flow

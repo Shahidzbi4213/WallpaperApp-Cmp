@@ -13,9 +13,9 @@ fun initKoin(config: KoinAppDeclaration? = null) {
         config?.invoke(this)
         modules(
             NetworkModule().module,
-            WallpaperApiModule().module,
             platformDbModule(),
             AppModule().module,
+            DbModule().module
         )
     }
 }

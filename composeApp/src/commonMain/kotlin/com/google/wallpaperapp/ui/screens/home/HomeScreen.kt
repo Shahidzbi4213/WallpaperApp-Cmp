@@ -12,13 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
-import app.cash.paging.compose.LazyPagingItems
 import com.google.wallpaperapp.core.platform.BackHandler
-import com.google.wallpaperapp.data.remote.models.WallpaperResponse
 import com.google.wallpaperapp.domain.models.Wallpaper
 import com.google.wallpaperapp.ui.components.Footer
 import com.google.wallpaperapp.ui.components.LoadingPlaceHolder
 import com.google.wallpaperapp.ui.components.WallpaperItem
+import com.google.wallpaperapp.ui.composables.LazyPagingItems
 
 
 @Composable
@@ -37,8 +36,9 @@ fun HomeScreen(
         state = state,
         columns = GridCells.Fixed(3),
         contentPadding = PaddingValues(10.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        overscrollEffect = null,
         modifier = modifier
             .fillMaxSize(),
 

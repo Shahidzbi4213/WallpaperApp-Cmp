@@ -27,6 +27,9 @@ ktor = "3.2.3"
 room = "2.8.0"
 sqlite = "2.6.0"
 
+androidx-paging = "3.3.6"
+multiplatform-paging = "3.3.0-alpha02-0.5.1"
+
 
 
 
@@ -72,6 +75,12 @@ androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.r
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "room" }
+
+#Pager
+paging-multiplatform-common = { module = "app.cash.paging:paging-common", version.ref = "multiplatform-paging" }
+paging-multiplatform-compose-common = { module = "app.cash.paging:paging-compose-common", version.ref = "multiplatform-paging" }
+paging-android = { module = "androidx.paging:paging-runtime", version.ref = "androidx-paging" }
+paging-uikit = { module = "app.cash.paging:paging-runtime-uikit", version.ref = "multiplatform-paging" }
 
 
 [bundles]
