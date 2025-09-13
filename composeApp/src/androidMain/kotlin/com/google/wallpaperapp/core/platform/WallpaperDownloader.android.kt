@@ -4,6 +4,7 @@ import android.app.DownloadManager
 import android.content.Context
 import android.os.Environment
 import androidx.core.net.toUri
+import com.google.wallpaperapp.R
 import kotlinx.coroutines.suspendCancellableCoroutine
 import org.koin.core.component.KoinComponent
 import kotlin.coroutines.resume
@@ -15,7 +16,7 @@ actual class WallpaperDownloader : KoinComponent {
 
             val context = getKoin().get<Context>()
             val request = DownloadManager.Request(url.toUri()).apply {
-                setTitle("Downloading wallpaper")
+                setTitle(context.getString(R.string.downloading_wallpaper))
                 setDescription(fileName)
                 setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES, fileName)
                 setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)

@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import com.google.wallpaperapp.ui.theme.ActionIconBgColor
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil3.CoilImage
 import org.jetbrains.compose.resources.stringResource
@@ -105,7 +106,7 @@ fun SharedTransitionScope.FavouriteWallpaperItem(
                     .padding(3.dp)
                     .clip(CircleShape)
                     .clickable { onRemoveFromFavClick(wallpaper) }
-                    .background(color = MaterialTheme.colorScheme.onSecondaryContainer)
+                    .background(color = ActionIconBgColor)
                     .padding(4.dp)
 
             )
