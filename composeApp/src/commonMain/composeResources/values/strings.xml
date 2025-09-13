@@ -40,5 +40,8 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="your_opinion_matters_to_us">Your opinion matters to us!</string>
     <string name="submit">Submit</string>
+    <string name="download_started">Download Started </string>
+    <string name="download_completed">Download Completed </string>
+    <string name="download_failed">Download Failed</string>
 
 </resources>

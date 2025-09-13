@@ -24,15 +24,35 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastAny
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil3.ImageLoader
+import coil3.request.ImageRequest
+import com.google.wallpaperapp.core.platform.AppLogger
+import com.google.wallpaperapp.core.platform.DownloadResult
+import com.google.wallpaperapp.core.platform.ToastDurationType
+import com.google.wallpaperapp.core.platform.ToastDurationType.SHORT
+import com.google.wallpaperapp.core.platform.ToastManager
+import com.google.wallpaperapp.core.platform.WallpaperDownloader
 import com.google.wallpaperapp.domain.models.Wallpaper
 import com.google.wallpaperapp.ui.components.ActionButtons
 import com.google.wallpaperapp.ui.components.BlurBg
 import com.google.wallpaperapp.ui.components.SinglePageContent
 import com.google.wallpaperapp.ui.screens.favourite.FavouriteViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.selects.select
+import kotlinx.coroutines.withContext
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import wallpaperapp.composeapp.generated.resources.Res
+import wallpaperapp.composeapp.generated.resources.download_completed
+import wallpaperapp.composeapp.generated.resources.download_failed
+import wallpaperapp.composeapp.generated.resources.download_started
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 @Composable
 fun WallpaperDetailScreen(
     wallpapers: List<Wallpaper>,
@@ -57,7 +77,12 @@ fun WallpaperDetailScreen(
 
     var canShowList by remember { mutableStateOf(false) }
     var isFavourite by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
 
+    val downloadStarted = stringResource(Res.string.download_started)
+    val downloadCompleted = stringResource(Res.string.download_completed)
+    val downloadFailed = stringResource(Res.string.download_failed)
+    val toastManager = remember { ToastManager() }
 
     LaunchedEffect(key1 = canShowList) {
         delay(100)
@@ -121,7 +146,39 @@ fun WallpaperDetailScreen(
 
             ActionButtons(
                 isFavourite = isFavourite,
-                onDownload = {},
+                onDownload = {
+                    scope.launch(Dispatchers.IO) {
+
+                        withContext(Dispatchers.Main) {
+                            toastManager.showToast(
+                                downloadStarted,
+                                SHORT
+                            )
+                        }
+                        val url = wallpapers[pagerState.currentPage].portrait
+                        val fileName = "${Clock.System.now().toEpochMilliseconds()}.jpeg"
+                        val result = WallpaperDownloader().downloadWallpaper(url, fileName)
+                        when (result) {
+                            is DownloadResult.Failure -> {
+                                withContext(Dispatchers.Main) {
+                                    toastManager.showToast(
+                                        downloadFailed,
+                                        SHORT
+                                    )
+                                }
+                            }
+
+                            is DownloadResult.Success -> {
+                                withContext(Dispatchers.Main) {
+                                    toastManager.showToast(
+                                        downloadCompleted,
+                                        SHORT
+                                    )
+                                }
+                            }
+                        }
+                    }
+                },
                 onApply = {
                     canShowDialog = true
                 }, onFavourite = {
