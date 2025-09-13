@@ -20,10 +20,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.google.wallpaperapp.core.platform.exitApp
-import com.google.wallpaperapp.domain.models.Wallpaper
 import com.google.wallpaperapp.ui.components.BottomNavigationBar
 import com.google.wallpaperapp.ui.components.TopBar
-import com.google.wallpaperapp.ui.composables.LazyPagingItems
 import com.google.wallpaperapp.ui.composables.ManageBarVisibility
 import com.google.wallpaperapp.ui.composables.collectAsLazyPagingItems
 import com.google.wallpaperapp.ui.composables.titleMapper

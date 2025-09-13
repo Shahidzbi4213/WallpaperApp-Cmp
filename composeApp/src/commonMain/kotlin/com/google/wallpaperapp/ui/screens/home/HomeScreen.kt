@@ -52,7 +52,10 @@ fun HomeScreen(
         }
 
 
-        items(wallpapers.itemCount, key = { "${wallpapers[it]?.medium}" }) { index ->
+        items(wallpapers.itemCount, key = { index ->
+            val item = wallpapers[index]
+            item?.id ?: "fallback_$index"
+        }) { index ->
             val wallpaper = remember { wallpapers[index] }
 
             if (wallpaper != null) {

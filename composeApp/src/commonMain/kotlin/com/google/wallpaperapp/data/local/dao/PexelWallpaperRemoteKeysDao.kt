@@ -12,7 +12,7 @@ interface PexelWallpaperRemoteKeysDao {
     @Query("SELECT * FROM pexel_wallpaper_remote_keys_table WHERE id =:id")
     suspend fun getRemoteKeyByWallpaperId(id: Long): WallpaperRemoteKeyEntity?
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addAllRemoteKeys(remoteKeys: List<WallpaperRemoteKeyEntity>)
 
 

@@ -25,6 +25,7 @@ import androidx.compose.ui.util.fastAny
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.wallpaperapp.domain.models.Wallpaper
+import com.google.wallpaperapp.ui.components.ActionButtons
 import com.google.wallpaperapp.ui.components.BlurBg
 import com.google.wallpaperapp.ui.components.SinglePageContent
 import com.google.wallpaperapp.ui.screens.favourite.FavouriteViewModel
@@ -90,11 +91,12 @@ fun WallpaperDetailScreen(
             BlurBg(wallpapers[pagerState.currentPage].portrait)
 
             Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null, modifier = Modifier
-                    .padding(start = 10.dp, top = 50.dp)
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = null, modifier = Modifier
+                    .padding(start = 10.dp, top = 60.dp)
                     .size(30.dp)
-                    .clip(CircleShape)
                     .padding(5.dp)
+                    .clip(CircleShape)
                     .align(Alignment.TopStart)
                     .clickable { onBack() }
                     .zIndex(90f), tint = Color.White)
@@ -109,13 +111,23 @@ fun WallpaperDetailScreen(
             ) { page ->
 
                 val currentWallpaper = wallpapers[page].portrait
-                 SinglePageContent(
-                     wallpaperUrl = currentWallpaper,
-                     pagerState = pagerState,
-                     page = page
-                 )
+                SinglePageContent(
+                    wallpaperUrl = currentWallpaper,
+                    pagerState = pagerState,
+                    page = page
+                )
 
             }
+
+            ActionButtons(
+                isFavourite = isFavourite,
+                onDownload = {},
+                onApply = {
+                    canShowDialog = true
+                }, onFavourite = {
+                    val wallpaper = wallpapers[pagerState.currentPage]
+                    favouriteViewModel.addOrRemoveFavourite(wallpaper = wallpaper)
+                })
         }
     }
 

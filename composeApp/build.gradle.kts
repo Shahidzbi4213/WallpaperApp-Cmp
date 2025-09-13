@@ -80,8 +80,6 @@ kotlin {
 
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)
-            //implementation(libs.paging.uikit)
-
         }
 
         // KSP Common sourceSet

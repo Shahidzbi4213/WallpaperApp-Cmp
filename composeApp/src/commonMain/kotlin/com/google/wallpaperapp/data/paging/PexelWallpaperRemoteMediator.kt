@@ -24,29 +24,27 @@ class PexelWallpaperRemoteMediator(
 ) : RemoteMediator<Int, WallpaperEntity>() {
 
 
+    var lastCalledPage = 1
+
     override suspend fun load(loadType: LoadType, state: PagingState<Int, WallpaperEntity>): MediatorResult {
         return withContext(Dispatchers.IO) {
             try {
 
                 val page = when (loadType) {
                     LoadType.REFRESH -> {
-                        val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
-                        remoteKeys?.nextPage?.minus(1) ?: 1
+                        1
                     }
 
                     LoadType.PREPEND -> {
-                        val remoteKeys = getRemoteKeyForFirstItem(state)
-                        val prevPage = remoteKeys?.prevPage
-                        prevPage ?: 1
+                        return@withContext MediatorResult.Success(endOfPaginationReached = true)
                     }
 
                     LoadType.APPEND -> {
-                        val remoteKeys = getRemoteKeyForLastItem(state)
-                        val nextPage = remoteKeys?.nextPage
-                        nextPage ?: return@withContext MediatorResult.Success(endOfPaginationReached = true)
+                        lastCalledPage + 1
                     }
                 }
 
+                lastCalledPage = page
                 val response = pexelWallpapersApi.getWallpapers(page = page)
                 val endOfPaginationReached = response.nextPage == null
 
@@ -63,13 +61,13 @@ class PexelWallpaperRemoteMediator(
                         WallpaperRemoteKeyEntity(wallpaperId = wallpaper.id, prevPage, nextPage, page)
                     }
                     remoteKeysDao.addAllRemoteKeys(remoteKeys = keys)
-                    wallpaperDao.addWallpapers(
-                        response.wallpapers
-                        .onEach { wallpaper -> wallpaper.page = page }
+                    val wallpaperEntities = response.wallpapers
                         .map { it.toWallpaperEntity() }
-                    )
-                }
+                        .map { entity -> entity.copy(page = page) }
 
+
+                    wallpaperDao.addWallpapers(wallpapers = wallpaperEntities)
+                }
                 MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
             } catch (e: Exception) {
                 MediatorResult.Error(e)

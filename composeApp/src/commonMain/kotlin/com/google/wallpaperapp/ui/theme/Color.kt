@@ -2,6 +2,7 @@ package com.google.wallpaperapp.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+val ActionIconBgColor = Color(0xFF191E31).copy(alpha = 0.53f)
 
 val primaryLight = Color(0xFF4C662B)
 val onPrimaryLight = Color(0xFFFFFFFF)

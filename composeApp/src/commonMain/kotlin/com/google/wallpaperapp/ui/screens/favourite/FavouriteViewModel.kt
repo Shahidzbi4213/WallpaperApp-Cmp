@@ -18,7 +18,7 @@ class FavouriteViewModel(private val favouriteRepo: FavouriteRepo) : ViewModel()
 
 
 
-    fun addToFavourite(wallpaper: Wallpaper){
+    fun addOrRemoveFavourite(wallpaper: Wallpaper){
         viewModelScope.launch {
             favouriteRepo.addOrRemove(wallpaper.toFavouriteWallpaper())
         }

@@ -9,6 +9,7 @@ import com.google.wallpaperapp.data.local.dao.CommonDao
 import com.google.wallpaperapp.data.utils.Constant
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperDao
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperRemoteKeysDao
+import com.google.wallpaperapp.data.local.entities.WallpaperEntity
 import com.google.wallpaperapp.data.paging.PexelWallpaperRemoteMediator
 import com.google.wallpaperapp.data.remote.PexelWallpapersApi
 import com.google.wallpaperapp.domain.mappers.toWallpaper
@@ -24,20 +25,15 @@ class WallpaperRepository(
     private val commonDao: CommonDao,
     private val api: PexelWallpapersApi
 ) {
-    fun getAllWallpapers(): Flow<PagingData<Wallpaper>> {
+    fun getAllWallpapers(): Pager<Int, WallpaperEntity> {
         val pageConfig = PagingConfig(
             pageSize = Constant.PER_PAGE_ITEMS,
-            initialLoadSize = Constant.PER_PAGE_ITEMS,
-            prefetchDistance = 10,
-            enablePlaceholders = false,
         )
 
         return Pager(
             config = pageConfig,
             remoteMediator = PexelWallpaperRemoteMediator(wallpaperDao, remoteKeysDao, commonDao,api),
             pagingSourceFactory = { wallpaperDao.getAllWallpapers() }
-        ).flow.map { pagingData ->
-            pagingData.map { entity -> entity.toWallpaper() }
-        }
+        )
     }
 }

@@ -4,9 +4,10 @@ import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlin.time.ExperimentalTime
 
 @Entity("pexel_wallpaper_table")
-data class WallpaperEntity(
+data class WallpaperEntity @OptIn(ExperimentalTime::class) constructor(
     @PrimaryKey(autoGenerate = false)
     val id: Long,
     @ColumnInfo("photographer")

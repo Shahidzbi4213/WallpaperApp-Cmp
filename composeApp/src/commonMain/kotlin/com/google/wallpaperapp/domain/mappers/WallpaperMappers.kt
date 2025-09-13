@@ -14,7 +14,8 @@ fun WallpaperResponse.toWallpaperEntity(): WallpaperEntity {
         id = id,
         photographerName = photographerName,
         photographerUrl = photographerUrl,
-        wallpaperSource = wallpaperSource.toSrcEntity()
+        wallpaperSource = wallpaperSource.toSrcEntity(),
+        page = page
     )
 }
 

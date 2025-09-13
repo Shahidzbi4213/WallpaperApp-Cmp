@@ -14,7 +14,10 @@ interface PexelWallpaperDao {
     @Query("SELECT * FROM pexel_wallpaper_table order by page")
     fun getAllWallpapers(): PagingSource<Int, WallpaperEntity>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Query("SELECT COUNT(*) FROM pexel_wallpaper_table")
+    suspend fun getWallpaperCount(): Int
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addWallpapers(wallpapers: List<WallpaperEntity>)
 
 
