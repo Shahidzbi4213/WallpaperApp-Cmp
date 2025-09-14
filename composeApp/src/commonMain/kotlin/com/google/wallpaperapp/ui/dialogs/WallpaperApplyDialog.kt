@@ -22,13 +22,23 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.google.wallpaperapp.core.platform.ToastManager
+import com.google.wallpaperapp.core.platform.WallpaperApplyResult
+import com.google.wallpaperapp.core.platform.WallpaperManager
 import com.google.wallpaperapp.ui.composables.mirror
+import com.google.wallpaperapp.utils.WallpaperType
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
@@ -38,7 +48,9 @@ import wallpaperapp.composeapp.generated.resources.cancel
 import wallpaperapp.composeapp.generated.resources.set_as_both
 import wallpaperapp.composeapp.generated.resources.set_as_home_screen
 import wallpaperapp.composeapp.generated.resources.set_as_lock_screen
+import wallpaperapp.composeapp.generated.resources.something_went_wrong
 import wallpaperapp.composeapp.generated.resources.wallpaper_dialog_title
+import wallpaperapp.composeapp.generated.resources.wallpaper_set_successfully
 
 private const val LAST_INDEX = 2
 
@@ -61,6 +73,11 @@ fun WallpaperApplyDialog(wallpaper: ImageBitmap?, onDismissRequest: () -> Unit) 
 @Composable
 private fun DialogContent(wallpaper: ImageBitmap?, onCancel: () -> Unit) {
 
+    val scope = rememberCoroutineScope()
+    val toastManager = remember { ToastManager() }
+    val wallpaperManager = remember { WallpaperManager() }
+    val applySuccess = stringResource(Res.string.wallpaper_set_successfully)
+    val applyFailed = stringResource(Res.string.something_went_wrong)
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -88,7 +105,20 @@ private fun DialogContent(wallpaper: ImageBitmap?, onCancel: () -> Unit) {
 
 
             WallpaperActionItem.WALLPAPER_ACTION_ITEMS.forEachIndexed { index, item ->
-                SingleActionItem(wallpaperActionItem = item, index = index, onClick = {})
+                SingleActionItem(wallpaperActionItem = item, index = index, onClick = {
+                    if (wallpaper == null) return@SingleActionItem
+
+                    scope.launch(Dispatchers.IO) {
+                        val result = wallpaperManager.applyWallpaper(image = wallpaper, WallpaperType.entries[index])
+
+                        withContext(Dispatchers.Main) {
+                            when (result) {
+                                is WallpaperApplyResult.Failure -> toastManager.showToast(applyFailed)
+                                WallpaperApplyResult.Success -> toastManager.showToast(applySuccess)
+                            }
+                        }
+                    }
+                })
             }
 
         }
@@ -155,7 +185,7 @@ private fun SingleActionItem(
 @Immutable
 data class WallpaperActionItem(
     val icon: DrawableResource,
-     val title: StringResource
+    val title: StringResource
 ) {
 
     companion object {
