@@ -82,18 +82,7 @@ fun ActionButtons(
 
 
 
-        Image(
-            imageVector = if (isFavourite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
-            contentDescription = stringResource(Res.string.favourite),
-            colorFilter = ColorFilter.tint(color = Color.White),
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
-                .clickable { onFavourite() }
-                .background(color = ActionIconBgColor)
-                .padding(8.dp)
-        )
-
+        FavouriteButton(isFavourite = isFavourite, onFavourite = onFavourite)
 
     }
 }
