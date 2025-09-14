@@ -1,8 +1,6 @@
 package com.google.wallpaperapp.ui.screens.detail
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
@@ -12,23 +10,18 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastAny
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil3.ImageLoader
-import coil3.request.ImageRequest
-import com.google.wallpaperapp.core.platform.AppLogger
 import com.google.wallpaperapp.core.platform.DownloadResult
-import com.google.wallpaperapp.core.platform.ToastDurationType
 import com.google.wallpaperapp.core.platform.ToastDurationType.SHORT
 import com.google.wallpaperapp.core.platform.ToastManager
 import com.google.wallpaperapp.core.platform.WallpaperDownloader
@@ -36,12 +29,12 @@ import com.google.wallpaperapp.domain.models.Wallpaper
 import com.google.wallpaperapp.ui.components.ActionButtons
 import com.google.wallpaperapp.ui.components.BlurBg
 import com.google.wallpaperapp.ui.components.SinglePageContent
+import com.google.wallpaperapp.ui.dialogs.WallpaperApplyDialog
 import com.google.wallpaperapp.ui.screens.favourite.FavouriteViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.selects.select
 import kotlinx.coroutines.withContext
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -83,6 +76,7 @@ fun WallpaperDetailScreen(
     val downloadCompleted = stringResource(Res.string.download_completed)
     val downloadFailed = stringResource(Res.string.download_failed)
     val toastManager = remember { ToastManager() }
+    var currentlyLoadedWallpaper by remember { mutableStateOf<ImageBitmap?>(null) }
 
     LaunchedEffect(key1 = canShowList) {
         delay(100)
@@ -113,7 +107,9 @@ fun WallpaperDetailScreen(
 
         ) {
 
-            BlurBg(wallpapers[pagerState.currentPage].portrait)
+            BlurBg(wallpapers[pagerState.currentPage].portrait, currentlyLoaded = {imageBitmap ->
+                currentlyLoadedWallpaper = imageBitmap
+            })
 
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -185,6 +181,12 @@ fun WallpaperDetailScreen(
                     val wallpaper = wallpapers[pagerState.currentPage]
                     favouriteViewModel.addOrRemoveFavourite(wallpaper = wallpaper)
                 })
+        }
+    }
+
+    if (canShowDialog){
+        WallpaperApplyDialog(wallpaper = currentlyLoadedWallpaper) {
+            canShowDialog = false
         }
     }
 

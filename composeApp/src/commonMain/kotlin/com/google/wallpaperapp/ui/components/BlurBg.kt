@@ -9,13 +9,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.BlurEffect
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil3.CoilImage
 
 @Composable
-fun BlurBg(wallpaperUrl: String) {
+fun BlurBg(wallpaperUrl: String,currentlyLoaded:(ImageBitmap?)-> Unit) {
 
 
     CoilImage(
@@ -30,6 +31,8 @@ fun BlurBg(wallpaperUrl: String) {
                 modifier = Modifier.graphicsLayer {
                     renderEffect = BlurEffect(35f, 35f)
                 })
+
+            currentlyLoaded(state.imageBitmap)
         },
         modifier = Modifier.fillMaxSize(),
     )
