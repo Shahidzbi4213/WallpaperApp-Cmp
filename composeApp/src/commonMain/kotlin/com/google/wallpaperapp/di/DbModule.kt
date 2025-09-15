@@ -1,4 +1,4 @@
-package com.google.wallpaperapp.core.di
+package com.google.wallpaperapp.di
 
 import androidx.room.RoomDatabase
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
@@ -7,6 +7,7 @@ import com.google.wallpaperapp.data.local.dao.CommonDao
 import com.google.wallpaperapp.data.local.dao.FavouriteWallpaperDao
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperDao
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperRemoteKeysDao
+import com.google.wallpaperapp.data.local.dao.UserPreferenceDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import org.koin.core.annotation.Module
@@ -39,5 +40,10 @@ class DbModule {
     @Single
     fun provideCommonDao(db: ScreenyDatabase): CommonDao {
         return db.commonDao()
+    }
+
+    @Single
+    fun provideUserPreferenceDao(db: ScreenyDatabase): UserPreferenceDao {
+        return db.userPreferenceDao()
     }
 }

@@ -35,6 +35,7 @@ import com.google.wallpaperapp.ui.screens.detail.WallpaperDetailScreen
 import com.google.wallpaperapp.ui.screens.favourite.FavouriteScreen
 import com.google.wallpaperapp.ui.screens.home.HomeScreen
 import com.google.wallpaperapp.ui.screens.home.HomeScreenViewModel
+import com.google.wallpaperapp.ui.screens.settings.SettingsScreen
 import com.google.wallpaperapp.ui.screens.splash.SplashScreen
 import com.google.wallpaperapp.ui.theme.ScreenyTheme
 import org.koin.compose.viewmodel.koinViewModel
@@ -160,9 +161,7 @@ fun App(
                     }
 
                     composable<Routs.Settings> {
-                        Box {
-                            Text("Setting Screen")
-                        }
+                        SettingsScreen(navigateToLanguage = {})
                     }
 
                 }

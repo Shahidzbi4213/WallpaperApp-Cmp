@@ -1,4 +1,4 @@
-package com.google.wallpaperapp.core.di
+package com.google.wallpaperapp.di
 
 
 import com.google.wallpaperapp.core.platform.platformDbModule

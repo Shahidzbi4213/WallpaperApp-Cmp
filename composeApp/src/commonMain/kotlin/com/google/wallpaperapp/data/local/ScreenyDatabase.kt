@@ -9,7 +9,9 @@ import com.google.wallpaperapp.data.local.dao.CommonDao
 import com.google.wallpaperapp.data.local.dao.FavouriteWallpaperDao
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperDao
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperRemoteKeysDao
+import com.google.wallpaperapp.data.local.dao.UserPreferenceDao
 import com.google.wallpaperapp.data.local.entities.FavouriteWallpaperEntity
+import com.google.wallpaperapp.data.local.entities.UserPreferenceEntity
 import com.google.wallpaperapp.data.local.entities.WallpaperEntity
 import com.google.wallpaperapp.data.local.entities.WallpaperRemoteKeyEntity
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +19,8 @@ import kotlinx.coroutines.IO
 
 @Database(
     entities = [FavouriteWallpaperEntity::class, WallpaperEntity::class,
-        WallpaperRemoteKeyEntity::class], version = 1, exportSchema = false
+        WallpaperRemoteKeyEntity::class, UserPreferenceEntity::class
+    ], version = 1, exportSchema = false
 )
 @ConstructedBy(AppDatabaseConstructor::class)
 abstract class ScreenyDatabase : RoomDatabase() {
@@ -30,6 +33,9 @@ abstract class ScreenyDatabase : RoomDatabase() {
 
     abstract fun commonDao(): CommonDao
 
+    abstract fun userPreferenceDao(): UserPreferenceDao
+
+
     companion object Companion {
         const val SCREENY_DATABASE = "screeny.db"
     }
@@ -38,15 +44,4 @@ abstract class ScreenyDatabase : RoomDatabase() {
 @Suppress("KotlinNoActualForExpect")
 expect object AppDatabaseConstructor : RoomDatabaseConstructor<ScreenyDatabase> {
     override fun initialize(): ScreenyDatabase
-}
-
-
-fun getRoomDatabase(
-    builder: RoomDatabase.Builder<ScreenyDatabase>
-): ScreenyDatabase {
-    return builder
-        .setDriver(BundledSQLiteDriver())
-        .setQueryCoroutineContext(Dispatchers.IO)
-        .fallbackToDestructiveMigration(true)
-        .build()
 }
