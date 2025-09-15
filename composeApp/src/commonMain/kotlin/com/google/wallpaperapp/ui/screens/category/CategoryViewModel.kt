@@ -16,7 +16,7 @@ class CategoryViewModel(private val repo: SearchWallpapersRepository) : ViewMode
    private val _query  = MutableStateFlow<String?>(null)
 
       @OptIn(ExperimentalCoroutinesApi::class)
-      val wallpapers =   _query.filter { !it.isNullOrBlank() }.flatMapLatest {
+      val wallpapers =   _query.filter { it != null }.flatMapLatest {
           repo.getSearchWallpapers(it!!)
       }  .cachedIn(viewModelScope)
 

@@ -18,7 +18,7 @@ class SearchWallpapersPagingSource(private val api: PexelWallpapersApi, private 
             val position = params.key ?: 1
             val response = api.searchWallpaper(position, query)
             return LoadResult.Page(
-                data = response.wallpapers.sortedBy { it.id },
+                data = response.wallpapers.shuffled(),
                 prevKey = if (response.prevPage == null) null else position - 1,
                 nextKey = if (response.nextPage == null) null else position + 1
             )

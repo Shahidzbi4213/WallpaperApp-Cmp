@@ -1,12 +1,14 @@
-package com.google.wallpaperapp
+package com.google.wallpaperapp.ui
 
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -53,6 +55,8 @@ fun App(
 
     val categoryViewModel = koinViewModel<CategoryViewModel>()
     val wallpapersByCategory = categoryViewModel.wallpapers.collectAsLazyPagingItems()
+
+    var isCategory by rememberSaveable { mutableStateOf(false) }
 
 
 
@@ -110,9 +114,11 @@ fun App(
                     composable<Routs.WallpaperDetail> {
                         val id = it.toRoute<Routs.WallpaperDetail>().wallpaperId
                         WallpaperDetailScreen(
-                            wallpapers = wallpapers.itemSnapshotList.items,
+                            wallpapers = if (isCategory) wallpapersByCategory.itemSnapshotList.items else
+                                wallpapers.itemSnapshotList.items,
                             clickedWallpaperId = id,
                             onBack = {
+                                isCategory = false
                                 navController.navigateUp()
                             }
 
@@ -132,11 +138,13 @@ fun App(
                         CategoryDetailScreen(
                             query,
                             wallpapersByCategory, onWallpaperClick = { wallpaper ->
-
+                                isCategory = true
+                                navController.navigate(Routs.WallpaperDetail(wallpaper.id))
                             },
                             onBackClick = {
+                                isCategory = false
                                 navController.navigateUp()
-                                categoryViewModel.updateQuery(null)
+                                categoryViewModel.updateQuery("")
                             })
                     }
 
@@ -149,6 +157,12 @@ fun App(
                             onWallpaperClick = { id, wallpaper ->
 
                             })
+                    }
+
+                    composable<Routs.Settings> {
+                        Box {
+                            Text("Setting Screen")
+                        }
                     }
 
                 }
