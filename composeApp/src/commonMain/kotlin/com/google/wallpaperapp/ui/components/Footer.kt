@@ -23,7 +23,7 @@ fun Footer() {
             CircularProgressIndicator(
                 modifier = Modifier
                     .size(40.dp)
-                    .padding(vertical = 10.dp),
+                    .padding(top = 10.dp, bottom = 20.dp),
                 strokeWidth = 4.dp,
                 strokeCap = StrokeCap.Round
             )

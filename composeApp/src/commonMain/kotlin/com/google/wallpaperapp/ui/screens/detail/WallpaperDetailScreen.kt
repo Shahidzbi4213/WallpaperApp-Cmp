@@ -22,17 +22,22 @@ import androidx.compose.ui.util.fastAny
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.wallpaperapp.core.platform.DownloadResult
+import com.google.wallpaperapp.core.platform.PlatformType
 import com.google.wallpaperapp.core.platform.ToastDurationType.SHORT
 import com.google.wallpaperapp.core.platform.ToastManager
 import com.google.wallpaperapp.core.platform.WallpaperDownloader
+import com.google.wallpaperapp.core.platform.WallpaperManager
+import com.google.wallpaperapp.core.platform.getPlatformType
 import com.google.wallpaperapp.domain.models.Wallpaper
 import com.google.wallpaperapp.ui.components.ActionButtons
 import com.google.wallpaperapp.ui.components.BlurBg
 import com.google.wallpaperapp.ui.components.SinglePageContent
 import com.google.wallpaperapp.ui.dialogs.WallpaperApplyDialog
 import com.google.wallpaperapp.ui.screens.favourite.FavouriteViewModel
+import com.google.wallpaperapp.utils.WallpaperType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -176,7 +181,18 @@ fun WallpaperDetailScreen(
                     }
                 },
                 onApply = {
-                    canShowDialog = true
+                    scope.launch {
+                        if (currentlyLoadedWallpaper == null) scope.cancel()
+
+
+                        if (getPlatformType() == PlatformType.IOS){
+                            WallpaperManager()
+                                .applyWallpaper(currentlyLoadedWallpaper!!, WallpaperType.SET_AS_BOTH)
+                        }else{
+                            canShowDialog = true
+
+                        }
+                    }
                 }, onFavourite = {
                     val wallpaper = wallpapers[pagerState.currentPage]
                     favouriteViewModel.addOrRemoveFavourite(wallpaper = wallpaper)
