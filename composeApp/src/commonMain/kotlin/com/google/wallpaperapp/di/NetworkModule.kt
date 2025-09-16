@@ -46,7 +46,7 @@ class NetworkModule {
 
             install(DefaultRequest) {
                 header(HttpHeaders.ContentType, ContentType.Application.Json)
-                header(HttpHeaders.Authorization,"563492ad6f917000010000013c35869795db4034972b1408c54283c4")
+                header(HttpHeaders.Authorization,"563492ad6f917001000013c33869795db4034972b1408c54283c7")
             }
 
         }
