@@ -79,7 +79,7 @@ fun SplashScreen(
         Spacer(modifier = Modifier.height(20.dp))
 
 
-        SplashProgressBar(progress = progress)
+        SplashProgressBar(progress = { progress })
 
 
     }

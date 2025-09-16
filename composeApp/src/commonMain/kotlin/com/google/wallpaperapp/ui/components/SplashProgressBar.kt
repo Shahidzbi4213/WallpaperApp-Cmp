@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun SplashProgressBar(
     modifier: Modifier = Modifier,
-    progress: Float,
+    progress: () -> Float,
     progressColor: Color = MaterialTheme.colorScheme.primary,
     trackColor: Color = MaterialTheme.colorScheme.secondaryContainer,
     shape: Shape = RoundedCornerShape(16.dp)
@@ -36,7 +36,7 @@ fun SplashProgressBar(
                 .clip(shape)
                 .background(progressColor)
                 .fillMaxHeight()
-                .fillMaxWidth(progress)
+                .fillMaxWidth(progress())
         ) {
 
         }
