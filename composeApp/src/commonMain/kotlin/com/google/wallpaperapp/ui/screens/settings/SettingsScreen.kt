@@ -178,7 +178,6 @@ fun SettingsScreen(
         ) {
             SettingsItem(
                 title = Res.string.share_app,
-                description = null,
                 icon = Res.drawable.share_app_icon,
                 onClick = {})
 
@@ -186,7 +185,6 @@ fun SettingsScreen(
 
             SettingsItem(
                 title = Res.string.rate_us,
-                description = null,
                 icon = Res.drawable.rate_us_icon,
                 onClick = {
                     settingViewModel.onEvent(SettingEvent.ToggleRateUsDialog)
@@ -194,13 +192,11 @@ fun SettingsScreen(
             HorizontalDivider(modifier = Modifier.padding(horizontal = 10.dp))
             SettingsItem(
                 title = Res.string.feedback,
-                description = null,
                 icon = Res.drawable.feeback_icon,
                 onClick = {})
             HorizontalDivider(modifier = Modifier.padding(horizontal = 10.dp))
             SettingsItem(
                 title = Res.string.privacy_policy,
-                description = null,
                 icon = Res.drawable.privacy_policy_icon,
                 onClick = {})
         }
