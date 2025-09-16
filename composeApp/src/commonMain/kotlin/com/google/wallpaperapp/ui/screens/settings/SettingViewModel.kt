@@ -53,6 +53,7 @@ class SettingViewModel(private val preferenceRepo: UserPreferenceRepo) : ViewMod
             is SettingEvent.UpdateAppMode -> {
                 viewModelScope.launch {
                     preferenceRepo.updateAppMode(event.appMode.ordinal)
+                    _state.update { it.copy(showAppModeDialog = !it.showAppModeDialog) }
                 }
             }
 

@@ -6,5 +6,7 @@ enum class AppMode {
 
     companion object{
         fun getModeById(id:Int): AppMode = AppMode.entries[id]
+
+
     }
 }

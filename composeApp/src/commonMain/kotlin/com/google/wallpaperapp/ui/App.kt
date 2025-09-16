@@ -2,13 +2,10 @@ package com.google.wallpaperapp.ui
 
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -16,12 +13,14 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.google.wallpaperapp.core.platform.exitApp
+import com.google.wallpaperapp.domain.models.FavouriteWallpaper
 import com.google.wallpaperapp.ui.components.BottomNavigationBar
 import com.google.wallpaperapp.ui.components.TopBar
 import com.google.wallpaperapp.ui.composables.ManageBarVisibility
@@ -32,12 +31,16 @@ import com.google.wallpaperapp.ui.screens.category.CategoryDetailScreen
 import com.google.wallpaperapp.ui.screens.category.CategoryScreen
 import com.google.wallpaperapp.ui.screens.category.CategoryViewModel
 import com.google.wallpaperapp.ui.screens.detail.WallpaperDetailScreen
+import com.google.wallpaperapp.ui.screens.favourite.FavouriteDetailScreen
 import com.google.wallpaperapp.ui.screens.favourite.FavouriteScreen
 import com.google.wallpaperapp.ui.screens.home.HomeScreen
 import com.google.wallpaperapp.ui.screens.home.HomeScreenViewModel
+import com.google.wallpaperapp.ui.screens.settings.SettingViewModel
 import com.google.wallpaperapp.ui.screens.settings.SettingsScreen
 import com.google.wallpaperapp.ui.screens.splash.SplashScreen
 import com.google.wallpaperapp.ui.theme.ScreenyTheme
+import com.google.wallpaperapp.utils.AppMode
+import com.google.wallpaperapp.utils.isDarkMode
 import org.koin.compose.viewmodel.koinViewModel
 
 
@@ -59,6 +62,9 @@ fun App(
 
     var isCategory by rememberSaveable { mutableStateOf(false) }
 
+    val settingViewModel = koinViewModel<SettingViewModel>()
+    val userPreferences by settingViewModel.userPreference.collectAsStateWithLifecycle()
+
 
 
     ManageBarVisibility(
@@ -66,7 +72,7 @@ fun App(
         showTopBar = { canShowTopBar = it },
         showBottomBar = { canShowBottomBar = it },
     )
-    ScreenyTheme(dynamicColor = true, darkTheme = isSystemInDarkTheme()) {
+    ScreenyTheme(dynamicColor = userPreferences.shouldShowDynamicColor, darkTheme = isDarkMode(appMode = AppMode.getModeById(userPreferences.appMode))) {
 
         Scaffold(
             bottomBar = { if (canShowBottomBar) BottomNavigationBar(navController) },
@@ -156,8 +162,32 @@ fun App(
                                 navController.navigate(Routs.Home)
                             },
                             onWallpaperClick = { id, wallpaper ->
+                                navController.navigate(
+                                    Routs.FavouriteDetail(
+                                        wallpaperId = id,
+                                        wallpaperUrl = wallpaper
+                                    )
+                                )
 
                             })
+                    }
+
+                    composable<Routs.FavouriteDetail> { backstack ->
+                        val id = backstack.toRoute<Routs.FavouriteDetail>().wallpaperId
+                        val wallpaperUrl = backstack.toRoute<Routs.FavouriteDetail>().wallpaperUrl
+                        FavouriteDetailScreen(
+                            animatedVisibilityScope = this,
+                            wallpaper ={
+                                FavouriteWallpaper(
+                                    id = id,
+                                    wallpaper = wallpaperUrl
+                                )
+                            },
+                            onBack = {
+                                navController.navigateUp()
+                            }
+                        )
+
                     }
 
                     composable<Routs.Settings> {

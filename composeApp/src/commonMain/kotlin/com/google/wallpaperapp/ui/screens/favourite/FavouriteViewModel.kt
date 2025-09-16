@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.wallpaperapp.data.repositories.FavouriteRepo
 import com.google.wallpaperapp.domain.mappers.toFavouriteWallpaper
+import com.google.wallpaperapp.domain.models.FavouriteWallpaper
 import com.google.wallpaperapp.domain.models.Wallpaper
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -23,6 +24,14 @@ class FavouriteViewModel(private val favouriteRepo: FavouriteRepo) : ViewModel()
             favouriteRepo.addOrRemove(wallpaper.toFavouriteWallpaper())
         }
     }
+
+    fun addOrRemoveFavourite(wallpaper: FavouriteWallpaper){
+        viewModelScope.launch {
+            favouriteRepo.addOrRemove(wallpaper)
+        }
+    }
+
+
 
     fun removeFromFavourite(wallpaperUrl: String) {
         viewModelScope.launch {

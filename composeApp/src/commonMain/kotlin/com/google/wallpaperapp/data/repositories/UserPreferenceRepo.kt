@@ -1,5 +1,6 @@
 package com.google.wallpaperapp.data.repositories
 
+import com.google.wallpaperapp.core.platform.AppLogger
 import com.google.wallpaperapp.data.local.dao.UserPreferenceDao
 import com.google.wallpaperapp.domain.mappers.toUserPreference
 import com.google.wallpaperapp.domain.models.UserPreferences
@@ -14,8 +15,9 @@ class UserPreferenceRepo(private val dao: UserPreferenceDao) {
 
     val uerPreference
         get() = dao.getUserPreference()
-            .map { it?.toUserPreference()
-                UserPreferences("en", 0,true)
+            .map {
+                it?.toUserPreference()
+                    ?: UserPreferences("en", 0, true)
             }
 
 

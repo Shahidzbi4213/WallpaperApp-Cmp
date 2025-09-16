@@ -8,8 +8,7 @@ data class UserPreferenceEntity(
 
     @PrimaryKey(autoGenerate = false)
     var id: Int = 1,
-    var languageCode: String = "en",
-
-    var appMode: Int = 0,
-    var shouldShowDynamicColor: Boolean = true
+    var languageCode: String,
+    var appMode: Int,
+    var shouldShowDynamicColor: Boolean
 )

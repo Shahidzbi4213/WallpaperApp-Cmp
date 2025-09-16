@@ -8,7 +8,7 @@ import com.google.wallpaperapp.ui.theme.lightScheme
 @Composable
 actual fun colorSchemeProvide(isDarkMode: Boolean, isDynamicColor: Boolean): ColorScheme {
     return when {
-        isDynamicColor -> darkScheme
+        isDarkMode -> darkScheme
         else -> lightScheme
     }
 }

@@ -31,6 +31,7 @@ import androidx.navigation.NavController
 import com.google.wallpaperapp.core.platform.PlatformType
 import com.google.wallpaperapp.core.platform.dynamicColorVisibility
 import com.google.wallpaperapp.core.platform.getPlatformType
+import com.google.wallpaperapp.ui.dialogs.AppModeDialog
 import com.google.wallpaperapp.ui.routs.Routs
 import com.google.wallpaperapp.utils.AppMode
 import org.jetbrains.compose.resources.stringResource
@@ -59,7 +60,7 @@ import wallpaperapp.composeapp.generated.resources.system_default
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SettingsScreen(
-    navigateToLanguage:()-> Unit,
+    navigateToLanguage: () -> Unit,
     modifier: Modifier = Modifier,
     settingViewModel: SettingViewModel = koinViewModel()
 ) {
@@ -111,7 +112,8 @@ fun SettingsScreen(
                     Res.string.system_default
                 ) else "en",
                 icon = Res.drawable.language_icon,
-                onClick = navigateToLanguage)
+                onClick = navigateToLanguage
+            )
 
             HorizontalDivider(modifier = Modifier.padding(horizontal = 10.dp))
 
@@ -202,6 +204,15 @@ fun SettingsScreen(
                 icon = Res.drawable.privacy_policy_icon,
                 onClick = {})
         }
+    }
+
+
+    if (state.showAppModeDialog) {
+        AppModeDialog(appMode = AppMode.getModeById(userPreference.appMode), onDismissRequest = {
+            settingViewModel.onEvent(SettingEvent.ToggleAppModeDialog)
+        }, onSelect = { updatedAppMode ->
+            settingViewModel.onEvent(SettingEvent.UpdateAppMode(updatedAppMode))
+        })
     }
 
 

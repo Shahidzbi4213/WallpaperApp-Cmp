@@ -1,7 +1,9 @@
 package com.google.wallpaperapp.di
 
 import androidx.room.RoomDatabase
+import androidx.sqlite.SQLiteConnection
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import androidx.sqlite.execSQL
 import com.google.wallpaperapp.data.local.ScreenyDatabase
 import com.google.wallpaperapp.data.local.dao.CommonDao
 import com.google.wallpaperapp.data.local.dao.FavouriteWallpaperDao
@@ -19,7 +21,14 @@ class DbModule {
 
     @Single
     fun provideScreenyDb(builder: RoomDatabase.Builder<ScreenyDatabase>): ScreenyDatabase {
-        return builder.fallbackToDestructiveMigrationOnDowngrade(true).setDriver(BundledSQLiteDriver()).setQueryCoroutineContext(Dispatchers.IO).build()
+        return builder.fallbackToDestructiveMigrationOnDowngrade(true).setDriver(BundledSQLiteDriver()).setQueryCoroutineContext(Dispatchers.IO)
+            .addCallback(object : RoomDatabase.Callback() {
+                override fun onCreate(connection: SQLiteConnection) {
+                    super.onCreate(connection)
+                    connection.execSQL("INSERT INTO user_preference (languageCode,appMode,shouldShowDynamicColor) VALUES ('en',0,1)")
+                }
+            })
+            .build()
     }
 
     @Single
