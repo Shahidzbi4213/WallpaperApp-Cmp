@@ -14,6 +14,7 @@ import com.google.wallpaperapp.data.repositories.WallpaperRepository
 import com.google.wallpaperapp.ui.screens.category.CategoryViewModel
 import com.google.wallpaperapp.ui.screens.favourite.FavouriteViewModel
 import com.google.wallpaperapp.ui.screens.home.HomeScreenViewModel
+import com.google.wallpaperapp.ui.screens.languages.LanguageViewModel
 import com.google.wallpaperapp.ui.screens.settings.SettingViewModel
 import org.koin.android.annotation.KoinViewModel
 import org.koin.core.annotation.Factory
@@ -65,4 +66,9 @@ class AppModule {
         return SettingViewModel(userPreferenceRepo)
     }
 
+
+    @KoinViewModel
+    fun provideLanguageViewModel(userPreferenceRepo: UserPreferenceRepo): LanguageViewModel {
+        return LanguageViewModel(userPreferenceRepo)
+    }
 }

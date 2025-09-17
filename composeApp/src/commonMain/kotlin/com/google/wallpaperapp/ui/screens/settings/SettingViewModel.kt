@@ -47,6 +47,7 @@ class SettingViewModel(private val preferenceRepo: UserPreferenceRepo) : ViewMod
             is SettingEvent.UpdateDynamicColor -> {
                 viewModelScope.launch {
                     preferenceRepo.updateDynamicColor(event.isDynamicColor)
+                    _state.update { it.copy(showDynamicDialog = !it.showDynamicDialog) }
                 }
             }
 

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Screeny</string>
+    <string name="home">家</string>
+    <string name="category">カテゴリ</string>
+    <string name="favourite">お気に入り</string>
+    <string name="settings">設定</string>
+    <string name="search_wallpaper">壁紙の検索</string>
+    <string name="download">ダウンロード</string>
+    <string name="downloading_wallpaper">壁紙をダウンロードする</string>
+    <string name="downloading">ダウンロード中</string>
+    <string name="set_as_home_screen">ホーム画面に設定</string>
+    <string name="set_as_lock_screen">ロック画面に設定する</string>
+    <string name="set_as_both">両方の画面で設定</string>
+    <string name="wallpaper_dialog_title">何をしたいですか?</string>
+    <string name="cancel">キャンセル</string>
+    <string name="something_went_wrong">何か問題が発生しました</string>
+    <string name="wallpaper_set_successfully">壁紙の設定が成功しました！</string>
+    <string name="recent_searchs">最近の検索</string>
+    <string name="your_favorite_wallpapers_will_appear_here_start_exploring_and_add_some_to_your_favorites">お気に入りの壁紙がここに表示されます!探索を開始して、いくつかをお気に入りに追加してください。</string>
+    <string name="explore_wallpapers">壁紙を探索する</string>
+    <string name="apply">適用する</string>
+    <string name="language">言語</string>
+    <string name="current_language">現在の言語</string>
+    <string name="all_languages">すべての言語</string>
+    <string name="general">一般的な</string>
+    <string name="app_lanuage">アプリの言語</string>
+    <string name="dynamic_color">ダイナミックカラー</string>
+    <string name="app_mode">アプリモード</string>
+    <string name="on">の上</string>
+    <string name="off">オフ</string>
+    <string name="system_default">システムのデフォルト</string>
+    <string name="dark">暗い</string>
+    <string name="light">ライト</string>
+    <string name="categories">カテゴリー</string>
+
+</resources>

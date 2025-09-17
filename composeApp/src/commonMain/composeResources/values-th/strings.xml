@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Screeny</string>
+    <string name="home">บ้าน</string>
+    <string name="category">หมวดหมู่</string>
+    <string name="favourite">ที่ชื่นชอบ</string>
+    <string name="settings">การตั้งค่า</string>
+    <string name="search_wallpaper">ค้นหาวอลล์เปเปอร์</string>
+    <string name="download">ดาวน์โหลด</string>
+    <string name="downloading_wallpaper">กำลังดาวน์โหลดวอลเปเปอร์</string>
+    <string name="downloading">กำลังดาวน์โหลด</string>
+    <string name="set_as_home_screen">ตั้งค่าบนหน้าจอหลัก</string>
+    <string name="set_as_lock_screen">ตั้งค่าบนหน้าจอล็อค</string>
+    <string name="set_as_both">ตั้งค่าไว้ทั้ง 2 หน้าจอ</string>
+    <string name="wallpaper_dialog_title">คุณอยากจะทำอะไร?</string>
+    <string name="cancel">ยกเลิก</string>
+    <string name="something_went_wrong">มีบางอย่างผิดพลาด</string>
+    <string name="wallpaper_set_successfully">ติดตั้งวอลเปเปอร์สำเร็จ!</string>
+    <string name="recent_searchs">การค้นหาล่าสุด</string>
+    <string name="your_favorite_wallpapers_will_appear_here_start_exploring_and_add_some_to_your_favorites">วอลเปเปอร์ที่คุณชื่นชอบจะปรากฏที่นี่! เริ่มสำรวจและเพิ่มรายการโปรดของคุณ!</string>
+    <string name="explore_wallpapers">สำรวจวอลเปเปอร์</string>
+    <string name="apply">นำมาใช้</string>
+    <string name="language">ภาษา</string>
+    <string name="current_language">ภาษาปัจจุบัน</string>
+    <string name="all_languages">ทุกภาษา</string>
+    <string name="general">ทั่วไป</string>
+    <string name="app_lanuage">ภาษาของแอป</string>
+    <string name="dynamic_color">สีไดนามิก</string>
+    <string name="app_mode">โหมดแอพ</string>
+    <string name="on">บน</string>
+    <string name="off">ปิด</string>
+    <string name="system_default">ค่าเริ่มต้นของระบบ</string>
+    <string name="dark">มืด</string>
+    <string name="light">แสงสว่าง</string>
+    <string name="categories">หมวดหมู่</string>
+</resources>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Screeny</string>
+    <string name="home">வீடு</string>
+    <string name="category">வகை</string>
+    <string name="favourite">பிடித்தது</string>
+    <string name="settings">அமைத்தல்</string>
+    <string name="search_wallpaper">வால்பேப்பரைத் தேடுங்கள்</string>
+    <string name="download">பதிவிறக்கவும்</string>
+    <string name="downloading_wallpaper">வால்பேப்பரைப் பதிவிறக்குகிறது</string>
+    <string name="downloading">பதிவிறக்குகிறது</string>
+    <string name="set_as_home_screen">முகப்புத் திரையில் அமைக்கவும்</string>
+    <string name="set_as_lock_screen">பூட்டுத் திரையில் அமைக்கவும்</string>
+    <string name="set_as_both">இரண்டு திரைகளிலும் அமைக்கவும்</string>
+    <string name="wallpaper_dialog_title">நீங்கள் என்ன செய்ய விரும்புகிறீர்கள்?</string>
+    <string name="cancel">ரத்து செய்</string>
+    <string name="something_went_wrong">ஏதோ தவறாகிவிட்டது</string>
+    <string name="wallpaper_set_successfully">வால்பேப்பர் வெற்றிகரமாக அமைக்கப்பட்டது!</string>
+    <string name="recent_searchs">சமீபத்திய தேடல்கள்</string>
+    <string name="your_favorite_wallpapers_will_appear_here_start_exploring_and_add_some_to_your_favorites">உங்களுக்குப் பிடித்த வால்பேப்பர்கள் இங்கே தோன்றும்! ஆராய்ந்து, உங்களுக்குப் பிடித்தவற்றில் சிலவற்றைச் சேர்க்கவும்!</string>
+    <string name="explore_wallpapers">வால்பேப்பர்களை ஆராயுங்கள்</string>
+    <string name="apply">விண்ணப்பிக்கவும்</string>
+    <string name="language">மொழிகள்</string>
+    <string name="current_language">தற்போதைய மொழி</string>
+    <string name="all_languages">அனைத்து மொழி</string>
+    <string name="general">பொது</string>
+    <string name="app_lanuage">பயன்பாட்டு மொழி</string>
+    <string name="dynamic_color">டைனமிக் கலர்</string>
+    <string name="app_mode">பயன்பாட்டு முறை</string>
+    <string name="on">அன்று</string>
+    <string name="off">ஆஃப்</string>
+    <string name="system_default">கணினி இயல்புநிலை</string>
+    <string name="dark">இருள்</string>
+    <string name="light">ஒளி</string>
+    <string name="categories">வகைகள்</string>
+
+</resources>

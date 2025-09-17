@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Screeny</string>
+    <string name="home">家</string>
+    <string name="category">类别</string>
+    <string name="favourite">最喜欢的</string>
+    <string name="settings">环境</string>
+    <string name="search_wallpaper">搜索壁纸</string>
+    <string name="download">下载</string>
+    <string name="downloading_wallpaper">下载壁纸</string>
+    <string name="downloading">正在下载</string>
+    <string name="set_as_home_screen">设置在主屏幕上</string>
+    <string name="set_as_lock_screen">在锁屏上设置</string>
+    <string name="set_as_both">在两个屏幕上设置</string>
+    <string name="wallpaper_dialog_title">你想做什么？</string>
+    <string name="cancel">取消</string>
+    <string name="something_went_wrong">出了点问题</string>
+    <string name="wallpaper_set_successfully">壁纸设置成功！</string>
+    <string name="recent_searchs">最近的搜索</string>
+    <string name="your_favorite_wallpapers_will_appear_here_start_exploring_and_add_some_to_your_favorites">你最喜欢的壁纸将会出现在这里！开始探索并将一些添加到您的最爱！</string>
+    <string name="explore_wallpapers">探索壁纸</string>
+    <string name="apply">申请</string>
+    <string name="language">语言</string>
+    <string name="current_language">当前语言</string>
+    <string name="all_languages">所有语言</string>
+    <string name="general">一般的</string>
+    <string name="app_lanuage">应用程序语言</string>
+    <string name="dynamic_color">动态色彩</string>
+    <string name="app_mode">应用程序模式</string>
+    <string name="on">在</string>
+    <string name="off">离开</string>
+    <string name="system_default">系统默认值</string>
+    <string name="dark">黑暗的</string>
+    <string name="light">光</string>
+    <string name="categories">类别</string>
+</resources>

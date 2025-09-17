@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Screeny</string>
+    <string name="home">Lar</string>
+    <string name="category">Categoria</string>
+    <string name="favourite">Favorito</string>
+    <string name="settings">Contexto</string>
+    <string name="search_wallpaper">Pesquisar papel de parede</string>
+    <string name="download">Download</string>
+    <string name="downloading_wallpaper">Baixando papel de parede</string>
+    <string name="downloading">Baixando</string>
+    <string name="set_as_home_screen">Definir na tela inicial</string>
+    <string name="set_as_lock_screen">Definir na tela de bloqueio</string>
+    <string name="set_as_both">Definir em ambas as telas</string>
+    <string name="wallpaper_dialog_title">O que você gostaria de fazer?</string>
+    <string name="cancel">Cancelar</string>
+    <string name="something_went_wrong">Algo deu errado</string>
+    <string name="wallpaper_set_successfully">Papel de parede definido com sucesso!</string>
+    <string name="recent_searchs">Pesquisas recentes</string>
+    <string name="your_favorite_wallpapers_will_appear_here_start_exploring_and_add_some_to_your_favorites">Seus papéis de parede favoritos aparecerão aqui! Comece a explorar e adicione alguns aos seus favoritos!</string>
+    <string name="explore_wallpapers">Explorar papéis de parede</string>
+    <string name="apply">Aplicar</string>
+    <string name="language">Idiomas</string>
+    <string name="current_language">Idioma atual</string>
+    <string name="all_languages">Todos os idiomas</string>
+    <string name="general">Em geral</string>
+    <string name="app_lanuage">Idioma do aplicativo</string>
+    <string name="dynamic_color">Cor Dinâmica</string>
+    <string name="app_mode">Modo de aplicativo</string>
+    <string name="on">Sobre</string>
+    <string name="off">Desligado</string>
+    <string name="system_default">Padrão do sistema</string>
+    <string name="dark">Escuro</string>
+    <string name="light">Luz</string>
+    <string name="categories">Categorias</string>
+
+</resources>

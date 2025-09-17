@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Screeny</string>
+    <string name="home">Heim</string>
+    <string name="category">Kategorie</string>
+    <string name="favourite">Favorit</string>
+    <string name="settings">Einstellung</string>
+    <string name="search_wallpaper">Suchen Sie nach Hintergrundbildern</string>
+    <string name="download">Herunterladen</string>
+    <string name="downloading_wallpaper">Hintergrundbild herunterladen</string>
+    <string name="downloading">Herunterladen</string>
+    <string name="set_as_home_screen">Auf dem Startbildschirm einstellen</string>
+    <string name="set_as_lock_screen">Auf Sperrbildschirm einstellen</string>
+    <string name="set_as_both">Auf beiden Bildschirmen einstellen</string>
+    <string name="wallpaper_dialog_title">Was möchten Sie tun?</string>
+    <string name="cancel">Stornieren</string>
+    <string name="something_went_wrong">Etwas ist schief gelaufen</string>
+    <string name="wallpaper_set_successfully">Hintergrundbild erfolgreich eingestellt!</string>
+    <string name="recent_searchs">Aktuelle Suchanfragen</string>
+    <string name="your_favorite_wallpapers_will_appear_here_start_exploring_and_add_some_to_your_favorites">Ihre Lieblingshintergründe werden hier angezeigt! Beginnen Sie mit der Erkundung und fügen Sie einige zu Ihren Favoriten hinzu!</string>
+    <string name="explore_wallpapers">Entdecken Sie Hintergrundbilder</string>
+    <string name="apply">Anwenden</string>
+    <string name="language">Sprachen</string>
+    <string name="current_language">Aktuelle Sprache</string>
+    <string name="all_languages">Alle Sprache</string>
+    <string name="general">Allgemein</string>
+    <string name="app_lanuage">App-Sprache</string>
+    <string name="dynamic_color">Dynamische Farbe</string>
+    <string name="app_mode">App-Modus</string>
+    <string name="on">An</string>
+    <string name="off">Aus</string>
+    <string name="system_default">Systemstandard</string>
+    <string name="dark">Dunkel</string>
+    <string name="light">Licht</string>
+    <string name="categories">Kategorien</string>
+</resources>

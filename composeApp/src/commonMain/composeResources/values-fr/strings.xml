@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Screeny</string>
+    <string name="home">Maison</string>
+    <string name="category">Catégorie</string>
+    <string name="favourite">Préféré</string>
+    <string name="settings">Paramètre</string>
+    <string name="search_wallpaper">Rechercher du papier peint</string>
+    <string name="download">Télécharger</string>
+    <string name="downloading_wallpaper">Téléchargement de fond d\'écran</string>
+    <string name="downloading">Téléchargement</string>
+    <string name="set_as_home_screen">Définir sur l\'écran d\'accueil</string>
+    <string name="set_as_lock_screen">Définir sur l\'écran de verrouillage</string>
+    <string name="set_as_both">Réglé sur les deux écrans</string>
+    <string name="wallpaper_dialog_title">Qu\'aimeriez-vous faire ?</string>
+    <string name="cancel">Annuler</string>
+    <string name="something_went_wrong">Quelque chose s\'est mal passé</string>
+    <string name="wallpaper_set_successfully">Fond d\'écran défini avec succès !</string>
+    <string name="recent_searchs">Recherches récentes</string>
+    <string name="your_favorite_wallpapers_will_appear_here_start_exploring_and_add_some_to_your_favorites">Vos fonds d\'écran préférés apparaîtront ici ! Commencez à explorer et ajoutez-en à vos favoris !</string>
+    <string name="explore_wallpapers">Explorer les fonds d\'écran</string>
+    <string name="apply">Appliquer</string>
+    <string name="language">Langues</string>
+    <string name="current_language">Langue actuelle</string>
+    <string name="all_languages">Toutes les langues</string>
+    <string name="general">Général</string>
+    <string name="app_lanuage">Langue de l\'application</string>
+    <string name="dynamic_color">Couleur dynamique</string>
+    <string name="app_mode">Mode application</string>
+    <string name="on">Sur</string>
+    <string name="off">Désactivé</string>
+    <string name="system_default">Système par défaut</string>
+    <string name="dark">Sombre</string>
+    <string name="light">Lumière</string>
+    <string name="categories">Catégories</string>
+
+</resources>

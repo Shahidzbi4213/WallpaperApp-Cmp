@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Screeny</string>
+    <string name="home">صفحه اصلی</string>
+    <string name="category">دسته بندی</string>
+    <string name="favourite">مورد علاقه</string>
+    <string name="settings">تنظیم</string>
+    <string name="search_wallpaper">جستجوی کاغذ دیواری</string>
+    <string name="download">دانلود کنید</string>
+    <string name="downloading_wallpaper">دانلود والپیپر</string>
+    <string name="downloading">در حال دانلود</string>
+    <string name="set_as_home_screen">روی صفحه اصلی تنظیم کنید</string>
+    <string name="set_as_lock_screen">روی صفحه قفل تنظیم کنید</string>
+    <string name="set_as_both">روی هر دو صفحه تنظیم کنید</string>
+    <string name="wallpaper_dialog_title">دوست دارید چه کار کنید؟</string>
+    <string name="cancel">لغو کنید</string>
+    <string name="something_went_wrong">مشکلی پیش آمد</string>
+    <string name="wallpaper_set_successfully">کاغذ دیواری با موفقیت تنظیم شد!</string>
+    <string name="recent_searchs">جستجوهای اخیر</string>
+    <string name="your_favorite_wallpapers_will_appear_here_start_exploring_and_add_some_to_your_favorites">تصاویر پس زمینه مورد علاقه شما در اینجا ظاهر می شود! شروع به کاوش کنید و تعدادی را به موارد دلخواه خود اضافه کنید!</string>
+    <string name="explore_wallpapers">تصاویر پس زمینه را کاوش کنید</string>
+    <string name="apply">درخواست کنید</string>
+    <string name="language">زبان ها</string>
+    <string name="current_language">زبان فعلی</string>
+    <string name="all_languages">همه زبان</string>
+    <string name="general">ژنرال</string>
+    <string name="app_lanuage">زبان برنامه</string>
+    <string name="dynamic_color">رنگ پویا</string>
+    <string name="app_mode">حالت برنامه</string>
+    <string name="on">روشن</string>
+    <string name="off">خاموش</string>
+    <string name="system_default">پیش فرض سیستم</string>
+    <string name="dark">تاریک</string>
+    <string name="light">نور</string>
+    <string name="categories">دسته بندی ها</string>
+
+</resources>

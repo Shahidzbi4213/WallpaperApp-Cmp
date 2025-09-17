@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Screeny</string>
+    <string name="home">Rumah</string>
+    <string name="category">Kategori</string>
+    <string name="favourite">Favorit</string>
+    <string name="settings">Pengaturan</string>
+    <string name="search_wallpaper">Cari Kertas Dinding</string>
+    <string name="download">Unduh</string>
+    <string name="downloading_wallpaper">Mengunduh Wallpaper</string>
+    <string name="downloading">Mengunduh</string>
+    <string name="set_as_home_screen">Atur di layar beranda</string>
+    <string name="set_as_lock_screen">Atur di layar kunci</string>
+    <string name="set_as_both">Atur di kedua layar</string>
+    <string name="wallpaper_dialog_title">Apa yang ingin kamu lakukan?</string>
+    <string name="cancel">Membatalkan</string>
+    <string name="something_went_wrong">Ada yang tidak beres</string>
+    <string name="wallpaper_set_successfully">Wallpaper berhasil disetel!</string>
+    <string name="recent_searchs">Pencarian Terbaru</string>
+    <string name="your_favorite_wallpapers_will_appear_here_start_exploring_and_add_some_to_your_favorites">Wallpaper favorit Anda akan muncul di sini! Mulailah menjelajah dan tambahkan beberapa ke favorit Anda!</string>
+    <string name="explore_wallpapers">Jelajahi Wallpaper</string>
+    <string name="apply">Menerapkan</string>
+    <string name="language">Bahasa</string>
+    <string name="current_language">Bahasa Saat Ini</string>
+    <string name="all_languages">Semua Bahasa</string>
+    <string name="general">Umum</string>
+    <string name="app_lanuage">Bahasa Aplikasi</string>
+    <string name="dynamic_color">Warna Dinamis</string>
+    <string name="app_mode">Modus Aplikasi</string>
+    <string name="on">Pada</string>
+    <string name="off">Mati</string>
+    <string name="system_default">Bawaan Sistem</string>
+    <string name="dark">Gelap</string>
+    <string name="light">Lampu</string>
+    <string name="categories">Kategori</string>
+
+</resources>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Screeny</string>
+    <string name="home">Ev</string>
+    <string name="category">Kategori</string>
+    <string name="favourite">Favori</string>
+    <string name="settings">Ayar</string>
+    <string name="search_wallpaper">Duvar Kağıdını Ara</string>
+    <string name="download">İndirmek</string>
+    <string name="downloading_wallpaper">Duvar Kağıdı İndiriliyor</string>
+    <string name="downloading">İndiriliyor</string>
+    <string name="set_as_home_screen">Ana ekranda ayarla</string>
+    <string name="set_as_lock_screen">Kilit ekranında ayarla</string>
+    <string name="set_as_both">Her iki ekranda da ayarla</string>
+    <string name="wallpaper_dialog_title">Ne yapmak istersin?</string>
+    <string name="cancel">İptal etmek</string>
+    <string name="something_went_wrong">Bir şeyler ters gitti</string>
+    <string name="wallpaper_set_successfully">Duvar kağıdı başarıyla ayarlandı!</string>
+    <string name="recent_searchs">Son Aramalar</string>
+    <string name="your_favorite_wallpapers_will_appear_here_start_exploring_and_add_some_to_your_favorites">En sevdiğiniz duvar kağıtları burada görünecek! Keşfetmeye başlayın ve bazılarını favorilerinize ekleyin!</string>
+    <string name="explore_wallpapers">Duvar Kağıtlarını Keşfedin</string>
+    <string name="apply">Uygula</string>
+    <string name="language">Diller</string>
+    <string name="current_language">Geçerli Dil</string>
+    <string name="all_languages">Tüm Dil</string>
+    <string name="general">Genel</string>
+    <string name="app_lanuage">Uygulama Dili</string>
+    <string name="dynamic_color">Dinamik Renk</string>
+    <string name="app_mode">Uygulama Modu</string>
+    <string name="on">Açık</string>
+    <string name="off">Kapalı</string>
+    <string name="system_default">Sistem Varsayılanı</string>
+    <string name="dark">Karanlık</string>
+    <string name="light">Işık</string>
+    <string name="categories">Kategoriler</string>
+</resources>

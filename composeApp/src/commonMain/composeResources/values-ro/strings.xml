@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Screeny</string>
+    <string name="home">Acasă</string>
+    <string name="category">Categorie</string>
+    <string name="favourite">Favorit</string>
+    <string name="settings">Setare</string>
+    <string name="search_wallpaper">Caută imagine de fundal</string>
+    <string name="download">Descărcați</string>
+    <string name="downloading_wallpaper">Descărcarea fundalului</string>
+    <string name="downloading">Descărcarea</string>
+    <string name="set_as_home_screen">Setați pe ecranul de start</string>
+    <string name="set_as_lock_screen">Setați pe ecranul de blocare</string>
+    <string name="set_as_both">Setați pe ambele ecrane</string>
+    <string name="wallpaper_dialog_title">Ce ai vrea sa faci?</string>
+    <string name="cancel">Anula</string>
+    <string name="something_went_wrong">Ceva a mers prost</string>
+    <string name="wallpaper_set_successfully">Tapetul setat cu succes!</string>
+    <string name="recent_searchs">Căutări recente</string>
+    <string name="your_favorite_wallpapers_will_appear_here_start_exploring_and_add_some_to_your_favorites">Imaginile de fundal preferate vor apărea aici! Începeți să explorați și adăugați câteva la favorite!</string>
+    <string name="explore_wallpapers">Explorați imagini de fundal</string>
+    <string name="apply">Aplicați</string>
+    <string name="language">Limbi</string>
+    <string name="current_language">Limba curentă</string>
+    <string name="all_languages">Toată Limba</string>
+    <string name="general">General</string>
+    <string name="app_lanuage">Limba aplicației</string>
+    <string name="dynamic_color">Culoare dinamică</string>
+    <string name="app_mode">Modul aplicație</string>
+    <string name="on">Pe</string>
+    <string name="off">Oprit</string>
+    <string name="system_default">Implicit sistem</string>
+    <string name="dark">Întuneric</string>
+    <string name="light">Aprinde</string>
+    <string name="categories">Categorii</string>
+
+</resources>

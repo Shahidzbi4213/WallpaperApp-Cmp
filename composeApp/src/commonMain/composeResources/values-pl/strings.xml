@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Screeny</string>
+    <string name="home">Dom</string>
+    <string name="category">Kategoria</string>
+    <string name="favourite">Ulubiony</string>
+    <string name="settings">Ustawienie</string>
+    <string name="search_wallpaper">Wyszukaj tapetę</string>
+    <string name="download">Pobierać</string>
+    <string name="downloading_wallpaper">Pobieranie tapety</string>
+    <string name="downloading">Ściąganie</string>
+    <string name="set_as_home_screen">Ustaw na ekranie głównym</string>
+    <string name="set_as_lock_screen">Ustaw na ekranie blokady</string>
+    <string name="set_as_both">Ustaw na obu ekranach</string>
+    <string name="wallpaper_dialog_title">Co chciałbyś zrobić?</string>
+    <string name="cancel">Anulować</string>
+    <string name="something_went_wrong">Coś poszło nie tak</string>
+    <string name="wallpaper_set_successfully">Tapeta została ustawiona pomyślnie!</string>
+    <string name="recent_searchs">Ostatnie wyszukiwania</string>
+    <string name="your_favorite_wallpapers_will_appear_here_start_exploring_and_add_some_to_your_favorites">Tutaj pojawią się Twoje ulubione tapety! Zacznij odkrywać i dodaj kilka do ulubionych!</string>
+    <string name="explore_wallpapers">Przeglądaj tapety</string>
+    <string name="apply">Stosować</string>
+    <string name="language">Języki</string>
+    <string name="current_language">Aktualny język</string>
+    <string name="all_languages">Cały język</string>
+    <string name="general">Ogólny</string>
+    <string name="app_lanuage">Język aplikacji</string>
+    <string name="dynamic_color">Dynamiczny kolor</string>
+    <string name="app_mode">Tryb aplikacji</string>
+    <string name="on">NA</string>
+    <string name="off">Wyłączony</string>
+    <string name="system_default">Domyślne systemowe</string>
+    <string name="dark">Ciemny</string>
+    <string name="light">Światło</string>
+    <string name="categories">Kategorie</string>
+
+</resources>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Screeny</string>
+    <string name="home">Thuis</string>
+    <string name="category">Categorie</string>
+    <string name="favourite">Favoriet</string>
+    <string name="settings">Instelling</string>
+    <string name="search_wallpaper">Zoek achtergrond</string>
+    <string name="download">Downloaden</string>
+    <string name="downloading_wallpaper">Achtergrond downloaden</string>
+    <string name="downloading">Downloaden</string>
+    <string name="set_as_home_screen">Instellen op startscherm</string>
+    <string name="set_as_lock_screen">Ingesteld op vergrendelscherm</string>
+    <string name="set_as_both">Ingesteld op beide schermen</string>
+    <string name="wallpaper_dialog_title">Wat zou je graag willen doen?</string>
+    <string name="cancel">Annuleren</string>
+    <string name="something_went_wrong">Er is iets misgegaan</string>
+    <string name="wallpaper_set_successfully">Achtergrond succesvol ingesteld!</string>
+    <string name="recent_searchs">Recente zoekopdrachten</string>
+    <string name="your_favorite_wallpapers_will_appear_here_start_exploring_and_add_some_to_your_favorites">Je favoriete achtergronden verschijnen hier! Begin met ontdekken en voeg er enkele toe aan je favorieten!</string>
+    <string name="explore_wallpapers">Ontdek achtergronden</string>
+    <string name="apply">Toepassen</string>
+    <string name="language">Talen</string>
+    <string name="current_language">Huidige taal</string>
+    <string name="all_languages">Alle Taal</string>
+    <string name="general">Algemeen</string>
+    <string name="app_lanuage">App-taal</string>
+    <string name="dynamic_color">Dynamische kleur</string>
+    <string name="app_mode">App-modus</string>
+    <string name="on">Op</string>
+    <string name="off">Uit</string>
+    <string name="system_default">Systeemstandaard</string>
+    <string name="dark">Donker</string>
+    <string name="light">Licht</string>
+    <string name="categories">Categorieën</string>
+
+</resources>

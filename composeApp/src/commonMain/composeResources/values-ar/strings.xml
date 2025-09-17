@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Screeny</string>
+    <string name="home">بيت</string>
+    <string name="category">فئة</string>
+    <string name="favourite">مفضل</string>
+    <string name="settings">جلسة</string>
+    <string name="search_wallpaper">خلفيات البحث</string>
+    <string name="download">تحميل</string>
+    <string name="downloading_wallpaper">تحميل خلفيات</string>
+    <string name="downloading">جارٍ التنزيل</string>
+    <string name="set_as_home_screen">تعيين على الشاشة الرئيسية</string>
+    <string name="set_as_lock_screen">تعيين على شاشة القفل</string>
+    <string name="set_as_both">تعيين على كلتا الشاشتين</string>
+    <string name="wallpaper_dialog_title">ماذا تريد أن تفعل؟</string>
+    <string name="cancel">يلغي</string>
+    <string name="something_went_wrong">حدث خطأ ما</string>
+    <string name="wallpaper_set_successfully">تم تعيين الخلفية بنجاح!</string>
+    <string name="recent_searchs">عمليات البحث الأخيرة</string>
+    <string name="your_favorite_wallpapers_will_appear_here_start_exploring_and_add_some_to_your_favorites">سوف تظهر خلفياتك المفضلة هنا! ابدأ بالاستكشاف وأضف بعضًا منها إلى مفضلاتك!</string>
+    <string name="explore_wallpapers">استكشاف خلفيات</string>
+    <string name="apply">يتقدم</string>
+    <string name="language">اللغات</string>
+    <string name="current_language">اللغة الحالية</string>
+    <string name="all_languages">كل اللغة</string>
+    <string name="general">عام</string>
+    <string name="app_lanuage">لغة التطبيق</string>
+    <string name="dynamic_color">اللون الديناميكي</string>
+    <string name="app_mode">وضع التطبيق</string>
+    <string name="on">على</string>
+    <string name="off">عن</string>
+    <string name="system_default">النظام الافتراضي</string>
+    <string name="dark">مظلم</string>
+    <string name="light">ضوء</string>
+    <string name="categories">فئات</string>
+    <string name="selected_language">اللغة المحددة</string>
+    <string name="others">أخرى</string>
+    <string name="share_app">مشاركة التطبيق</string>
+    <string name="rate_us">قيّمنا</string>
+    <string name="feedback">ملاحظات</string>
+    <string name="privacy_policy">سياسة الخصوصية</string>
+    <string name="your_opinion_matters_to_us">رأيك يهمنا!</string>
+    <string name="submit">إرسال</string>
+    <string name="download_started">بدأ التنزيل</string>
+    <string name="download_completed">اكتمل التنزيل</string>
+    <string name="download_failed">فشل التنزيل</string>
+</resources>

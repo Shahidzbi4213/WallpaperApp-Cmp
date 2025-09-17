@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.text.intl.LocaleList
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,7 +33,9 @@ import com.google.wallpaperapp.core.platform.PlatformType
 import com.google.wallpaperapp.core.platform.dynamicColorVisibility
 import com.google.wallpaperapp.core.platform.getPlatformType
 import com.google.wallpaperapp.ui.dialogs.AppModeDialog
+import com.google.wallpaperapp.ui.dialogs.DynamicColorDialog
 import com.google.wallpaperapp.ui.routs.Routs
+import com.google.wallpaperapp.ui.screens.languages.Language
 import com.google.wallpaperapp.utils.AppMode
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -67,8 +70,6 @@ fun SettingsScreen(
 
     val userPreference by settingViewModel.userPreference.collectAsStateWithLifecycle()
     val state by settingViewModel.state.collectAsStateWithLifecycle()
-
-    val currentLanguage = remember { Locale.current.language }
 
 
     Column(
@@ -108,9 +109,7 @@ fun SettingsScreen(
 
             SettingsItem(
                 title = Res.string.app_lanuage,
-                description = if (currentLanguage.contains(userPreference.languageCode)) stringResource(
-                    Res.string.system_default
-                ) else "en",
+                description = Language.findLanguageByCode(userPreference.languageCode).languageName,
                 icon = Res.drawable.language_icon,
                 onClick = navigateToLanguage
             )
@@ -208,6 +207,16 @@ fun SettingsScreen(
             settingViewModel.onEvent(SettingEvent.ToggleAppModeDialog)
         }, onSelect = { updatedAppMode ->
             settingViewModel.onEvent(SettingEvent.UpdateAppMode(updatedAppMode))
+        })
+    }
+
+    if (state.showDynamicDialog){
+        DynamicColorDialog(shouldShowDynamicColor = userPreference.shouldShowDynamicColor, onDismissRequest = {
+            settingViewModel.onEvent(SettingEvent.ToggleDynamicDialog)
+        }, onEnabled = {
+            settingViewModel.onEvent(SettingEvent.UpdateDynamicColor(true))
+        }, onDisabled = {
+            settingViewModel.onEvent(SettingEvent.UpdateDynamicColor(false))
         })
     }
 

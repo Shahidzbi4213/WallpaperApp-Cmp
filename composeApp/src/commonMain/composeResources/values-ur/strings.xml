@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Screeny</string>
+    <string name="home">گھر</string>
+    <string name="category">زمرہ</string>
+    <string name="favourite">پسندیدہ</string>
+    <string name="settings">ترتیب</string>
+    <string name="search_wallpaper">وال پیپر تلاش کریں۔</string>
+    <string name="download">ڈاؤن لوڈ کریں۔</string>
+    <string name="downloading_wallpaper">وال پیپر ڈاؤن لوڈ ہو رہا ہے۔</string>
+    <string name="downloading">ڈاؤن لوڈ ہو رہا ہے۔</string>
+    <string name="set_as_home_screen">ہوم اسکرین پر سیٹ کریں۔</string>
+    <string name="set_as_lock_screen">لاک اسکرین پر سیٹ کریں۔</string>
+    <string name="set_as_both">دونوں اسکرین پر سیٹ کریں۔</string>
+    <string name="wallpaper_dialog_title">آپ کیا کرنا چاہیں گے؟</string>
+    <string name="cancel">منسوخ کریں۔</string>
+    <string name="something_went_wrong">کچھ غلط ہو گیا۔</string>
+    <string name="wallpaper_set_successfully">وال پیپر کامیابی کے ساتھ سیٹ!</string>
+    <string name="recent_searchs">حالیہ تلاشیں۔</string>
+    <string name="your_favorite_wallpapers_will_appear_here_start_exploring_and_add_some_to_your_favorites">آپ کے پسندیدہ وال پیپر یہاں ظاہر ہوں گے! دریافت کرنا شروع کریں اور کچھ اپنے پسندیدہ میں شامل کریں!</string>
+    <string name="explore_wallpapers">وال پیپرز دریافت کریں۔</string>
+    <string name="apply">لگائیں</string>
+    <string name="language">زبانیں</string>
+    <string name="current_language">موجودہ زبان</string>
+    <string name="all_languages">تمام زبان</string>
+    <string name="general">جنرل</string>
+    <string name="app_lanuage">ایپ کی زبان</string>
+    <string name="dynamic_color">متحرک رنگ</string>
+    <string name="app_mode">ایپ موڈ</string>
+    <string name="on">پر</string>
+    <string name="off">آف</string>
+    <string name="system_default">سسٹم ڈیفالٹ</string>
+    <string name="dark">اندھیرا</string>
+    <string name="light">روشنی</string>
+    <string name="categories">زمرے</string>
+    <string name="selected_language">منتخب زبان</string>
+    <string name="other">دیگر</string>
+    <string name="share_app">ایپ کا اشتراک کریں</string>
+    <string name="rate_us">ہمیں درجہ بندی کریں</string>
+    <string name = "feedback"> تاثرات</string>
+    <string name = "privacy_policy"> رازداری کی پالیسی</string>
+    <string name="your_opinion_matters_to_us">آپ کی رائے ہمارے لیے اہم ہے!</string>
+    <string name="submit">جمع کروائیں</string>
+    <string name="download_started">ڈاؤن لوڈ شروع ہوا </string>
+    <string name="download_completed">ڈاؤن لوڈ مکمل ہو گیا </string>
+    <string name="download_failed">ڈاؤن لوڈ ناکام</string>
+</resources>

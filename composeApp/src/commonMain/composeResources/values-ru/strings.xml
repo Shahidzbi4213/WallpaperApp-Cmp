@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Screeny</string>
+    <string name="home">Дом</string>
+    <string name="category">Категория</string>
+    <string name="favourite">Любимый</string>
+    <string name="settings">Параметр</string>
+    <string name="search_wallpaper">Поиск обоев</string>
+    <string name="download">Скачать</string>
+    <string name="downloading_wallpaper">Загрузка обоев</string>
+    <string name="downloading">Загрузка</string>
+    <string name="set_as_home_screen">Установить на главный экран</string>
+    <string name="set_as_lock_screen">Установить на экран блокировки</string>
+    <string name="set_as_both">Установить на обоих экранах</string>
+    <string name="wallpaper_dialog_title">Что бы вы хотели сделать?</string>
+    <string name="cancel">Отмена</string>
+    <string name="something_went_wrong">Что-то пошло не так</string>
+    <string name="wallpaper_set_successfully">Обои успешно установлены!</string>
+    <string name="recent_searchs">Недавние поиски</string>
+    <string name="your_favorite_wallpapers_will_appear_here_start_exploring_and_add_some_to_your_favorites">Здесь появятся ваши любимые обои! Начните исследовать и добавьте некоторые из них в избранное!</string>
+    <string name="explore_wallpapers">Исследуйте обои</string>
+    <string name="apply">Применять</string>
+    <string name="language">Языки</string>
+    <string name="current_language">Текущий язык</string>
+    <string name="all_languages">Все языки</string>
+    <string name="general">Общий</string>
+    <string name="app_lanuage">Язык приложения</string>
+    <string name="dynamic_color">Динамический цвет</string>
+    <string name="app_mode">Режим приложения</string>
+    <string name="on">На</string>
+    <string name="off">Выключенный</string>
+    <string name="system_default">Система по умолчанию</string>
+    <string name="dark">Темный</string>
+    <string name="light">Свет</string>
+    <string name="categories">Категории</string>
+
+</resources>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Screeny</string>
+    <string name="home">Rumah</string>
+    <string name="category">kategori</string>
+    <string name="favourite">Kegemaran</string>
+    <string name="settings">Tetapan</string>
+    <string name="search_wallpaper">Cari Kertas Dinding</string>
+    <string name="download">Muat turun</string>
+    <string name="downloading_wallpaper">Memuat turun Kertas Dinding</string>
+    <string name="downloading">Memuat turun</string>
+    <string name="set_as_home_screen">Tetapkan pada skrin utama</string>
+    <string name="set_as_lock_screen">Tetapkan pada skrin kunci</string>
+    <string name="set_as_both">Tetapkan pada kedua-dua skrin</string>
+    <string name="wallpaper_dialog_title">Apa yang anda ingin lakukan?</string>
+    <string name="cancel">Batal</string>
+    <string name="something_went_wrong">Sesuatu telah berlaku</string>
+    <string name="wallpaper_set_successfully">Kertas dinding berjaya ditetapkan!</string>
+    <string name="recent_searchs">Carian Terkini</string>
+    <string name="your_favorite_wallpapers_will_appear_here_start_exploring_and_add_some_to_your_favorites">Kertas dinding kegemaran anda akan muncul di sini! Mula meneroka dan menambah beberapa pada kegemaran anda!</string>
+    <string name="explore_wallpapers">Terokai Kertas Dinding</string>
+    <string name="apply">Mohon</string>
+    <string name="language">Bahasa</string>
+    <string name="current_language">Bahasa Semasa</string>
+    <string name="all_languages">Semua Bahasa</string>
+    <string name="general">Umum</string>
+    <string name="app_lanuage">Bahasa Apl</string>
+    <string name="dynamic_color">Warna Dinamik</string>
+    <string name="app_mode">Mod Apl</string>
+    <string name="on">hidup</string>
+    <string name="off">Mati</string>
+    <string name="system_default">Lalai Sistem</string>
+    <string name="dark">Gelap</string>
+    <string name="light">Cahaya</string>
+    <string name="categories">Kategori</string>
+
+</resources>

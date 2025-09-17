@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Screeny</string>
+    <string name="home">집</string>
+    <string name="category">범주</string>
+    <string name="favourite">가장 좋아하는</string>
+    <string name="settings">환경</string>
+    <string name="search_wallpaper">배경화면 검색</string>
+    <string name="download">다운로드</string>
+    <string name="downloading_wallpaper">배경화면 다운로드 중</string>
+    <string name="downloading">다운로드 중</string>
+    <string name="set_as_home_screen">홈 화면에 설정</string>
+    <string name="set_as_lock_screen">잠금 화면으로 설정</string>
+    <string name="set_as_both">두 화면 모두에 설정</string>
+    <string name="wallpaper_dialog_title">무엇을 하고 싶나요?</string>
+    <string name="cancel">취소</string>
+    <string name="something_went_wrong">문제가 발생했습니다.</string>
+    <string name="wallpaper_set_successfully">배경화면이 성공적으로 설정되었습니다!</string>
+    <string name="recent_searchs">최근 검색</string>
+    <string name="your_favorite_wallpapers_will_appear_here_start_exploring_and_add_some_to_your_favorites">당신이 가장 좋아하는 배경화면이 여기에 나타납니다! 탐색을 시작하고 즐겨찾기에 추가하세요!</string>
+    <string name="explore_wallpapers">배경화면 탐색</string>
+    <string name="apply">적용하다</string>
+    <string name="language">언어</string>
+    <string name="current_language">현재 언어</string>
+    <string name="all_languages">모든 언어</string>
+    <string name="general">일반적인</string>
+    <string name="app_lanuage">앱 언어</string>
+    <string name="dynamic_color">동적 색상</string>
+    <string name="app_mode">앱 모드</string>
+    <string name="on">~에</string>
+    <string name="off">끄다</string>
+    <string name="system_default">시스템 기본값</string>
+    <string name="dark">어두운</string>
+    <string name="light">빛</string>
+    <string name="categories">카테고리</string>
+
+</resources>

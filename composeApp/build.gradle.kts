@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import kotlin.collections.mutableSetOf
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -17,7 +18,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     listOf(
         iosArm64(),
         iosSimulatorArm64()
@@ -27,7 +28,7 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     sourceSets {
         androidMain.dependencies {
             implementation(compose.preview)
@@ -111,6 +112,13 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+
+        androidResources.localeFilters += mutableSetOf(
+            "en", "ar", "ru", "in", "bn", "hi", "uk",
+            "vi", "ko", "ja", "zh", "sv", "pl", "ms", "fr",
+            "it", "fa", "tr", "th", "pt", "es", "de", "nl", "ta", "cs", "ur"
+        )
+
     }
     packaging {
         resources {
@@ -126,6 +134,8 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
+
 }
 
 dependencies {

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Screeny</string>
+    <string name="home">घर</string>
+    <string name="category">वर्ग</string>
+    <string name="favourite">पसंदीदा</string>
+    <string name="settings">सेटिंग</string>
+    <string name="search_wallpaper">वॉलपेपर खोजें</string>
+    <string name="download">डाउनलोड करना</string>
+    <string name="downloading_wallpaper">वॉलपेपर डाउनलोड हो रहा है</string>
+    <string name="downloading">डाउनलोड</string>
+    <string name="set_as_home_screen">होम स्क्रीन पर सेट करें</string>
+    <string name="set_as_lock_screen">लॉक स्क्रीन पर सेट करें</string>
+    <string name="set_as_both">दोनों स्क्रीन पर सेट करें</string>
+    <string name="wallpaper_dialog_title">आप क्या करना चाहेंगे?</string>
+    <string name="cancel">रद्द करना</string>
+    <string name="something_went_wrong">कुछ गलत हो गया</string>
+    <string name="wallpaper_set_successfully">वॉलपेपर सफलतापूर्वक सेट हो गया!</string>
+    <string name="recent_searchs">हाल की खोजें</string>
+    <string name="your_favorite_wallpapers_will_appear_here_start_exploring_and_add_some_to_your_favorites">आपके पसंदीदा वॉलपेपर यहां दिखाई देंगे! अन्वेषण शुरू करें और कुछ को अपने पसंदीदा में जोड़ें!</string>
+    <string name="explore_wallpapers">वॉलपेपर एक्सप्लोर करें</string>
+    <string name="apply">आवेदन करना</string>
+    <string name="language">बोली</string>
+    <string name="current_language">वर्तमान भाषा</string>
+    <string name="all_languages">सभी भाषाएँ</string>
+    <string name="general">सामान्य</string>
+    <string name="app_lanuage">ऐप भाषा</string>
+    <string name="dynamic_color">गतिशील रंग</string>
+    <string name="app_mode">ऐप मोड</string>
+    <string name="on">पर</string>
+    <string name="off">बंद</string>
+    <string name="system_default">प्रणालीगत चूक</string>
+    <string name="dark">अँधेरा</string>
+    <string name="light">रोशनी</string>
+    <string name="categories">श्रेणियाँ</string>
+
+</resources>

@@ -17,8 +17,8 @@ actual fun colorSchemeProvide(isDarkMode: Boolean,isDynamicColor: Boolean): Colo
             val context = LocalContext.current
             if (isDarkMode) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
-
-        isDynamicColor -> darkScheme
+        !isDynamicColor -> if (isDarkMode) darkScheme else lightScheme
+        isDarkMode -> darkScheme
         else -> lightScheme
     }
 }

@@ -35,6 +35,7 @@ import com.google.wallpaperapp.ui.screens.favourite.FavouriteDetailScreen
 import com.google.wallpaperapp.ui.screens.favourite.FavouriteScreen
 import com.google.wallpaperapp.ui.screens.home.HomeScreen
 import com.google.wallpaperapp.ui.screens.home.HomeScreenViewModel
+import com.google.wallpaperapp.ui.screens.languages.LanguageScreen
 import com.google.wallpaperapp.ui.screens.settings.SettingViewModel
 import com.google.wallpaperapp.ui.screens.settings.SettingsScreen
 import com.google.wallpaperapp.ui.screens.splash.SplashScreen
@@ -177,7 +178,7 @@ fun App(
                         val wallpaperUrl = backstack.toRoute<Routs.FavouriteDetail>().wallpaperUrl
                         FavouriteDetailScreen(
                             animatedVisibilityScope = this,
-                            wallpaper ={
+                            wallpaper = {
                                 FavouriteWallpaper(
                                     id = id,
                                     wallpaper = wallpaperUrl
@@ -191,7 +192,16 @@ fun App(
                     }
 
                     composable<Routs.Settings> {
-                        SettingsScreen(navigateToLanguage = {})
+                        SettingsScreen(navigateToLanguage = {
+                            navController.navigate(Routs.Language)
+                        })
+                    }
+
+                    composable<Routs.Language> {
+                        LanguageScreen(goBack = {
+
+                            navController.navigateUp()
+                        })
                     }
 
                 }
