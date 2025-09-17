@@ -33,4 +33,23 @@
     <string name="dark">অন্ধকার</string>
     <string name="light">আলো</string>
     <string name="categories">ক্যাটাগরি</string>
+
+    <string name="selected_language">নির্বাচিত ভাষা</string>
+    <string name="others">অন্যান্য</string>
+    <string name="share_app">অ্যাপ শেয়ার করুন</string>
+
+    <string name="rate_us">আমাদের রেট দিন</string>
+
+    <string name="feedback">প্রতিক্রিয়া</string>
+
+    <string name="privacy_policy">গোপনীয়তা নীতি</string>
+
+    <string name="your_opinion_matters_to_us">আপনার মতামত আমাদের কাছে গুরুত্বপূর্ণ!</string>
+
+    <string name="submit">জমা দিন</string>
+    <string name="download_started">ডাউনলোড শুরু হয়েছে</string>
+
+    <string name="download_completed">ডাউনলোড সম্পন্ন হয়েছে</string>
+
+    <string name="download_failed">ডাউনলোড ব্যর্থ হয়েছে</string>
 </resources>

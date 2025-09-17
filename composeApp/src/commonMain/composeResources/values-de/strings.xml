@@ -33,4 +33,16 @@
     <string name="dark">Dunkel</string>
     <string name="light">Licht</string>
     <string name="categories">Kategorien</string>
+
+    <string name="selected_language">Ausgewählte Sprache</string>
+    <string name="others">Andere</string>
+    <string name="share_app">App teilen</string>
+    <string name="rate_us">Bewerten</string>
+    <string name="feedback">Feedback</string>
+    <string name="privacy_policy">Datenschutzerklärung</string>
+    <string name="your_opinion_matters_to_us">Ihre Meinung ist uns wichtig!</string>
+    <string name="submit">Senden</string>
+    <string name="download_started">Download gestartet</string>
+    <string name="download_completed">Download abgeschlossen</string>
+    <string name="download_failed">Download fehlgeschlagen</string>
 </resources>

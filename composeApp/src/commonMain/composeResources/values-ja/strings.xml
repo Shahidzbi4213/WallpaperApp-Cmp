@@ -33,5 +33,15 @@
     <string name="dark">暗い</string>
     <string name="light">ライト</string>
     <string name="categories">カテゴリー</string>
-
+    <string name="selected_language">選択した言語</string>
+    <string name="others">その他</string>
+    <string name="share_app">アプリを共有</string>
+    <string name="rate_us">評価</string>
+    <string name="feedback">フィードバック</string>
+    <string name="privacy_policy">プライバシーポリシー</string>
+    <string name="your_opinion_matters_to_us">お客様のご意見は私たちにとって重要です！</string>
+    <string name="submit">送信</string>
+    <string name="download_started">ダウンロードを開始しました</string>
+    <string name="download_completed">ダウンロードが完了しました</string>
+    <string name="download_failed">ダウンロードに失敗しました</string>
 </resources>

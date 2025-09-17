@@ -33,5 +33,15 @@
     <string name="dark">Sombre</string>
     <string name="light">Lumière</string>
     <string name="categories">Catégories</string>
-
+    <string name="selected_language">Langue sélectionnée</string>
+    <string name="others">Autres</string>
+    <string name="share_app">Partager l'application</string>
+    <string name="rate_us">Évaluez-nous</string>
+    <string name="feedback">Commentaires</string>
+    <string name="privacy_policy">Politique de confidentialité</string>
+    <string name="your_opinion_matters_to_us">Votre avis compte pour nous !</string>
+    <string name="submit">Envoyer</string>
+    <string name="download_started">Téléchargement commencé</string>
+    <string name="download_completed">Téléchargement terminé</string>
+    <string name="download_failed">Échec du téléchargement</string>
 </resources>

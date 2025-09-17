@@ -33,5 +33,16 @@
     <string name="dark">تاریک</string>
     <string name="light">نور</string>
     <string name="categories">دسته بندی ها</string>
+    <string name="selected_language">زبان انتخاب شده</string>
+    <string name="others">سایر</string>
+    <string name="share_app">اشتراک‌گذاری برنامه</string>
+    <string name="rate_us">به ما امتیاز دهید</string>
+    <string name="feedback">بازخورد</string>
+    <string name="privacy_policy">سیاست حفظ حریم خصوصی</string>
+    <string name="your_opinion_matters_to_us">نظر شما برای ما مهم است!</string>
+    <string name="submit">ارسال</string>
+    <string name="download_started">دانلود شروع شد</string>
+    <string name="download_completed">دانلود تکمیل شد</string>
+    <string name="download_failed">دانلود ناموفق</string>
 
 </resources>

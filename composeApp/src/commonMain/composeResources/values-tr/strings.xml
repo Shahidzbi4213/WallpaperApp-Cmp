@@ -33,4 +33,15 @@
     <string name="dark">Karanlık</string>
     <string name="light">Işık</string>
     <string name="categories">Kategoriler</string>
+    <string name="selected_language">Seçili Dil</string>
+    <string name="others">Diğer</string>
+    <string name="share_app">Uygulamayı Paylaş</string>
+    <string name="rate_us">Bizi Değerlendirin</string>
+    <string name="feedback">Geri Bildirim</string>
+    <string name="privacy_policy">Gizlilik Politikası</string>
+    <string name="your_opinion_matters_to_us">Fikriniz bizim için önemli!</string>
+    <string name="submit">Gönder</string>
+    <string name="download_started">İndirme Başladı</string>
+    <string name="download_completed">İndirme Tamamlandı</string>
+    <string name="download_failed">İndirme Başarısız Oldu</string>
 </resources>

@@ -32,6 +32,18 @@
     <string name="system_default">Valor predeterminado del sistema</string>
     <string name="dark">Oscuro</string>
     <string name="light">Luz</string>
-    <string name="categories">Categorías</string>
+    <string name="categories">Categorise</string>
+
+    <string name="selected_language">Idioma seleccionado</string>
+    <string name="others">Otros</string>
+    <string name="share_app">Compartir aplicación</string>
+    <string name="rate_us">Califícanos</string>
+    <string name="feedback">Comentarios</string>
+    <string name="privacy_policy">Política de privacidad</string>
+    <string name="your_opinion_matters_to_us">¡Tu opinión nos importa!</string>
+    <string name="submit">Enviar</string>
+    <string name="download_started">Descarga iniciada</string>
+    <string name="download_completed">Descarga completada</string>
+    <string name="download_failed">Descarga fallida</string>
 
 </resources>

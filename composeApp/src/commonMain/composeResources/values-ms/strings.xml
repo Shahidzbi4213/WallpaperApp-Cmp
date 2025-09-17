@@ -33,5 +33,15 @@
     <string name="dark">Gelap</string>
     <string name="light">Cahaya</string>
     <string name="categories">Kategori</string>
-
+    <string name="selected_language">Bahasa Terpilih</string>
+    <string name="others">Lain-lain</string>
+    <string name="share_app">Kongsi Apl</string>
+    <string name="rate_us">Nilai Kami</string>
+    <string name="feedback">Feedback</string>
+    <string name="privacy_policy">Dasar Privasi</string>
+    <string name="your_opinion_matters_to_us">Pendapat anda penting bagi kami!</string>
+    <string name="submit">Serah</string>
+    <string name="download_started">Muat turun Dimulakan </string>
+    <string name="download_completed">Muat Turun Selesai </string>
+    <string name="download_failed">Muat turun Gagal</string>
 </resources>

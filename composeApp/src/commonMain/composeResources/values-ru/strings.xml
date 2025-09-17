@@ -33,5 +33,16 @@
     <string name="dark">Темный</string>
     <string name="light">Свет</string>
     <string name="categories">Категории</string>
+    <string name="selected_language">Выбранный язык</string>
+    <string name="others">Другие</string>
+    <string name="share_app">Поделиться приложением</string>
+    <string name="rate_us">Оцените нас</string>
+    <string name="feedback">Отзыв</string>
+    <string name="privacy_policy">Политика конфиденциальности</string>
+    <string name="your_opinion_matters_to_us">Ваше мнение важно для нас!</string>
+    <string name="submit">Отправить</string>
+    <string name="download_started">Скачивание началось</string>
+    <string name="download_completed">Скачивание завершено</string>
+    <string name="download_failed">Скачать не удалось</string>
 
 </resources>

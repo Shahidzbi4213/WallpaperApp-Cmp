@@ -33,4 +33,15 @@
     <string name="dark">มืด</string>
     <string name="light">แสงสว่าง</string>
     <string name="categories">หมวดหมู่</string>
+    <string name="selected_language">ภาษาที่เลือก</string>
+    <string name="others">อื่นๆ</string>
+    <string name="share_app">แชร์แอป</string>
+    <string name="rate_us">ให้คะแนนเรา</string>
+    <string name="feedback">คำติชม</string>
+    <string name="privacy_policy">นโยบายความเป็นส่วนตัว</string>
+    <string name="your_opinion_matters_to_us">ความคิดเห็นของคุณสำคัญต่อเรา!</string>
+    <string name="submit">ส่ง</string>
+    <string name="download_started">เริ่มดาวน์โหลดแล้ว</string>
+    <string name="download_completed">ดาวน์โหลดเสร็จสมบูรณ์แล้ว</string>
+    <string name="download_failed">ดาวน์โหลดไม่สำเร็จ</string>
 </resources>

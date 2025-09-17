@@ -33,5 +33,16 @@
     <string name="dark">Întuneric</string>
     <string name="light">Aprinde</string>
     <string name="categories">Categorii</string>
+    <string name="selected_language">Limba selectată</string>
+    <string name="others">Altele</string>
+    <string name="share_app">Distribuiți aplicația</string>
+    <string name="rate_us">Evaluați-ne</string>
+    <string name="feedback">Feedback</string>
+    <string name="privacy_policy">Politica de confidențialitate</string>
+    <string name="your_opinion_matters_to_us">Opinia dumneavoastră contează pentru noi!</string>
+    <string name="submit">Trimiteți</string>
+    <string name="download_started">Descărcare începută</string>
+    <string name="download_completed">Descărcare finalizată</string>
+    <string name="download_failed">Descărcare eșuată</string>
 
 </resources>

@@ -33,5 +33,16 @@
     <string name="dark">இருள்</string>
     <string name="light">ஒளி</string>
     <string name="categories">வகைகள்</string>
+    <string name="selected_language">தேர்ந்தெடுக்கப்பட்ட மொழி</string>
+    <string name="others">மற்றவை</string>
+    <string name="share_app">பகிர்வு</string>
+    <string name="rate_us">எங்களை மதிப்பிடுங்கள்</string>
+    <string name="feedback">கருத்து</string>
+    <string name="privacy_policy">தனியுரிமைக் கொள்கை</string>
+    <string name="your_opinion_matters_to_us">உங்கள் கருத்து எங்களுக்கு முக்கியமானது!</string>
+    <string name="submit">சமர்ப்பி</string>
+    <string name="download_started">பதிவிறக்கம் தொடங்கியது </string>
+    <string name="download_completed">பதிவிறக்கம் முடிந்தது </string>
+    <string name="download_failed">பதிவிறக்கம் தோல்வியடைந்தது</string>
 
 </resources>

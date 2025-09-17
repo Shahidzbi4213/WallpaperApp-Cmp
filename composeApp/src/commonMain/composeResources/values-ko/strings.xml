@@ -33,5 +33,16 @@
     <string name="dark">어두운</string>
     <string name="light">빛</string>
     <string name="categories">카테고리</string>
+    <string name="selected_language">선택된 언어</string>
+    <string name="others">기타</string>
+    <string name="share_app">앱 공유</string>
+    <string name="rate_us">평가하기</string>
+    <string name="feedback">의견</string>
+    <string name="privacy_policy">개인정보처리방침</string>
+    <string name="your_opinion_matters_to_us">귀하의 의견은 저희에게 중요합니다!</string>
+    <string name="submit">제출</string>
+    <string name="download_started">다운로드 시작</string>
+    <string name="download_completed">다운로드 완료</string>
+    <string name="download_failed">다운로드 실패</string>
 
 </resources>

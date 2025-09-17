@@ -33,5 +33,15 @@
     <string name="dark">अँधेरा</string>
     <string name="light">रोशनी</string>
     <string name="categories">श्रेणियाँ</string>
-
+    <string name="selected_language">चयनित भाषा</string>
+    <string name="others">अन्य</string>
+    <string name="share_app">ऐप शेयर करें</string>
+    <string name="rate_us">हमें रेटिंग दें</string>
+    <string name="feedback">प्रतिक्रिया</string>
+    <string name="privacy_policy">गोपनीयता नीति</string>
+    <string name="your_opinion_matters_to_us">आपकी राय हमारे लिए मायने रखती है!</string>
+    <string name="submit">सबमिट करें</string>
+    <string name="download_started">डाउनलोड शुरू हुआ </string>
+    <string name="download_completed">डाउनलोड पूरा हुआ </string>
+    <string name="download_failed">डाउनलोड विफल</string>
 </resources>

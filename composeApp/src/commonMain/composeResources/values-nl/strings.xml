@@ -33,5 +33,15 @@
     <string name="dark">Donker</string>
     <string name="light">Licht</string>
     <string name="categories">Categorieën</string>
-
+    <string name="selected_language">Geselecteerde taal</string>
+    <string name="others">Overige</string>
+    <string name="share_app">App delen</string>
+    <string name="rate_us">Beoordeel ons</string>
+    <string name="feedback">Feedback</string>
+    <string name="privacy_policy">Privacybeleid</string>
+    <string name="your_opinion_matters_to_us">Uw mening telt voor ons!</string>
+    <string name="submit">Verzenden</string>
+    <string name="download_started">Download gestart </string>
+    <string name="download_completed">Download voltooid </string>
+    <string name="download_failed">Download mislukt</string>
 </resources>
