@@ -1,5 +1,7 @@
 package com.google.wallpaperapp.ui.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -19,33 +21,40 @@ import com.skydoves.landscapist.coil3.CoilImage
 fun BlurBg(wallpaperUrl: String,currentlyLoaded:(ImageBitmap?)-> Unit) {
 
 
-    CoilImage(
-        imageModel = { wallpaperUrl },
-        imageOptions = ImageOptions(
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-        ),
-        success = { state, painter ->
-            Image(
-                painter = painter, contentDescription = null, contentScale = ContentScale.Crop,
-                modifier = Modifier.graphicsLayer {
-                    renderEffect = BlurEffect(35f, 35f)
-                })
+        CoilImage(
+            imageModel = { wallpaperUrl },
+            imageOptions = ImageOptions(
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+            ),
+            success = { state, painter ->
 
-            currentlyLoaded(state.imageBitmap)
-        },
-        modifier = Modifier.fillMaxSize(),
-    )
+                Crossfade(targetState = state) {
+                    Image(
+                        painter = painter,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize().graphicsLayer {
+                            renderEffect = BlurEffect(35f, 35f)
+                        }
+                    )
+                }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(
-                        Color.Black.copy(alpha = 0.7f), Color.Transparent
+                currentlyLoaded(state.imageBitmap)
+            },
+            modifier = Modifier.fillMaxSize(),
+        )
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(
+                            Color.Black.copy(alpha = 0.7f), Color.Transparent
+                        )
                     )
                 )
-            )
-    )
+        )
+
 }
