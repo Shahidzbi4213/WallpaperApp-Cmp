@@ -16,10 +16,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalFocusManager
@@ -29,8 +27,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.wallpaperapp.core.platform.BackHandler
 import com.google.wallpaperapp.domain.models.Wallpaper
 import com.google.wallpaperapp.ui.composables.collectAsLazyPagingItems
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
