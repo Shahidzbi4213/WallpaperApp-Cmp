@@ -36,9 +36,9 @@ import com.google.wallpaperapp.ui.components.LoadingPlaceHolder
 import com.google.wallpaperapp.ui.composables.shimmerBrush
 import com.google.wallpaperapp.ui.theme.getScreenyFontFamily
 import com.skydoves.landscapist.ImageOptions
-import com.skydoves.landscapist.animation.crossfade.CrossfadePlugin
 import com.skydoves.landscapist.coil3.CoilImage
 import com.skydoves.landscapist.components.rememberImageComponent
+import com.skydoves.landscapist.crossfade.CrossfadePlugin
 import kotlinx.coroutines.delay
 
 

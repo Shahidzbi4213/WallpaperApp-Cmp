@@ -36,6 +36,8 @@ import com.google.wallpaperapp.ui.screens.favourite.FavouriteScreen
 import com.google.wallpaperapp.ui.screens.home.HomeScreen
 import com.google.wallpaperapp.ui.screens.home.HomeScreenViewModel
 import com.google.wallpaperapp.ui.screens.languages.LanguageScreen
+import com.google.wallpaperapp.ui.screens.search.SearchViewModel
+import com.google.wallpaperapp.ui.screens.search.SearchedWallpaperScreen
 import com.google.wallpaperapp.ui.screens.settings.SettingViewModel
 import com.google.wallpaperapp.ui.screens.settings.SettingsScreen
 import com.google.wallpaperapp.ui.screens.splash.SplashScreen
@@ -65,7 +67,6 @@ fun App(
 
     val settingViewModel = koinViewModel<SettingViewModel>()
     val userPreferences by settingViewModel.userPreference.collectAsStateWithLifecycle()
-
 
 
     ManageBarVisibility(
@@ -202,6 +203,17 @@ fun App(
 
                             navController.navigateUp()
                         })
+                    }
+
+                    composable<Routs.SearchedWallpaper> {
+                        SearchedWallpaperScreen(
+                            onNavigateBack = {
+                            navController.navigate(Routs.Home){
+                                popUpTo(Routs.SearchedWallpaper){
+                                    inclusive = true
+                                }
+                            }
+                        }, onWallpaperClick = {wallpaper, wallpapers -> })
                     }
 
                 }
