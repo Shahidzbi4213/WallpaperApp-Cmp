@@ -5,9 +5,11 @@ import com.google.wallpaperapp.data.local.dao.FavouriteWallpaperDao
 import com.google.wallpaperapp.ui.screens.splash.SplashViewModel
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperDao
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperRemoteKeysDao
+import com.google.wallpaperapp.data.local.dao.RecentSearchDao
 import com.google.wallpaperapp.data.local.dao.UserPreferenceDao
 import com.google.wallpaperapp.data.remote.PexelWallpapersApi
 import com.google.wallpaperapp.data.repositories.FavouriteRepo
+import com.google.wallpaperapp.data.repositories.RecentSearchRepository
 import com.google.wallpaperapp.data.repositories.SearchWallpapersRepository
 import com.google.wallpaperapp.data.repositories.UserPreferenceRepo
 import com.google.wallpaperapp.data.repositories.WallpaperRepository
@@ -73,9 +75,15 @@ class AppModule {
         return LanguageViewModel(userPreferenceRepo)
     }
 
+    @Factory
+    fun provideRecentSearchRepository(recentSearchDao: RecentSearchDao): RecentSearchRepository {
+        return RecentSearchRepository(recentSearchDao)
+    }
+
 
     @KoinViewModel
-    fun provideSearchViewModel(searchWallpapersRepository: SearchWallpapersRepository): SearchViewModel {
-        return SearchViewModel(searchWallpapersRepository)
+    fun provideSearchViewModel(searchWallpapersRepository: SearchWallpapersRepository,
+                               recentSearchRepository: RecentSearchRepository): SearchViewModel {
+        return SearchViewModel(searchRepo = searchWallpapersRepository, repo = recentSearchRepository)
     }
 }

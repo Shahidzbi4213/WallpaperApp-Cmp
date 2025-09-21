@@ -52,4 +52,5 @@
     <string name="download_completed">ডাউনলোড সম্পন্ন হয়েছে</string>
 
     <string name="download_failed">ডাউনলোড ব্যর্থ হয়েছে</string>
+    <string name="clear_all">সব মুছে ফেলুন</string>
 </resources>

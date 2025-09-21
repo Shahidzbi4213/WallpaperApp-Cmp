@@ -44,5 +44,6 @@
     <string name="download_started">பதிவிறக்கம் தொடங்கியது </string>
     <string name="download_completed">பதிவிறக்கம் முடிந்தது </string>
     <string name="download_failed">பதிவிறக்கம் தோல்வியடைந்தது</string>
+    <string name="clear_all">அனைத்தையும் அழி</string>
 
 </resources>

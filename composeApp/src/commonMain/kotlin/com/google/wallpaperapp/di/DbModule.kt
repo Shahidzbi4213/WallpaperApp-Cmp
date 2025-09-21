@@ -9,6 +9,7 @@ import com.google.wallpaperapp.data.local.dao.CommonDao
 import com.google.wallpaperapp.data.local.dao.FavouriteWallpaperDao
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperDao
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperRemoteKeysDao
+import com.google.wallpaperapp.data.local.dao.RecentSearchDao
 import com.google.wallpaperapp.data.local.dao.UserPreferenceDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -54,5 +55,10 @@ class DbModule {
     @Single
     fun provideUserPreferenceDao(db: ScreenyDatabase): UserPreferenceDao {
         return db.userPreferenceDao()
+    }
+
+    @Single
+    fun  provideRecentSearchedDao(db: ScreenyDatabase): RecentSearchDao{
+        return db.recentSearchDao()
     }
 }

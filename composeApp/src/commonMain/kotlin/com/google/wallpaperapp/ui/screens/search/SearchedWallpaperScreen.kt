@@ -25,6 +25,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.wallpaperapp.core.platform.BackHandler
+import com.google.wallpaperapp.domain.models.RecentSearch
 import com.google.wallpaperapp.domain.models.Wallpaper
 import com.google.wallpaperapp.ui.composables.collectAsLazyPagingItems
 import org.koin.compose.viewmodel.koinViewModel
@@ -39,6 +40,7 @@ fun SearchedWallpaperScreen(
 
     val state by searchViewModel.searchState.collectAsStateWithLifecycle()
     val searchedWallpapers = searchViewModel.searchedWallpapers.collectAsLazyPagingItems()
+    val recentSearches by searchViewModel.recentSearches.collectAsStateWithLifecycle()
     val localKeyboard = LocalSoftwareKeyboardController.current
     val localFocusManager = LocalFocusManager.current
     val focusRequester = remember { FocusRequester() }
@@ -100,7 +102,12 @@ fun SearchedWallpaperScreen(
             ),
             tonalElevation = 0.dp,
         ) {
-
+                RecentSearches(recentSearches, onRecentItemClick = { query ->
+                    focusRequester.requestFocus()
+                    searchViewModel.onEvent(SearchEvent.OnQueryChange(query))
+                }, clearAll = {
+                    searchViewModel.onEvent(SearchEvent.ClearAllRecent)
+                })
         }
 
         AnimatedVisibility(visible = !state.isExpanded) {

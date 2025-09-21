@@ -43,5 +43,6 @@
     <string name="download_started">Download Started </string>
     <string name="download_completed">Download Completed </string>
     <string name="download_failed">Download Failed</string>
+    <string name="clear_all">Clear All</string>
 
 </resources>

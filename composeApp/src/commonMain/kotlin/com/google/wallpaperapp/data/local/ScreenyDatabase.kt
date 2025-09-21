@@ -9,8 +9,10 @@ import com.google.wallpaperapp.data.local.dao.CommonDao
 import com.google.wallpaperapp.data.local.dao.FavouriteWallpaperDao
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperDao
 import com.google.wallpaperapp.data.local.dao.PexelWallpaperRemoteKeysDao
+import com.google.wallpaperapp.data.local.dao.RecentSearchDao
 import com.google.wallpaperapp.data.local.dao.UserPreferenceDao
 import com.google.wallpaperapp.data.local.entities.FavouriteWallpaperEntity
+import com.google.wallpaperapp.data.local.entities.RecentSearchEntity
 import com.google.wallpaperapp.data.local.entities.UserPreferenceEntity
 import com.google.wallpaperapp.data.local.entities.WallpaperEntity
 import com.google.wallpaperapp.data.local.entities.WallpaperRemoteKeyEntity
@@ -19,7 +21,8 @@ import kotlinx.coroutines.IO
 
 @Database(
     entities = [FavouriteWallpaperEntity::class, WallpaperEntity::class,
-        WallpaperRemoteKeyEntity::class, UserPreferenceEntity::class
+        WallpaperRemoteKeyEntity::class, UserPreferenceEntity::class,
+        RecentSearchEntity::class
     ], version = 1, exportSchema = false
 )
 @ConstructedBy(AppDatabaseConstructor::class)
@@ -34,6 +37,8 @@ abstract class ScreenyDatabase : RoomDatabase() {
     abstract fun commonDao(): CommonDao
 
     abstract fun userPreferenceDao(): UserPreferenceDao
+
+    abstract fun recentSearchDao(): RecentSearchDao
 
 
     companion object Companion {
