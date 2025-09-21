@@ -3,6 +3,7 @@ package com.google.wallpaperapp.ui.screens.search
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridState
@@ -60,7 +61,7 @@ fun ShowWallpapers(
     ) {
 
         if (showLoader) {
-            items(20) { LoadingPlaceHolder() }
+            items(20) { LoadingPlaceHolder(modifier = Modifier.height(200.dp)) }
         }else{
 
 
