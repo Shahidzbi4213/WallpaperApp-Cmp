@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -21,6 +23,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.google.wallpaperapp.core.platform.exitApp
 import com.google.wallpaperapp.domain.models.FavouriteWallpaper
+import com.google.wallpaperapp.domain.models.Wallpaper
 import com.google.wallpaperapp.ui.components.BottomNavigationBar
 import com.google.wallpaperapp.ui.components.TopBar
 import com.google.wallpaperapp.ui.composables.ManageBarVisibility
@@ -64,6 +67,9 @@ fun App(
     val wallpapersByCategory = categoryViewModel.wallpapers.collectAsLazyPagingItems()
 
     var isCategory by rememberSaveable { mutableStateOf(false) }
+    var isSearch by rememberSaveable { mutableStateOf(false) }
+    var searchedWallpapers by remember { mutableStateOf<List<Wallpaper>>(emptyList<Wallpaper>())}
+
 
     val settingViewModel = koinViewModel<SettingViewModel>()
     val userPreferences by settingViewModel.userPreference.collectAsStateWithLifecycle()
@@ -123,10 +129,16 @@ fun App(
                     composable<Routs.WallpaperDetail> {
                         val id = it.toRoute<Routs.WallpaperDetail>().wallpaperId
                         WallpaperDetailScreen(
-                            wallpapers = if (isCategory) wallpapersByCategory.itemSnapshotList.items else
-                                wallpapers.itemSnapshotList.items,
+                            wallpapers = if (isSearch){
+                                searchedWallpapers
+                            }else{
+                                if (isCategory) wallpapersByCategory.itemSnapshotList.items else
+                                    wallpapers.itemSnapshotList.items
+                            },
                             clickedWallpaperId = id,
                             onBack = {
+                                isSearch = false
+                                searchedWallpapers = emptyList()
                                 isCategory = false
                                 navController.navigateUp()
                             }
@@ -208,12 +220,16 @@ fun App(
                     composable<Routs.SearchedWallpaper> {
                         SearchedWallpaperScreen(
                             onNavigateBack = {
-                            navController.navigate(Routs.Home){
-                                popUpTo(Routs.SearchedWallpaper){
-                                    inclusive = true
+                                navController.navigate(Routs.Home) {
+                                    popUpTo(Routs.SearchedWallpaper) {
+                                        inclusive = true
+                                    }
                                 }
-                            }
-                        }, onWallpaperClick = {wallpaper, wallpapers -> })
+                            }, onWallpaperClick = { wallpaper, wallpapers ->
+                                isSearch = true
+                                searchedWallpapers = wallpapers
+                                navController.navigate(Routs.WallpaperDetail(wallpaper.id))
+                            })
                     }
 
                 }
