@@ -4,7 +4,7 @@
     <string name="home">Lar</string>
     <string name="category">Categoria</string>
     <string name="favourite">Favorito</string>
-    <string name="settings">Contexto</string>
+    <string name="settings">Configurações</string>
     <string name="search_wallpaper">Pesquisar papel de parede</string>
     <string name="download">Download</string>
     <string name="downloading_wallpaper">Baixando papel de parede</string>
@@ -27,11 +27,11 @@
     <string name="app_lanuage">Idioma do aplicativo</string>
     <string name="dynamic_color">Cor Dinâmica</string>
     <string name="app_mode">Modo de aplicativo</string>
-    <string name="on">Sobre</string>
+    <string name="on">Ligado</string>
     <string name="off">Desligado</string>
     <string name="system_default">Padrão do sistema</string>
     <string name="dark">Escuro</string>
-    <string name="light">Luz</string>
+    <string name="light">Claro</string>
     <string name="categories">Categorias</string>
     <string name="selected_language">Idioma Selecionado</string>
     <string name="others">Outros</string>
@@ -43,5 +43,5 @@
     <string name="submit">Enviar</string>
     <string name="download_started">Download Iniciado</string>
     <string name="download_completed">Download Concluído</string>
-    <string name="download_failed">Download Falha</string>
+    <string name="download_failed">Download Falhou</string>
 </resources>
