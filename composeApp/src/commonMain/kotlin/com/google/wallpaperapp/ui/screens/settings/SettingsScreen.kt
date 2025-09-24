@@ -18,23 +18,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.intl.Locale
-import androidx.compose.ui.text.intl.LocaleList
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import com.google.wallpaperapp.core.platform.PlatformType
 import com.google.wallpaperapp.core.platform.dynamicColorVisibility
-import com.google.wallpaperapp.core.platform.getPlatformType
 import com.google.wallpaperapp.ui.dialogs.AppModeDialog
 import com.google.wallpaperapp.ui.dialogs.DynamicColorDialog
-import com.google.wallpaperapp.ui.routs.Routs
+import com.google.wallpaperapp.ui.dialogs.RatingDialog
 import com.google.wallpaperapp.ui.screens.languages.Language
 import com.google.wallpaperapp.utils.AppMode
 import org.jetbrains.compose.resources.stringResource
@@ -217,6 +211,12 @@ fun SettingsScreen(
             settingViewModel.onEvent(SettingEvent.UpdateDynamicColor(true))
         }, onDisabled = {
             settingViewModel.onEvent(SettingEvent.UpdateDynamicColor(false))
+        })
+    }
+
+    if (state.showRateUsDialog){
+        RatingDialog(onDismiss = {
+            settingViewModel.onEvent(SettingEvent.ToggleRateUsDialog)
         })
     }
 
