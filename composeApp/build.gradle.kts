@@ -1,15 +1,13 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import kotlin.collections.mutableSetOf
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.androidx.room)
-
 }
 
 kotlin {
@@ -102,41 +100,7 @@ kotlin {
 
 }
 
-android {
-    namespace = "com.google.wallpaperapp"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
 
-    defaultConfig {
-        applicationId = "com.google.wallpaperapp"
-        minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
-
-        androidResources.localeFilters += mutableSetOf(
-            "en", "ar", "ru", "in", "bn", "hi", "uk",
-            "vi", "ko", "ja", "zh", "sv", "pl", "ms", "fr",
-            "it", "fa", "tr", "th", "pt", "es", "de", "nl", "ta", "cs", "ur"
-        )
-
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-
-}
 
 dependencies {
     debugImplementation(compose.uiTooling)
@@ -155,6 +119,20 @@ dependencies {
 // Trigger Common Metadata Generation from Native tasks
 tasks.matching { it.name.startsWith("ksp") && it.name != "kspCommonMainKotlinMetadata" }.configureEach {
     dependsOn("kspCommonMainKotlinMetadata")
+}
+
+android {
+    namespace = "com.google.wallpaperapp.composeapp"
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
+
+    defaultConfig {
+        minSdk = libs.versions.android.minSdk.get().toInt()
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
 }
 
 room {

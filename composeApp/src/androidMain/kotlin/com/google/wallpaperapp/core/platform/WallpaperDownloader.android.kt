@@ -4,7 +4,7 @@ import android.app.DownloadManager
 import android.content.Context
 import android.os.Environment
 import androidx.core.net.toUri
-import com.google.wallpaperapp.R
+import com.google.wallpaperapp.composeapp.R
 import kotlinx.coroutines.suspendCancellableCoroutine
 import org.koin.core.component.KoinComponent
 import kotlin.coroutines.resume
