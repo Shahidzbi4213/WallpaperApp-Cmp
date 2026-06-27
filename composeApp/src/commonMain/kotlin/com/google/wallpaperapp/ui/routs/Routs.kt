@@ -1,10 +1,11 @@
 package com.google.wallpaperapp.ui.routs
 
 import androidx.compose.runtime.Stable
+import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed interface Routs {
+sealed interface Routs : NavKey{
 
     @Serializable
     data object Splash : Routs

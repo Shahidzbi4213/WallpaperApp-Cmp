@@ -1,27 +1,26 @@
 package com.google.wallpaperapp.ui.composables
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavBackStackEntry
+import androidx.navigation3.runtime.NavKey
 import com.google.wallpaperapp.ui.routs.Routs
 
 @Composable
 fun ManageBarVisibility(
-    currentEntry: () -> NavBackStackEntry?,
+    currentEntry: () -> NavKey?,
     showTopBar: (Boolean) -> Unit,
     showBottomBar: (Boolean) -> Unit,
 ) {
     currentEntry()?.let { entry ->
 
-        val route = entry.destination.route?.substringBefore("/")
-        when (route) {
+        when (entry) {
 
-            in arrayOf(
-                Routs.Splash::class.qualifiedName,
-                Routs.CategoryDetail::class.qualifiedName,
-                Routs.SearchedWallpaper::class.qualifiedName,
-                Routs.WallpaperDetail::class.qualifiedName,
-                Routs.FavouriteDetail::class.qualifiedName,
-                Routs.Language::class.qualifiedName
+             in arrayOf(
+                Routs.Splash,
+                Routs.CategoryDetail,
+                Routs.SearchedWallpaper,
+                Routs.WallpaperDetail,
+                Routs.FavouriteDetail,
+                Routs.Language
 
             ) -> {
                 showTopBar(false)
