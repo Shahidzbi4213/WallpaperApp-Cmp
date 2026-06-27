@@ -11,27 +11,20 @@ fun ManageBarVisibility(
     showBottomBar: (Boolean) -> Unit,
 ) {
     currentEntry()?.let { entry ->
-
         when (entry) {
-
-             in arrayOf(
-                Routs.Splash,
-                Routs.CategoryDetail,
-                Routs.SearchedWallpaper,
-                Routs.WallpaperDetail,
-                Routs.FavouriteDetail,
-                Routs.Language
-
-            ) -> {
+            is Routs.Splash,
+            is Routs.CategoryDetail,
+            is Routs.SearchedWallpaper,
+            is Routs.WallpaperDetail,
+            is Routs.FavouriteDetail,
+            is Routs.Language -> {
                 showTopBar(false)
                 showBottomBar(false)
             }
-
             else -> {
                 showTopBar(true)
                 showBottomBar(true)
             }
         }
-
     }
 }

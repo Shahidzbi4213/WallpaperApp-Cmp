@@ -35,9 +35,9 @@ import wallpaperapp.composeapp.generated.resources.your_favorite_wallpapers_will
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-fun SharedTransitionScope.FavouriteScreen(
+fun FavouriteScreen(
     modifier: Modifier = Modifier,
-    animatedVisibilityScope: AnimatedVisibilityScope,
+    //animatedVisibilityScope: AnimatedVisibilityScope,
     favouriteViewModel: FavouriteViewModel = koinViewModel(),
     onExplore: () -> Unit,
     onWallpaperClick: (Long, String) -> Unit
@@ -65,7 +65,7 @@ fun SharedTransitionScope.FavouriteScreen(
             { favourite ->
                 FavouriteWallpaperItem(
                     wallpaper = favourite.wallpaper,
-                    animatedVisibilityScope = animatedVisibilityScope,
+                 //   animatedVisibilityScope = animatedVisibilityScope,
                     onWallpaperClick = { wallpaper -> onWallpaperClick(favourite.id, wallpaper) },
                     onRemoveFromFavClick = { wallpaper -> favouriteViewModel.removeFromFavourite(wallpaper) }
                 )

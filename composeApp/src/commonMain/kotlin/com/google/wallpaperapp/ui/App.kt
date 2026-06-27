@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -15,16 +16,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.BeyondBoundsLayout
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
+import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.ui.NavDisplay
 import com.google.wallpaperapp.core.platform.exitApp
 import com.google.wallpaperapp.domain.models.FavouriteWallpaper
 import com.google.wallpaperapp.domain.models.Wallpaper
@@ -32,7 +29,6 @@ import com.google.wallpaperapp.ui.components.BottomNavigationBar
 import com.google.wallpaperapp.ui.components.TopBar
 import com.google.wallpaperapp.ui.composables.ManageBarVisibility
 import com.google.wallpaperapp.ui.composables.collectAsLazyPagingItems
-import com.google.wallpaperapp.ui.composables.titleMapper
 import com.google.wallpaperapp.ui.routs.Routs
 import com.google.wallpaperapp.ui.screens.category.CategoryDetailScreen
 import com.google.wallpaperapp.ui.screens.category.CategoryScreen
@@ -43,7 +39,6 @@ import com.google.wallpaperapp.ui.screens.favourite.FavouriteScreen
 import com.google.wallpaperapp.ui.screens.home.HomeScreen
 import com.google.wallpaperapp.ui.screens.home.HomeScreenViewModel
 import com.google.wallpaperapp.ui.screens.languages.LanguageScreen
-import com.google.wallpaperapp.ui.screens.search.SearchViewModel
 import com.google.wallpaperapp.ui.screens.search.SearchedWallpaperScreen
 import com.google.wallpaperapp.ui.screens.settings.SettingViewModel
 import com.google.wallpaperapp.ui.screens.settings.SettingsScreen
@@ -53,27 +48,27 @@ import com.google.wallpaperapp.utils.AppMode
 import com.google.wallpaperapp.utils.isDarkMode
 import org.koin.compose.viewmodel.koinViewModel
 
-
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun App(
     modifier: Modifier = Modifier,
 ) {
-
     val homeScreenViewModel = koinViewModel<HomeScreenViewModel>()
     val wallpapers = homeScreenViewModel.wallpapers.collectAsLazyPagingItems()
-    val navController = rememberNavController()
+
+    // Using a single mutableStateListOf for Navigation 3 basics
+    val backStack = remember { mutableStateListOf<Any>(Routs.Splash) }
+    val stackEntry = backStack.lastOrNull() as? Routs
+
     var canShowBottomBar by rememberSaveable { mutableStateOf(false) }
     var canShowTopBar by rememberSaveable { mutableStateOf(false) }
-    val stackEntry by navController.currentBackStackEntryAsState()
 
     val categoryViewModel = koinViewModel<CategoryViewModel>()
     val wallpapersByCategory = categoryViewModel.wallpapers.collectAsLazyPagingItems()
 
     var isCategory by rememberSaveable { mutableStateOf(false) }
     var isSearch by rememberSaveable { mutableStateOf(false) }
-    var searchedWallpapers by remember { mutableStateOf(emptyList<Wallpaper>())}
-
+    var searchedWallpapers by remember { mutableStateOf(emptyList<Wallpaper>()) }
 
     val settingViewModel = koinViewModel<SettingViewModel>()
     val userPreferences by settingViewModel.userPreference.collectAsStateWithLifecycle()
@@ -82,7 +77,6 @@ fun App(
             LayoutDirection.Rtl
         else LayoutDirection.Ltr
     }
-
 
     ManageBarVisibility(
         currentEntry = { stackEntry },
@@ -93,14 +87,45 @@ fun App(
 
         CompositionLocalProvider(LocalLayoutDirection provides direction) {
             Scaffold(
-                bottomBar = { if (canShowBottomBar) BottomNavigationBar(navController) },
+                bottomBar = {
+                    if (canShowBottomBar) {
+                        BottomNavigationBar(
+                            selectedRoute = stackEntry ?: Routs.Home,
+                            onTabClick = { tabRoute ->
+                                if (backStack.contains(tabRoute)) {
+                                    val index = backStack.indexOf(tabRoute)
+                                    while (backStack.size > index + 1) {
+                                        backStack.removeAt(backStack.size - 1)
+                                    }
+                                } else {
+                                    // Pop down to Home, then push the new tab
+                                    while (backStack.size > 1 && backStack[0] == Routs.Home) {
+                                        backStack.removeAt(backStack.size - 1)
+                                    }
+                                    if (backStack.isEmpty()) {
+                                        backStack.add(Routs.Home)
+                                    } else if (backStack.first() != Routs.Home) {
+                                        backStack[0] = Routs.Home
+                                        while (backStack.size > 1) {
+                                            backStack.removeAt(backStack.size - 1)
+                                        }
+                                    }
+                                    if (tabRoute != Routs.Home) {
+                                        backStack.add(tabRoute)
+                                    }
+                                }
+                            }
+                        )
+                    }
+                },
                 topBar = {
                     if (canShowTopBar) {
-                        val title = titleMapper(stackEntry?.destination?.route?.substringAfterLast("."))
-                        TopBar(title = title) { navController.navigate(Routs.SearchedWallpaper) }
+                        TopBar(title = "Screeny") {
+                            backStack.add(Routs.SearchedWallpaper)
+                        }
                     }
-                }, modifier = modifier
-                    .fillMaxSize(),
+                },
+                modifier = modifier.fillMaxSize(),
                 contentWindowInsets = WindowInsets(0.dp),
             )
             { innerPadding ->
@@ -110,147 +135,143 @@ fun App(
                         .fillMaxSize()
                         .padding(innerPadding)
                 ) {
-                    NavHost(
-                        navController = navController, startDestination = Routs.Splash, modifier = Modifier.fillMaxSize()
-                    ) {
+                    NavDisplay(
+                        backStack = backStack,
+                        modifier = Modifier.fillMaxSize(),
+                        onBack = { backStack.removeLastOrNull() },
+                        entryProvider = { key ->
+                            when (key) {
+                                is Routs.Splash -> NavEntry(key) {
+                                    SplashScreen(onProgressFinish = {
+                                        backStack.add(Routs.Home)
+                                        backStack.remove(Routs.Splash)
+                                    })
+                                }
 
-                        composable<Routs.Splash> {
-                            SplashScreen(onProgressFinish = {
-                                navController
-                                    .navigate(Routs.Home) {
-                                        popUpTo(Routs.Splash) {
-                                            inclusive = true
+                                is Routs.Home -> NavEntry(key) {
+                                    HomeScreen(
+                                        wallpapers,
+                                        onBack = {
+                                            exitApp()
+                                        },
+                                        onWallpaperClick = { wallpaper ->
+                                            backStack.add(Routs.WallpaperDetail(wallpaper.id))
                                         }
-                                    }
-                            })
-                        }
-
-                        composable<Routs.Home> {
-                            HomeScreen(
-                                wallpapers,
-                                onBack = {
-                                    exitApp()
-                                },
-                                onWallpaperClick = { wallpaper ->
-                                    navController.navigate(Routs.WallpaperDetail(wallpaper.id))
-                                }
-                            )
-                        }
-
-                        composable<Routs.WallpaperDetail> {
-                            val id = it.toRoute<Routs.WallpaperDetail>().wallpaperId
-                            WallpaperDetailScreen(
-                                wallpapers = if (isSearch){
-                                    searchedWallpapers
-                                }else{
-                                    if (isCategory) wallpapersByCategory.itemSnapshotList.items else
-                                        wallpapers.itemSnapshotList.items
-                                },
-                                clickedWallpaperId = id,
-                                onBack = {
-                                    isSearch = false
-                                    searchedWallpapers = emptyList()
-                                    isCategory = false
-                                    navController.navigateUp()
-                                }
-
-                            )
-                        }
-
-                        composable<Routs.Categories> {
-                            CategoryScreen(onCategoryClick = { name ->
-                                navController.navigate(Routs.CategoryDetail(name))
-                            })
-                        }
-
-                        composable<Routs.CategoryDetail> { backStack ->
-                            val query = backStack.toRoute<Routs.CategoryDetail>().query
-                            categoryViewModel.updateQuery(query)
-
-                            CategoryDetailScreen(
-                                query,
-                                wallpapersByCategory, onWallpaperClick = { wallpaper ->
-                                    isCategory = true
-                                    navController.navigate(Routs.WallpaperDetail(wallpaper.id))
-                                },
-                                onBackClick = {
-                                    isCategory = false
-                                    navController.navigateUp()
-                                    categoryViewModel.updateQuery("")
-                                })
-                        }
-
-                        composable<Routs.Favourite> {
-                            FavouriteScreen(
-                                animatedVisibilityScope = this,
-                                onExplore = {
-                                    navController.navigate(Routs.Home)
-                                },
-                                onWallpaperClick = { id, wallpaper ->
-                                    navController.navigate(
-                                        Routs.FavouriteDetail(
-                                            wallpaperId = id,
-                                            wallpaperUrl = wallpaper
-                                        )
                                     )
-
-                                })
-                        }
-
-                        composable<Routs.FavouriteDetail> { backstack ->
-                            val id = backstack.toRoute<Routs.FavouriteDetail>().wallpaperId
-                            val wallpaperUrl = backstack.toRoute<Routs.FavouriteDetail>().wallpaperUrl
-                            FavouriteDetailScreen(
-                                animatedVisibilityScope = this,
-                                wallpaper = {
-                                    FavouriteWallpaper(
-                                        id = id,
-                                        wallpaper = wallpaperUrl
-                                    )
-                                },
-                                onBack = {
-                                    navController.navigateUp()
                                 }
-                            )
 
-                        }
-
-                        composable<Routs.Settings> {
-                            SettingsScreen(navigateToLanguage = {
-                                navController.navigate(Routs.Language)
-                            })
-                        }
-
-                        composable<Routs.Language> {
-                            LanguageScreen(goBack = {
-
-                                navController.navigateUp()
-                            })
-                        }
-
-                        composable<Routs.SearchedWallpaper> {
-                            SearchedWallpaperScreen(
-                                onNavigateBack = {
-                                    navController.navigate(Routs.Home) {
-                                        popUpTo(Routs.SearchedWallpaper) {
-                                            inclusive = true
+                                is Routs.WallpaperDetail -> NavEntry(key) {
+                                    WallpaperDetailScreen(
+                                        wallpapers = if (isSearch) {
+                                            searchedWallpapers
+                                        } else {
+                                            if (isCategory) wallpapersByCategory.itemSnapshotList.items else
+                                                wallpapers.itemSnapshotList.items
+                                        },
+                                        clickedWallpaperId = key.wallpaperId,
+                                        onBack = {
+                                            isSearch = false
+                                            searchedWallpapers = emptyList()
+                                            isCategory = false
+                                            backStack.removeLastOrNull()
                                         }
-                                    }
-                                }, onWallpaperClick = { wallpaper, wallpapers ->
-                                    isSearch = true
-                                    searchedWallpapers = wallpapers
-                                    navController.navigate(Routs.WallpaperDetail(wallpaper.id))
-                                })
-                        }
+                                    )
+                                }
 
-                    }
+                                is Routs.Categories -> NavEntry(key) {
+                                    CategoryScreen(onCategoryClick = { name ->
+                                        backStack.add(Routs.CategoryDetail(name))
+                                    })
+                                }
+
+                                is Routs.CategoryDetail -> NavEntry(key) {
+                                    val query = key.query
+                                    LaunchedEffect(query) {
+                                        categoryViewModel.updateQuery(query)
+                                    }
+
+                                    CategoryDetailScreen(
+                                        query,
+                                        wallpapersByCategory,
+                                        onWallpaperClick = { wallpaper ->
+                                            isCategory = true
+                                            backStack.add(Routs.WallpaperDetail(wallpaper.id))
+                                        },
+                                        onBackClick = {
+                                            isCategory = false
+                                            backStack.removeLastOrNull()
+                                            categoryViewModel.updateQuery("")
+                                        }
+                                    )
+                                }
+
+                                is Routs.Favourite -> NavEntry(key) {
+                                    FavouriteScreen(
+                                        onExplore = {
+                                            backStack.remove(Routs.Favourite)
+                                            if (!backStack.contains(Routs.Home)) {
+                                                backStack.add(0, Routs.Home)
+                                            }
+                                        },
+                                        onWallpaperClick = { id, wallpaper ->
+                                            backStack.add(
+                                                Routs.FavouriteDetail(
+                                                    wallpaperId = id,
+                                                    wallpaperUrl = wallpaper
+                                                )
+                                            )
+                                        }
+                                    )
+                                }
+
+                                is Routs.FavouriteDetail -> NavEntry(key) {
+                                    val id = key.wallpaperId
+                                    val wallpaperUrl = key.wallpaperUrl
+                                    FavouriteDetailScreen(
+                                        wallpaper = {
+                                            FavouriteWallpaper(
+                                                id = id,
+                                                wallpaper = wallpaperUrl
+                                            )
+                                        },
+                                        onBack = {
+                                            backStack.removeLastOrNull()
+                                        }
+                                    )
+                                }
+
+                                is Routs.Settings -> NavEntry(key) {
+                                    SettingsScreen(navigateToLanguage = {
+                                        backStack.add(Routs.Language)
+                                    })
+                                }
+
+                                is Routs.Language -> NavEntry(key) {
+                                    LanguageScreen(goBack = {
+                                        backStack.removeLastOrNull()
+                                    })
+                                }
+
+                                is Routs.SearchedWallpaper -> NavEntry(key) {
+                                    SearchedWallpaperScreen(
+                                        onNavigateBack = {
+                                            backStack.removeLastOrNull()
+                                        },
+                                        onWallpaperClick = { wallpaper, wallpapers ->
+                                            isSearch = true
+                                            searchedWallpapers = wallpapers
+                                            backStack.add(Routs.WallpaperDetail(wallpaper.id))
+                                        }
+                                    )
+                                }
+                                else -> error("Unknown key: $key")
+                            }
+                        }
+                    )
                 }
             }
         }
-
-
     }
-
 }
 
 private fun isRtlLanguage(languageCode: String): Boolean {

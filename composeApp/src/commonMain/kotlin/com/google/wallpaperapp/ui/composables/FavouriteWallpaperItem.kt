@@ -42,9 +42,9 @@ import wallpaperapp.composeapp.generated.resources.favourite
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-fun SharedTransitionScope.FavouriteWallpaperItem(
+fun FavouriteWallpaperItem(
     modifier: Modifier = Modifier,
-    animatedVisibilityScope: AnimatedVisibilityScope,
+    //animatedVisibilityScope: AnimatedVisibilityScope,
     wallpaper: String,
     onWallpaperClick: (String) -> Unit,
     onRemoveFromFavClick: (String) -> Unit
@@ -81,10 +81,10 @@ fun SharedTransitionScope.FavouriteWallpaperItem(
 
             },
             modifier = modifier
-                .sharedElement(
+                /*.sharedElement(
                     rememberSharedContentState(key = "image-$wallpaper"),
                     animatedVisibilityScope = animatedVisibilityScope,
-                )
+                */
                 .fillMaxSize()
                 .clip(shape = RoundedCornerShape(10.dp))
                 .clickable { onWallpaperClick(wallpaper) }

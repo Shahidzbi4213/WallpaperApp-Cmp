@@ -16,7 +16,8 @@ kotlin = "2.2.10"
 kspVersion = "2.2.10-2.0.2"
 
 
-navigationCompose = "2.9.0"
+
+multiplatform-nav3-ui = "1.1.1"
 landscapistCoil3 = "2.6.0"
 
 koin-bom = "4.1.1"
@@ -51,7 +52,7 @@ landscapist-coil3 = { module = "com.github.skydoves:landscapist-coil3", version.
 landscapist-animation = {module = "com.github.skydoves:landscapist-animation",version.ref ="landscapistCoil3"}
 
 #Navigations
-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+navigation-compose = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version.ref = "multiplatform-nav3-ui" }
 
 #Koin
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }

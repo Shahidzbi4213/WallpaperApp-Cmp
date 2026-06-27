@@ -57,9 +57,9 @@ import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalSharedTransitionApi::class, ExperimentalTime::class)
 @Composable
-fun SharedTransitionScope.FavouriteDetailScreen(
+fun FavouriteDetailScreen(
     modifier: Modifier = Modifier,
-    animatedVisibilityScope: AnimatedVisibilityScope,
+    //animatedVisibilityScope: AnimatedVisibilityScope,
     wallpaper: ()-> FavouriteWallpaper,
     favouriteViewModel: FavouriteViewModel = koinViewModel(),
     onBack: () -> Unit
@@ -90,12 +90,12 @@ fun SharedTransitionScope.FavouriteDetailScreen(
                 contentScale = ContentScale.FillHeight,
             ),
             modifier = Modifier
-                .sharedElement(
+               /* .sharedElement(
                     rememberSharedContentState(
                         key = "image-${wallpaper().wallpaper}"
                     ),
                     animatedVisibilityScope = animatedVisibilityScope,
-                )
+                )*/
                 .fillMaxSize()
         )
 
