@@ -22,7 +22,9 @@ import wallpaperapp.composeapp.generated.resources.home
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(title: String, onClick: () -> Unit) {
+fun TopBar(title: String,
+           isHome: Boolean,
+           onClick: () -> Unit) {
     TopAppBar(
         title = {
             Text(
@@ -33,7 +35,7 @@ fun TopBar(title: String, onClick: () -> Unit) {
             )
         },
         actions = {
-            if (title == stringResource(Res.string.home))
+            if (isHome)
                 Icon(
                     imageVector = Icons.Filled.Search,
                     contentDescription = null,

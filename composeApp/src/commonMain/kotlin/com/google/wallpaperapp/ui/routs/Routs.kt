@@ -5,29 +5,20 @@ import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed interface Routs : NavKey{
+sealed interface Routs : NavKey {
 
     @Serializable
-    data object Splash : Routs
+    data object Splash : Routs, NavKey
 
     @Serializable
-    data object Home : Routs
+    data object MainScreen : Routs
 
     @Serializable
-    data object Categories : Routs
-
-    @Serializable
-    data object Favourite : Routs
-
-    @Serializable
-    data class FavouriteDetail(val wallpaperId: Long , val wallpaperUrl: String) : Routs
-
-    @Serializable
-    data object Settings : Routs
+    data class FavouriteDetail(val wallpaperId: Long, val wallpaperUrl: String) : Routs
 
     @Serializable
     @Stable
-    data class CategoryDetail(val query: String) : Routs
+    data class CategoryDetail(val categoryName: String) : Routs
 
     @Serializable
     data object SearchedWallpaper : Routs

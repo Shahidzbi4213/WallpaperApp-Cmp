@@ -13,7 +13,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
-import com.google.wallpaperapp.core.platform.BackHandler
 import com.google.wallpaperapp.domain.models.Wallpaper
 import com.google.wallpaperapp.ui.components.Footer
 import com.google.wallpaperapp.ui.components.LoadingPlaceHolder
@@ -25,11 +24,8 @@ import com.google.wallpaperapp.ui.composables.LazyPagingItems
 fun HomeScreen(
     wallpapers: LazyPagingItems<Wallpaper>,
     modifier: Modifier = Modifier,
-    onWallpaperClick: (Wallpaper) -> Unit,
-    onBack: () -> Unit
+    onWallpaperClick: (Wallpaper) -> Unit
 ) {
-
-    BackHandler(true, onBack = onBack)
 
     val state = rememberLazyGridState()
 

@@ -30,6 +30,7 @@ sqlite = "2.6.0"
 
 androidx-paging = "3.3.6"
 multiplatform-paging = "3.3.0-alpha02-0.5.1"
+compose-multiplatform-lifecycle = "2.10.0"
 
 
 
@@ -53,6 +54,8 @@ landscapist-animation = {module = "com.github.skydoves:landscapist-animation",ve
 
 #Navigations
 navigation-compose = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version.ref = "multiplatform-nav3-ui" }
+viewmodelNavigation3 = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "compose-multiplatform-lifecycle" }
+
 
 #Koin
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }

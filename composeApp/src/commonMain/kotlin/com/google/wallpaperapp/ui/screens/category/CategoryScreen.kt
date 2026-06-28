@@ -40,6 +40,7 @@ import com.skydoves.landscapist.coil3.CoilImage
 import com.skydoves.landscapist.components.rememberImageComponent
 import com.skydoves.landscapist.crossfade.CrossfadePlugin
 import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.milliseconds
 
 
 @Composable
@@ -51,7 +52,7 @@ fun CategoryScreen(
     var showContent by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = Unit) {
-        delay(250)
+        delay(250.milliseconds)
         showContent = true
     }
 

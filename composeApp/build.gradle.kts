@@ -53,6 +53,8 @@ kotlin {
 
             //Navigation
             implementation(libs.navigation.compose)
+            implementation(libs.viewmodelNavigation3)
+
 
             //Pagination
             implementation(libs.paging.multiplatform.common)
