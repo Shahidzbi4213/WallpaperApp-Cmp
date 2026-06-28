@@ -19,8 +19,8 @@ import com.google.wallpaperapp.ui.screens.home.HomeScreenViewModel
 import com.google.wallpaperapp.ui.screens.languages.LanguageViewModel
 import com.google.wallpaperapp.ui.screens.search.SearchViewModel
 import com.google.wallpaperapp.ui.screens.settings.SettingViewModel
-import org.koin.android.annotation.KoinViewModel
 import org.koin.core.annotation.Factory
+import org.koin.core.annotation.KoinViewModel
 import org.koin.core.annotation.Module
 import org.koin.core.annotation.Single
 
