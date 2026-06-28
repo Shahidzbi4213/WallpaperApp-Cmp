@@ -7,13 +7,14 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation3.runtime.NavKey
 import com.google.wallpaperapp.ui.routs.TopLevelBackStack
 import com.google.wallpaperapp.ui.routs.bottomNavigationItems
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun BottomNavigationBar(
-    selected: TopLevelBackStack,
+    selected: NavKey,
     onTabClick: (TopLevelBackStack) -> Unit
 ) {
     NavigationBar(

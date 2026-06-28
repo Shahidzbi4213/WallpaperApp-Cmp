@@ -1,6 +1,7 @@
 package com.google.wallpaperapp.ui
 
 import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -19,9 +20,11 @@ import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
+import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
 import com.google.wallpaperapp.core.platform.exitApp
+import com.google.wallpaperapp.domain.models.FavouriteWallpaper
 import com.google.wallpaperapp.domain.models.Wallpaper
 import com.google.wallpaperapp.ui.composables.ManageBarVisibility
 import com.google.wallpaperapp.ui.composables.collectAsLazyPagingItems
@@ -30,6 +33,7 @@ import com.google.wallpaperapp.ui.routs.TopLevelBackStack
 import com.google.wallpaperapp.ui.screens.category.CategoryDetailScreen
 import com.google.wallpaperapp.ui.screens.category.CategoryViewModel
 import com.google.wallpaperapp.ui.screens.detail.WallpaperDetailScreen
+import com.google.wallpaperapp.ui.screens.favourite.FavouriteDetailScreen
 import com.google.wallpaperapp.ui.screens.home.HomeScreen
 import com.google.wallpaperapp.ui.screens.home.HomeScreenViewModel
 import com.google.wallpaperapp.ui.screens.languages.LanguageScreen
@@ -82,95 +86,110 @@ fun App(
         darkTheme = isDarkMode(appMode = AppMode.getModeById(userPreferences.appMode))
     ) {
 
+        SharedTransitionLayout {
 
-        NavDisplay(
-            backStack = backStack,
-            modifier = modifier.fillMaxSize(),
-            onBack = { backStack.removeLastOrNull() },
-            entryDecorators = listOf(
-                rememberSaveableStateHolderNavEntryDecorator(),
-                rememberViewModelStoreNavEntryDecorator()
-            ),
-            entryProvider = entryProvider {
+            NavDisplay(
+                backStack = backStack,
+                sharedTransitionScope = this,
+                modifier = modifier.fillMaxSize(),
+                onBack = { backStack.removeLastOrNull() },
+                entryDecorators = listOf(
+                    rememberSaveableStateHolderNavEntryDecorator(),
+                    rememberViewModelStoreNavEntryDecorator()
+                ),
+                entryProvider = entryProvider {
 
-                entry<Routs.Splash> {
-                    SplashScreen(onProgressFinish = {
-                        backStack.add(Routs.MainScreen)
-                        backStack.remove(Routs.Splash)
-                    })
-                }
-
-                entry<Routs.MainScreen> {
-                    MainScreen(
-                        wallpapers = wallpapers,
-                        onNavigate = { action ->
-                            when (action) {
-                                is MainNavigationAction.ToCategoryDetail -> backStack.add(Routs.CategoryDetail(action.category))
-                                MainNavigationAction.ToLanguage -> backStack.add(Routs.Language)
-                                MainNavigationAction.ToSearch -> backStack.add(Routs.SearchedWallpaper)
-                                is MainNavigationAction.ToWallpaperDetail -> backStack.add(Routs.WallpaperDetail(action.id))
-                            }
+                    entry<Routs.Splash> {
+                        SplashScreen(onProgressFinish = {
+                            backStack.add(Routs.MainScreen)
+                            backStack.remove(Routs.Splash)
                         })
-                }
-
-                entry<Routs.WallpaperDetail> {
-                    WallpaperDetailScreen(
-                        wallpapers = if (isSearch) {
-                            searchedWallpapers
-                        } else {
-                            if (isCategory) wallpapersByCategory.itemSnapshotList.items else
-                                wallpapers.itemSnapshotList.items
-                        },
-                        clickedWallpaperId = it.wallpaperId,
-                        onBack = {
-                            isSearch = false
-                            searchedWallpapers = emptyList()
-                            isCategory = false
-                            backStack.removeLastOrNull()
-                        }
-                    )
-                }
-
-                entry<Routs.CategoryDetail> {
-                    val query = it.categoryName
-                    LaunchedEffect(query) {
-                        categoryViewModel.updateQuery(query)
                     }
 
-                    CategoryDetailScreen(
-                        query,
-                        wallpapersByCategory,
-                        onWallpaperClick = { wallpaper ->
-                            isCategory = true
-                            backStack.add(Routs.WallpaperDetail(wallpaper.id))
-                        },
-                        onBackClick = {
-                            isCategory = false
-                            backStack.removeLastOrNull()
-                            categoryViewModel.updateQuery("")
-                        }
-                    )
-                }
+                    entry<Routs.MainScreen> {
+                        MainScreen(
+                            wallpapers = wallpapers,
+                            onNavigate = { action ->
+                                when (action) {
+                                    is MainNavigationAction.ToCategoryDetail -> backStack.add(Routs.CategoryDetail(action.category))
+                                    MainNavigationAction.ToLanguage -> backStack.add(Routs.Language)
+                                    MainNavigationAction.ToSearch -> backStack.add(Routs.SearchedWallpaper)
+                                    is MainNavigationAction.ToFavouriteDetail -> backStack.add(Routs.FavouriteDetail(action.id, action.url))
+                                    is MainNavigationAction.ToWallpaperDetail -> backStack.add(Routs.WallpaperDetail(action.id))
+                                }
+                            })
+                    }
 
-                entry<Routs.Language> {
-                    LanguageScreen(goBack = {
-                        backStack.removeLastOrNull()
-                    })
-                }
+                    entry<Routs.WallpaperDetail> {
+                        WallpaperDetailScreen(
+                            wallpapers = if (isSearch) {
+                                searchedWallpapers
+                            } else {
+                                if (isCategory) wallpapersByCategory.itemSnapshotList.items else
+                                    wallpapers.itemSnapshotList.items
+                            },
+                            clickedWallpaperId = it.wallpaperId,
+                            onBack = {
+                                isSearch = false
+                                searchedWallpapers = emptyList()
+                                isCategory = false
+                                backStack.removeLastOrNull()
+                            }
+                        )
+                    }
 
-                entry<Routs.SearchedWallpaper> {
-                    SearchedWallpaperScreen(
-                        onNavigateBack = {
-                            backStack.removeLastOrNull()
-                        },
-                        onWallpaperClick = { wallpaper, wallpapers ->
-                            isSearch = true
-                            searchedWallpapers = wallpapers
-                            backStack.add(Routs.WallpaperDetail(wallpaper.id))
+                    entry<Routs.CategoryDetail> {
+                        val query = it.categoryName
+                        LaunchedEffect(query) {
+                            categoryViewModel.updateQuery(query)
                         }
-                    )
+
+                        CategoryDetailScreen(
+                            query,
+                            wallpapersByCategory,
+                            onWallpaperClick = { wallpaper ->
+                                isCategory = true
+                                backStack.add(Routs.WallpaperDetail(wallpaper.id))
+                            },
+                            onBackClick = {
+                                isCategory = false
+                                backStack.removeLastOrNull()
+                                categoryViewModel.updateQuery("")
+                            }
+                        )
+                    }
+
+                    entry<Routs.FavouriteDetail> {
+                        FavouriteDetailScreen(
+                            sharedTransitionScope = this@SharedTransitionLayout,
+                            animatedVisibilityScope = LocalNavAnimatedContentScope.current,
+                            wallpaper = { FavouriteWallpaper(id = it.wallpaperId, it.wallpaperUrl) },
+                            onBack = {
+                                backStack.removeLastOrNull()
+                            },
+                        )
+                    }
+
+                    entry<Routs.Language> {
+                        LanguageScreen(goBack = {
+                            backStack.removeLastOrNull()
+                        })
+                    }
+
+                    entry<Routs.SearchedWallpaper> {
+                        SearchedWallpaperScreen(
+                            onNavigateBack = {
+                                backStack.removeLastOrNull()
+                            },
+                            onWallpaperClick = { wallpaper, wallpapers ->
+                                isSearch = true
+                                searchedWallpapers = wallpapers
+                                backStack.add(Routs.WallpaperDetail(wallpaper.id))
+                            }
+                        )
+                    }
                 }
-            }
-        )
+            )
+        }
     }
 }

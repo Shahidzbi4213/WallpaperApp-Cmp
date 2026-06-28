@@ -59,8 +59,9 @@ import kotlin.time.ExperimentalTime
 @Composable
 fun FavouriteDetailScreen(
     modifier: Modifier = Modifier,
-    //animatedVisibilityScope: AnimatedVisibilityScope,
-    wallpaper: ()-> FavouriteWallpaper,
+    wallpaper: () -> FavouriteWallpaper,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     favouriteViewModel: FavouriteViewModel = koinViewModel(),
     onBack: () -> Unit
 ) {
@@ -76,101 +77,101 @@ fun FavouriteDetailScreen(
     var isFavourite by remember { mutableStateOf(true) }
 
 
-    BackHandler(true,onBack = onBack)
+    BackHandler(true, onBack = onBack)
 
 
-    Box(contentAlignment = Alignment.BottomCenter, modifier = modifier.fillMaxSize()) {
+    with(sharedTransitionScope) {
+        Box(contentAlignment = Alignment.BottomCenter, modifier = modifier.fillMaxSize()) {
 
 
+            CoilImage(
+                imageModel = { wallpaper().wallpaper },
+                imageOptions = ImageOptions(
+                    contentDescription = null,
+                    contentScale = ContentScale.FillHeight,
+                ),
+                modifier = Modifier
+                    .sharedElement(
+                        rememberSharedContentState(
+                            key = "image-${wallpaper().wallpaper}"
+                        ),
+                        animatedVisibilityScope =animatedVisibilityScope
+                    )
+                    .fillMaxSize()
+            )
 
-        CoilImage(
-            imageModel = {wallpaper().wallpaper},
-            imageOptions = ImageOptions(
-                contentDescription = null,
-                contentScale = ContentScale.FillHeight,
-            ),
-            modifier = Modifier
-               /* .sharedElement(
-                    rememberSharedContentState(
-                        key = "image-${wallpaper().wallpaper}"
-                    ),
-                    animatedVisibilityScope = animatedVisibilityScope,
-                )*/
-                .fillMaxSize()
-        )
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = null, modifier = Modifier
+                    .padding(start = 10.dp, top = 60.dp)
+                    .size(30.dp)
+                    .padding(5.dp)
+                    .clip(CircleShape)
+                    .align(Alignment.TopStart)
+                    .clickable { onBack() }, tint = Color.White
+            )
 
-        Icon(
-            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-            contentDescription = null, modifier = Modifier
-                .padding(start = 10.dp, top = 60.dp)
-                .size(30.dp)
-                .padding(5.dp)
-                .clip(CircleShape)
-                .align(Alignment.TopStart)
-                .clickable { onBack() }
-            , tint = Color.White)
+            ActionButtons(
+                isFavourite = isFavourite,
+                onDownload = {
+                    scope.launch(Dispatchers.IO) {
 
-        ActionButtons(
-            isFavourite = isFavourite,
-            onDownload = {
-                scope.launch(Dispatchers.IO) {
+                        withContext(Dispatchers.Main) {
+                            toastManager.showToast(
+                                downloadStarted,
+                                SHORT
+                            )
+                        }
+                        val url = wallpaper().wallpaper
+                        val fileName = "${Clock.System.now().toEpochMilliseconds()}.jpeg"
+                        val result = WallpaperDownloader().downloadWallpaper(url, fileName)
+                        when (result) {
+                            is DownloadResult.Failure -> {
+                                withContext(Dispatchers.Main) {
+                                    toastManager.showToast(
+                                        downloadFailed,
+                                        SHORT
+                                    )
+                                }
+                            }
 
-                    withContext(Dispatchers.Main) {
-                        toastManager.showToast(
-                            downloadStarted,
-                            SHORT
-                        )
-                    }
-                    val url = wallpaper().wallpaper
-                    val fileName = "${Clock.System.now().toEpochMilliseconds()}.jpeg"
-                    val result = WallpaperDownloader().downloadWallpaper(url, fileName)
-                    when (result) {
-                        is DownloadResult.Failure -> {
-                            withContext(Dispatchers.Main) {
-                                toastManager.showToast(
-                                    downloadFailed,
-                                    SHORT
-                                )
+                            is DownloadResult.Success -> {
+                                withContext(Dispatchers.Main) {
+                                    toastManager.showToast(
+                                        downloadCompleted,
+                                        SHORT
+                                    )
+                                }
                             }
                         }
+                    }
+                },
+                onApply = {
+                    scope.launch {
+                        if (currentlyLoadedWallpaper == null) scope.cancel()
 
-                        is DownloadResult.Success -> {
-                            withContext(Dispatchers.Main) {
-                                toastManager.showToast(
-                                    downloadCompleted,
-                                    SHORT
-                                )
-                            }
+
+                        if (getPlatformType() == PlatformType.IOS) {
+                            WallpaperManager()
+                                .applyWallpaper(currentlyLoadedWallpaper!!, WallpaperType.SET_AS_BOTH)
+                        } else {
+                            canShowDialog = true
+
                         }
                     }
-                }
-            },
-            onApply = {
-                scope.launch {
-                    if (currentlyLoadedWallpaper == null) scope.cancel()
-
-
-                    if (getPlatformType() == PlatformType.IOS){
-                        WallpaperManager()
-                            .applyWallpaper(currentlyLoadedWallpaper!!, WallpaperType.SET_AS_BOTH)
-                    }else{
-                        canShowDialog = true
-
-                    }
-                }
-            }, onFavourite = {
-                favouriteViewModel.addOrRemoveFavourite(wallpaper())
-                isFavourite = !isFavourite
-            })
+                }, onFavourite = {
+                    favouriteViewModel.addOrRemoveFavourite(wallpaper())
+                    isFavourite = !isFavourite
+                })
+        }
     }
 
 
-    if (canShowDialog){
+    if (canShowDialog) {
         WallpaperApplyDialog(wallpaper = currentlyLoadedWallpaper) {
             canShowDialog = false
         }
     }
-
 
 
 }

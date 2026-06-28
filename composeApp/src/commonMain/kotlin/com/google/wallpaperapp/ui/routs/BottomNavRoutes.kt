@@ -10,7 +10,6 @@ import androidx.compose.material.icons.outlined.Dashboard
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.saveable.Saver
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
@@ -44,29 +43,6 @@ sealed interface TopLevelBackStack : NavKey {
 
     @Serializable
     data object Settings :  TopLevelBackStack
-
-    companion object {
-        val Saver: Saver<TopLevelBackStack, String> = Saver(
-            save = {
-                when (it) {
-                    Home -> "home"
-                    Categories -> "categories"
-                    Favourite -> "favourite"
-                    Settings -> "settings"
-                }
-            },
-            restore = {
-                when (it) {
-                    "home" -> Home
-                    "categories" -> Categories
-                    "favourite" -> Favourite
-                    "settings" -> Settings
-                    else -> Home
-                }
-            }
-        )
-    }
-
 }
 
 

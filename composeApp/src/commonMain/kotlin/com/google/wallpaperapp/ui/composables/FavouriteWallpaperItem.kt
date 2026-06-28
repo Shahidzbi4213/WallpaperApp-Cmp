@@ -20,7 +20,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,7 +43,8 @@ import wallpaperapp.composeapp.generated.resources.favourite
 @Composable
 fun FavouriteWallpaperItem(
     modifier: Modifier = Modifier,
-    //animatedVisibilityScope: AnimatedVisibilityScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
+    sharedTransitionScope: SharedTransitionScope,
     wallpaper: String,
     onWallpaperClick: (String) -> Unit,
     onRemoveFromFavClick: (String) -> Unit
@@ -53,66 +53,66 @@ fun FavouriteWallpaperItem(
     var showShimmer by remember { mutableStateOf(true) }
 
 
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(200.dp)
-            .clip(shape = RoundedCornerShape(10.dp))
-            .background(
-                shimmerBrush(targetValue = 1300f, showShimmer = showShimmer),
-                shape = RoundedCornerShape(10.dp)
-            )
-    ) {
+    with(sharedTransitionScope) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp)
+                .clip(shape = RoundedCornerShape(10.dp))
+                .background(
+                    shimmerBrush(targetValue = 1300f, showShimmer = showShimmer),
+                    shape = RoundedCornerShape(10.dp)
+                )
+        ) {
 
-        CoilImage(
-            imageModel = { wallpaper },
-            imageOptions = ImageOptions(
-                contentDescription = null,
-                contentScale = ContentScale.Crop
-            ),
-            success = { state, painter ->
-                showShimmer = false
-
-                Image(
-                    painter = painter,
+            CoilImage(
+                imageModel = { wallpaper },
+                imageOptions = ImageOptions(
                     contentDescription = null,
                     contentScale = ContentScale.Crop
-                )
+                ),
+                success = { state, painter ->
+                    showShimmer = false
 
-            },
-            modifier = modifier
-                /*.sharedElement(
-                    rememberSharedContentState(key = "image-$wallpaper"),
-                    animatedVisibilityScope = animatedVisibilityScope,
-                */
-                .fillMaxSize()
-                .clip(shape = RoundedCornerShape(10.dp))
-                .clickable { onWallpaperClick(wallpaper) }
+                    Image(
+                        painter = painter,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop
+                    )
 
-        )
-
-        AnimatedVisibility(
-            visible = !showShimmer,
-            modifier = Modifier.align(Alignment.BottomStart),
-            enter = fadeIn(animationSpec = tween(durationMillis = 700)),
-            exit = fadeOut(animationSpec = tween(durationMillis = 700))
-        ) {
-            Image(
-                imageVector = Icons.Filled.Favorite,
-                contentDescription = stringResource(Res.string.favourite),
-                colorFilter = ColorFilter.tint(color = Color.White),
-                modifier = Modifier
-                    .size(30.dp)
-                    .padding(3.dp)
-                    .clip(CircleShape)
-                    .clickable { onRemoveFromFavClick(wallpaper) }
-                    .background(color = ActionIconBgColor)
-                    .padding(4.dp)
+                },
+                modifier = modifier
+                    .sharedElement(
+                        rememberSharedContentState(key = "image-$wallpaper"),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                    ).fillMaxSize()
+                    .clip(shape = RoundedCornerShape(10.dp))
+                    .clickable { onWallpaperClick(wallpaper) }
 
             )
+
+            AnimatedVisibility(
+                visible = !showShimmer,
+                modifier = Modifier.align(Alignment.BottomStart),
+                enter = fadeIn(animationSpec = tween(durationMillis = 700)),
+                exit = fadeOut(animationSpec = tween(durationMillis = 700))
+            ) {
+                Image(
+                    imageVector = Icons.Filled.Favorite,
+                    contentDescription = stringResource(Res.string.favourite),
+                    colorFilter = ColorFilter.tint(color = Color.White),
+                    modifier = Modifier
+                        .size(30.dp)
+                        .padding(3.dp)
+                        .clip(CircleShape)
+                        .clickable { onRemoveFromFavClick(wallpaper) }
+                        .background(color = ActionIconBgColor)
+                        .padding(4.dp)
+
+                )
+            }
+
         }
-
     }
-
 
 }

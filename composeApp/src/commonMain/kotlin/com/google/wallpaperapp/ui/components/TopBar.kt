@@ -15,20 +15,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.wallpaperapp.ui.theme.getScreenyFontFamily
+import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
-import wallpaperapp.composeapp.generated.resources.Res
-import wallpaperapp.composeapp.generated.resources.home
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(title: String,
+fun TopBar(title: StringResource,
            isHome: Boolean,
            onClick: () -> Unit) {
     TopAppBar(
         title = {
             Text(
-                text = title,
+                text = stringResource(title),
                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold, fontSize = 18.sp),
                 fontFamily = getScreenyFontFamily()
 

@@ -37,7 +37,8 @@ import wallpaperapp.composeapp.generated.resources.your_favorite_wallpapers_will
 @Composable
 fun FavouriteScreen(
     modifier: Modifier = Modifier,
-    //animatedVisibilityScope: AnimatedVisibilityScope,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     favouriteViewModel: FavouriteViewModel = koinViewModel(),
     onExplore: () -> Unit,
     onWallpaperClick: (Long, String) -> Unit
@@ -65,7 +66,8 @@ fun FavouriteScreen(
             { favourite ->
                 FavouriteWallpaperItem(
                     wallpaper = favourite.wallpaper,
-                 //   animatedVisibilityScope = animatedVisibilityScope,
+                    sharedTransitionScope = sharedTransitionScope,
+                    animatedVisibilityScope = animatedVisibilityScope,
                     onWallpaperClick = { wallpaper -> onWallpaperClick(favourite.id, wallpaper) },
                     onRemoveFromFavClick = { wallpaper -> favouriteViewModel.removeFromFavourite(wallpaper) }
                 )
