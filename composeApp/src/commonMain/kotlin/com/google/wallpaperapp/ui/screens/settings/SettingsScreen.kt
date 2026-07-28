@@ -1,8 +1,6 @@
 package com.google.wallpaperapp.ui.screens.settings
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,12 +18,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.wallpaperapp.core.platform.dynamicColorVisibility
+import com.google.wallpaperapp.ui.theme.TextMid
+import com.google.wallpaperapp.ui.theme.eyebrowStyle
+import com.google.wallpaperapp.ui.theme.glass
 import com.google.wallpaperapp.ui.dialogs.AppModeDialog
 import com.google.wallpaperapp.ui.dialogs.DynamicColorDialog
 import com.google.wallpaperapp.ui.dialogs.RatingDialog
@@ -73,14 +73,15 @@ fun SettingsScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
+        Spacer(Modifier.height(12.dp))
+
         Text(
-            text = stringResource(Res.string.general),
-            maxLines = 1,
-            fontSize = 16.sp,
-            style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
+            text = stringResource(Res.string.general).uppercase(),
+            style = eyebrowStyle(),
+            color = TextMid,
             modifier = Modifier
                 .fillMaxWidth(0.95f)
-                .wrapContentHeight(),
+                .padding(start = 4.dp),
             textAlign = TextAlign.Start
         )
 
@@ -89,15 +90,8 @@ fun SettingsScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth(0.95f)
-                .background(
-                    color = MaterialTheme.colorScheme
-                        .surfaceContainer, shape = RoundedCornerShape(16.dp)
-                )
-                .border(
-                    color = MaterialTheme.colorScheme
-                        .outline,
-                    width = 1.dp, shape = RoundedCornerShape(16.dp)
-                )
+                .clip(RoundedCornerShape(16.dp))
+                .glass(RoundedCornerShape(16.dp))
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         ) {
 
@@ -144,13 +138,12 @@ fun SettingsScreen(
         Spacer(Modifier.height(20.dp))
 
         Text(
-            text = stringResource(Res.string.others),
-            maxLines = 1,
-            fontSize = 16.sp,
-            style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
+            text = stringResource(Res.string.others).uppercase(),
+            style = eyebrowStyle(),
+            color = TextMid,
             modifier = Modifier
                 .fillMaxWidth(0.95f)
-                .wrapContentHeight(),
+                .padding(start = 4.dp),
             textAlign = TextAlign.Start
         )
 
@@ -158,15 +151,8 @@ fun SettingsScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth(0.95f)
-                .background(
-                    color = MaterialTheme.colorScheme
-                        .surfaceContainer, shape = RoundedCornerShape(16.dp)
-                )
-                .border(
-                    color = MaterialTheme.colorScheme
-                        .outline,
-                    width = 1.dp, shape = RoundedCornerShape(16.dp)
-                )
+                .clip(RoundedCornerShape(16.dp))
+                .glass(RoundedCornerShape(16.dp))
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         ) {
             SettingsItem(

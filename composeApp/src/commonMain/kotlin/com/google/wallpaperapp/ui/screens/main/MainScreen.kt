@@ -1,11 +1,14 @@
 package com.google.wallpaperapp.ui.screens.main
 
 import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import com.google.wallpaperapp.ui.theme.auroraBackground
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
@@ -51,8 +54,10 @@ fun MainScreen(
     val bottomNavBackStack = rememberNavBackStack(configuration = configurationBottomNav, TopLevelBackStack.Home)
     val selectedBottomNavItem = bottomNavBackStack.lastOrNull() ?: TopLevelBackStack.Home
 
+    Box(modifier = Modifier.fillMaxSize().auroraBackground()) {
     Scaffold(
         modifier = modifier,
+        containerColor = Color.Transparent,
         topBar = {
             TopBar(title = bottomNavigationItems.firstOrNull() {
                 it.key == selectedBottomNavItem
@@ -121,6 +126,7 @@ fun MainScreen(
                 }
             )
         }
+    }
     }
 
 }

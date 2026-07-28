@@ -34,6 +34,7 @@ import com.google.wallpaperapp.ui.components.BlurBg
 import com.google.wallpaperapp.ui.components.SinglePageContent
 import com.google.wallpaperapp.ui.dialogs.WallpaperApplyDialog
 import com.google.wallpaperapp.ui.screens.favourite.FavouriteViewModel
+import com.google.wallpaperapp.ui.theme.glass
 import com.google.wallpaperapp.utils.WallpaperType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -116,16 +117,24 @@ fun WallpaperDetailScreen(
                 currentlyLoadedWallpaper = imageBitmap
             })
 
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = null, modifier = Modifier
-                    .padding(start = 10.dp, top = 60.dp)
-                    .size(30.dp)
-                    .padding(5.dp)
-                    .clip(CircleShape)
+            Box(
+                modifier = Modifier
                     .align(Alignment.TopStart)
+                    .padding(start = 16.dp, top = 56.dp)
+                    .size(44.dp)
+                    .clip(CircleShape)
+                    .glass(CircleShape, strong = true)
                     .clickable { onBack() }
-                    .zIndex(90f), tint = Color.White)
+                    .zIndex(90f),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = null,
+                    tint = Color.White,
+                    modifier = Modifier.size(20.dp)
+                )
+            }
 
 
             HorizontalPager(

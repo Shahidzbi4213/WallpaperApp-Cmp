@@ -2,6 +2,7 @@ package com.google.wallpaperapp.ui.screens.category
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -10,8 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -23,10 +26,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
 import com.google.wallpaperapp.core.platform.BackHandler
 import com.google.wallpaperapp.domain.models.Wallpaper
@@ -34,7 +36,9 @@ import com.google.wallpaperapp.ui.components.Footer
 import com.google.wallpaperapp.ui.components.LoadingPlaceHolder
 import com.google.wallpaperapp.ui.components.WallpaperItem
 import com.google.wallpaperapp.ui.composables.LazyPagingItems
-import com.google.wallpaperapp.ui.theme.getScreenyFontFamily
+import com.google.wallpaperapp.ui.theme.TextHi
+import com.google.wallpaperapp.ui.theme.auroraBackground
+import com.google.wallpaperapp.ui.theme.glass
 
 @Composable
 fun CategoryDetailScreen(
@@ -50,6 +54,7 @@ fun CategoryDetailScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .auroraBackground()
             .safeDrawingPadding(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -100,25 +105,34 @@ fun ToolBar(title: String, modifier: Modifier = Modifier, onBackClick: () -> Uni
         modifier = modifier
             .height(70.dp)
             .fillMaxWidth()
-            .padding(start = 10.dp),
+            .padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null, modifier = Modifier
-                .wrapContentSize()
-                .clickable { onBackClick() }
-
-
-        )
+        Box(
+            modifier = Modifier
+                .size(42.dp)
+                .clip(CircleShape)
+                .glass(CircleShape, strong = true)
+                .clickable { onBackClick() },
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = null,
+                tint = TextHi,
+                modifier = Modifier.size(20.dp)
+            )
+        }
 
         Text(
-            text = title, style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold, fontSize = 18.sp),
-            fontFamily = getScreenyFontFamily(), modifier = Modifier
+            text = title,
+            style = MaterialTheme.typography.headlineSmall,
+            color = TextHi,
+            modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .padding(end = 30.dp),
+                .padding(end = 42.dp),
             textAlign = TextAlign.Center
-
         )
     }
 

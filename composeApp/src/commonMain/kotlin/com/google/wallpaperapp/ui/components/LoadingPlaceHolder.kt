@@ -16,9 +16,9 @@ fun LoadingPlaceHolder(modifier: Modifier = Modifier) {
         modifier = modifier
             .background(
                 shimmerBrush(targetValue = 1300f, showShimmer = true),
-                shape = RoundedCornerShape(10.dp)
+                shape = RoundedCornerShape(12.dp)
             )
-            .clip(RoundedCornerShape(10.dp))
+            .clip(RoundedCornerShape(12.dp))
             .fillMaxWidth()
     )
 }

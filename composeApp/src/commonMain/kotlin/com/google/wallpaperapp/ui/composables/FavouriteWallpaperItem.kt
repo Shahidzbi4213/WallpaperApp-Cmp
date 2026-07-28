@@ -9,6 +9,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,6 +34,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.google.wallpaperapp.ui.theme.ActionIconBgColor
+import com.google.wallpaperapp.ui.theme.GlassBorder
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil3.CoilImage
 import org.jetbrains.compose.resources.stringResource
@@ -58,11 +60,12 @@ fun FavouriteWallpaperItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp)
-                .clip(shape = RoundedCornerShape(10.dp))
+                .clip(shape = RoundedCornerShape(12.dp))
                 .background(
                     shimmerBrush(targetValue = 1300f, showShimmer = showShimmer),
-                    shape = RoundedCornerShape(10.dp)
+                    shape = RoundedCornerShape(12.dp)
                 )
+                .border(1.dp, GlassBorder, RoundedCornerShape(12.dp))
         ) {
 
             CoilImage(
@@ -86,7 +89,7 @@ fun FavouriteWallpaperItem(
                         rememberSharedContentState(key = "image-$wallpaper"),
                         animatedVisibilityScope = animatedVisibilityScope,
                     ).fillMaxSize()
-                    .clip(shape = RoundedCornerShape(10.dp))
+                    .clip(shape = RoundedCornerShape(12.dp))
                     .clickable { onWallpaperClick(wallpaper) }
 
             )
