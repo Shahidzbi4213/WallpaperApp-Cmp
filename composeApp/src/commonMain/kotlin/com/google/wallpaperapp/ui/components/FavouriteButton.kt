@@ -3,7 +3,6 @@ package com.google.wallpaperapp.ui.components
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
@@ -24,7 +23,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
-import com.google.wallpaperapp.ui.theme.ActionIconBgColor
+import com.google.wallpaperapp.ui.theme.Crimson
+import com.google.wallpaperapp.ui.theme.TextHi
+import com.google.wallpaperapp.ui.theme.glass
 import org.jetbrains.compose.resources.stringResource
 import wallpaperapp.composeapp.generated.resources.Res
 import wallpaperapp.composeapp.generated.resources.favourite
@@ -37,39 +38,30 @@ fun FavouriteButton(
     val scale = remember { Animatable(1f) }
     var previousFav by remember { mutableStateOf(isFavourite) }
 
-    // Run animation only when becoming favourite
+    // Heart pops to 1.35 and settles when it becomes a favourite.
     LaunchedEffect(isFavourite) {
         if (!previousFav && isFavourite) {
-            scale.animateTo(
-                targetValue = 1.3f,
-                animationSpec = tween(150, easing = FastOutSlowInEasing)
-            )
-            scale.animateTo(
-                targetValue = 1f,
-                animationSpec = tween(150, easing = FastOutSlowInEasing)
-            )
+            scale.animateTo(1.35f, tween(150, easing = FastOutSlowInEasing))
+            scale.animateTo(1f, tween(150, easing = FastOutSlowInEasing))
         }
         previousFav = isFavourite
     }
 
     Box(
         modifier = Modifier
-            .size(40.dp)
+            .size(52.dp)
             .clip(CircleShape)
-            .background(ActionIconBgColor)
+            .glass(CircleShape, strong = true)
             .clickable { onFavourite() },
         contentAlignment = Alignment.Center
     ) {
         Icon(
             imageVector = if (isFavourite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
             contentDescription = stringResource(Res.string.favourite),
-            tint = Color.White,
-            modifier = Modifier.graphicsLayer(
-                scaleX = scale.value,
-                scaleY = scale.value
-            )
+            tint = if (isFavourite) Crimson else TextHi,
+            modifier = Modifier
+                .size(22.dp)
+                .graphicsLayer(scaleX = scale.value, scaleY = scale.value)
         )
     }
 }
-
-

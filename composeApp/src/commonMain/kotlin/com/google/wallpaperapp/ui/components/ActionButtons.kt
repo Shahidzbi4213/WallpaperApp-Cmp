@@ -1,29 +1,25 @@
 package com.google.wallpaperapp.ui.components
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.Download
-import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
-import com.google.wallpaperapp.ui.theme.ActionIconBgColor
+import com.google.wallpaperapp.ui.theme.TextHi
+import com.google.wallpaperapp.ui.theme.Void
+import com.google.wallpaperapp.ui.theme.glass
 import org.jetbrains.compose.resources.stringResource
 import wallpaperapp.composeapp.generated.resources.Res
 import wallpaperapp.composeapp.generated.resources.apply
 import wallpaperapp.composeapp.generated.resources.download
-import wallpaperapp.composeapp.generated.resources.favourite
 
 
 @Composable
@@ -39,50 +35,46 @@ fun ActionButtons(
             .fillMaxWidth()
             .wrapContentHeight()
             .safeDrawingPadding()
-            .padding(bottom = 35.dp, start = 50.dp, end = 50.dp),
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.Bottom
+            .padding(bottom = 32.dp, start = 24.dp, end = 24.dp),
+        horizontalArrangement = Arrangement.spacedBy(14.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
 
-        Icon(
-            imageVector = Icons.Outlined.Download,
-            contentDescription =  stringResource(Res.string.download),
-            modifier =  Modifier
-                .size(40.dp)
+        // Download — circular glass icon button
+        Box(
+            modifier = Modifier
+                .size(52.dp)
                 .clip(CircleShape)
-                .clickable { onDownload() }
-                .background(color = ActionIconBgColor)
-                .padding(8.dp),
-            tint = Color.White
-        )
+                .glass(CircleShape, strong = true)
+                .clickable { onDownload() },
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.Download,
+                contentDescription = stringResource(Res.string.download),
+                tint = TextHi,
+                modifier = Modifier.size(22.dp)
+            )
+        }
 
-
+        // Apply — the "light" CTA (white pill over the wallpaper)
         Button(
             onClick = onApply,
             modifier = Modifier
                 .weight(1f)
-                .height(40.dp)
-                .padding(horizontal = 20.dp),
-
-            shape = RoundedCornerShape(100.dp),
+                .height(52.dp),
+            shape = RoundedCornerShape(percent = 50),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.White,
-                contentColor = Color.Black
+                contentColor = Void
             ),
         ) {
-
             Text(
                 text = stringResource(Res.string.apply),
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier
-                    .wrapContentSize()
-                    .align(Alignment.CenterVertically)
+                style = MaterialTheme.typography.titleMedium
             )
         }
 
-
-
         FavouriteButton(isFavourite = isFavourite, onFavourite = onFavourite)
-
     }
 }
