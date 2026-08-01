@@ -1,6 +1,9 @@
 @file:Suppress("DEPRECATION")
 
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+// Imported rather than fully qualified: inside a Gradle Kotlin DSL script,
+// `java` resolves to the Java plugin extension and shadows the package name.
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -32,9 +35,9 @@ val generateApiKeys by tasks.registering {
     val localPropsFile = rootProject.file("local.properties")
     val resolved = apiKeyNames.associateWith { name ->
         val fromProps = if (localPropsFile.exists()) {
-            java.util.Properties()
-                .apply { localPropsFile.inputStream().use { load(it) } }
-                .getProperty(name)
+            val props = Properties()
+            localPropsFile.inputStream().use { props.load(it) }
+            props.getProperty(name)
         } else null
         (fromProps ?: System.getenv(name) ?: "").trim()
     }
