@@ -22,15 +22,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.wallpaperapp.core.platform.dynamicColorVisibility
 import com.google.wallpaperapp.ui.theme.TextMid
 import com.google.wallpaperapp.ui.theme.eyebrowStyle
 import com.google.wallpaperapp.ui.theme.glass
-import com.google.wallpaperapp.ui.dialogs.AppModeDialog
-import com.google.wallpaperapp.ui.dialogs.DynamicColorDialog
 import com.google.wallpaperapp.ui.dialogs.RatingDialog
 import com.google.wallpaperapp.ui.screens.languages.Language
-import com.google.wallpaperapp.utils.AppMode
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import wallpaperapp.composeapp.generated.resources.Res
@@ -101,38 +97,6 @@ fun SettingsScreen(
                 icon = Res.drawable.language_icon,
                 onClick = navigateToLanguage
             )
-
-            HorizontalDivider(modifier = Modifier.padding(horizontal = 10.dp))
-
-
-            if (dynamicColorVisibility()) {
-                SettingsItem(
-                    title = Res.string.dynamic_color,
-                    description =
-                        if (userPreference.shouldShowDynamicColor) stringResource(Res.string.on).uppercase()
-                        else stringResource(Res.string.off).uppercase(),
-                    icon = Res.drawable.dynamic_color,
-                    onClick = {
-                        settingViewModel.onEvent(SettingEvent.ToggleDynamicDialog)
-                    }
-                )
-
-                HorizontalDivider(modifier = Modifier.padding(horizontal = 10.dp))
-            }
-
-
-            SettingsItem(
-                title = Res.string.app_mode,
-                description = when (AppMode.getModeById(userPreference.appMode)) {
-                    AppMode.LIGHT -> stringResource(Res.string.light)
-                    AppMode.DARK -> stringResource(Res.string.dark)
-                    AppMode.DEFAULT -> stringResource(Res.string.system_default)
-                },
-                icon = Res.drawable.app_mode,
-                onClick = {
-                    settingViewModel.onEvent(SettingEvent.ToggleAppModeDialog)
-                }
-            )
         }
 
         Spacer(Modifier.height(20.dp))
@@ -181,24 +145,6 @@ fun SettingsScreen(
         }
     }
 
-
-    if (state.showAppModeDialog) {
-        AppModeDialog(appMode = AppMode.getModeById(userPreference.appMode), onDismissRequest = {
-            settingViewModel.onEvent(SettingEvent.ToggleAppModeDialog)
-        }, onSelect = { updatedAppMode ->
-            settingViewModel.onEvent(SettingEvent.UpdateAppMode(updatedAppMode))
-        })
-    }
-
-    if (state.showDynamicDialog){
-        DynamicColorDialog(shouldShowDynamicColor = userPreference.shouldShowDynamicColor, onDismissRequest = {
-            settingViewModel.onEvent(SettingEvent.ToggleDynamicDialog)
-        }, onEnabled = {
-            settingViewModel.onEvent(SettingEvent.UpdateDynamicColor(true))
-        }, onDisabled = {
-            settingViewModel.onEvent(SettingEvent.UpdateDynamicColor(false))
-        })
-    }
 
     if (state.showRateUsDialog){
         RatingDialog(onDismiss = {
