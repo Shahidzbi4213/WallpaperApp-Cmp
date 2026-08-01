@@ -1,40 +1,63 @@
-This is a Kotlin Multiplatform project targeting Android, iOS.
+# Screeny
 
-<img width="736" height="1600" alt="WhatsApp Image 2026-07-30 at 20 00 50" src="https://github.com/user-attachments/assets/f0dd660b-58a7-4118-8881-78c7e36c6d41" />
+A Kotlin Multiplatform wallpaper app for **Android** and **iOS**, built with Compose Multiplatform. Browse, search, and favourite high-resolution wallpapers, then download them or set them straight as your device wallpaper. Wallpapers are sourced from the [Pexels API](https://www.pexels.com/api/).
 
+<img width="736" height="1600" alt="Screeny" src="https://github.com/user-attachments/assets/f0dd660b-58a7-4118-8881-78c7e36c6d41" />
 
+## Features
 
+- **Curated feed** — endlessly paged wallpaper feed with smooth image loading.
+- **Categories** — browse wallpapers grouped by category.
+- **Search** — find wallpapers by keyword.
+- **Favourites** — save wallpapers offline; stored locally with Room.
+- **Detail view** — preview full-resolution wallpapers, download them, or apply as home/lock-screen wallpaper.
+- **Settings & languages** — in-app settings and language selection.
+- **Dark-first glassmorphic UI** — shared Compose UI across both platforms.
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
+## Tech Stack
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+| Concern | Library |
+|---|---|
+| UI | Compose Multiplatform |
+| Language | Kotlin 2.4 (AGP 9.1) |
+| DI | Koin (with Koin Annotations) |
+| Networking | Ktor 3.5 (OkHttp on Android, Darwin on iOS) |
+| Local storage | Room 2.8 (KMP) |
+| Paging | Paging 3 / `app.cash.paging` (multiplatform) |
+| Navigation | Navigation 3 |
+| Image loading | Landscapist + Coil 3 |
 
-### Build and Run Android Application
+## Project Structure
 
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-- on macOS/Linux
+- **[/composeApp](./composeApp/src)** — shared Compose Multiplatform code.
+  - **[commonMain](./composeApp/src/commonMain/kotlin)** — shared UI, DI, data, and domain layers (`ui`, `di`, `core`, `data`, `domain`, `utils`).
+  - **[androidMain](./composeApp/src/androidMain/kotlin)** — Android-specific implementations (e.g. wallpaper apply/download).
+  - **[iosMain](./composeApp/src/iosMain/kotlin)** — iOS-specific implementations.
+- **[/iosApp](./iosApp/iosApp)** — iOS entry point (Xcode project + any SwiftUI code).
+
+## Getting Started
+
+The app calls the Pexels API. The repo ships with a demo API key in
+[`NetworkModule.kt`](./composeApp/src/commonMain/kotlin/com/google/wallpaperapp/di/NetworkModule.kt);
+replace it with your own free key from the [Pexels API dashboard](https://www.pexels.com/api/) for your own builds.
+
+### Build and Run — Android
+
+Use the run configuration in your IDE's run widget, or build from the terminal:
+
+- macOS/Linux
   ```shell
   ./gradlew :composeApp:assembleDebug
   ```
-- on Windows
+- Windows
   ```shell
   .\gradlew.bat :composeApp:assembleDebug
   ```
 
-### Build and Run iOS Application
+### Build and Run — iOS
 
-To build and run the development version of the iOS app, use the run configuration from the run widget
-in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+Use the run configuration in your IDE's run widget, or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
 
 ---
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html) and [Compose Multiplatform](https://www.jetbrains.com/compose-multiplatform/).
