@@ -23,6 +23,8 @@ import com.google.wallpaperapp.ui.theme.TextHi
 import com.google.wallpaperapp.ui.theme.glass
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
+import wallpaperapp.composeapp.generated.resources.Res
+import wallpaperapp.composeapp.generated.resources.search_wallpaper
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,7 +55,7 @@ fun TopBar(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Search,
-                        contentDescription = stringResource(title),
+                        contentDescription = stringResource(Res.string.search_wallpaper),
                         tint = TextHi,
                         modifier = Modifier.size(20.dp)
                     )
