@@ -62,6 +62,7 @@ fun App(
                 subclass(Routs.WallpaperDetail::class, Routs.WallpaperDetail.serializer())
                 subclass(Routs.FavouriteDetail::class, Routs.FavouriteDetail.serializer())
                 subclass(Routs.Language::class, Routs.Language.serializer())
+                subclass(Routs.MeshGradientDetail::class, Routs.MeshGradientDetail.serializer())
             }
         }
     }
@@ -105,6 +106,7 @@ fun App(
                                     MainNavigationAction.ToSearch -> backStack.add(Routs.SearchedWallpaper)
                                     is MainNavigationAction.ToFavouriteDetail -> backStack.add(Routs.FavouriteDetail(action.id, action.url))
                                     is MainNavigationAction.ToWallpaperDetail -> backStack.add(Routs.WallpaperDetail(action.id))
+                                    is MainNavigationAction.ToMeshGradientDetail -> backStack.add(Routs.MeshGradientDetail(action.index))
                                 }
                             })
                     }
@@ -173,6 +175,15 @@ fun App(
                                 isSearch = true
                                 searchedWallpapers = wallpapers
                                 backStack.add(Routs.WallpaperDetail(wallpaper.id))
+                            }
+                        )
+                    }
+
+                    entry<Routs.MeshGradientDetail> {
+                        com.google.wallpaperapp.ui.screens.meshgradient.MeshGradientDetailScreen(
+                            startIndex = it.startIndex,
+                            onBack = {
+                                backStack.removeLastOrNull()
                             }
                         )
                     }

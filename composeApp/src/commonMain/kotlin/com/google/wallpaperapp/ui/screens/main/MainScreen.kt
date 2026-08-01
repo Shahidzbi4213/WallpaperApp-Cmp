@@ -1,5 +1,6 @@
 package com.google.wallpaperapp.ui.screens.main
 
+import com.google.wallpaperapp.ui.screens.meshgradient.MeshGradientScreen
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -48,6 +49,7 @@ fun MainScreen(
             polymorphic(NavKey::class) {
                 subclass(TopLevelBackStack.Home::class, TopLevelBackStack.Home.serializer())
                 subclass(TopLevelBackStack.Categories::class, TopLevelBackStack.Categories.serializer())
+                subclass(TopLevelBackStack.MeshGradients::class, TopLevelBackStack.MeshGradients.serializer())
                 subclass(TopLevelBackStack.Favourite::class, TopLevelBackStack.Favourite.serializer())
                 subclass(TopLevelBackStack.Settings::class, TopLevelBackStack.Settings.serializer())
             }
@@ -110,6 +112,12 @@ fun MainScreen(
 
                     entry<TopLevelBackStack.Categories> {
                         CategoryScreen(onCategoryClick = { name, query -> onNavigate(MainNavigationAction.ToCategoryDetail(name, query)) })
+                    }
+                    
+                    entry<TopLevelBackStack.MeshGradients> {
+                        MeshGradientScreen(onPresetClick = { index ->
+                            onNavigate(MainNavigationAction.ToMeshGradientDetail(index))
+                        })
                     }
 
                     entry<TopLevelBackStack.Favourite> {

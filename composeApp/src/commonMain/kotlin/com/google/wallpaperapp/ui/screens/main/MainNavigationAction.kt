@@ -8,4 +8,5 @@ sealed interface MainNavigationAction {
 
     data class ToWallpaperDetail(val id: Long, val url: String) : MainNavigationAction
     data class ToCategoryDetail(val name: String, val query: String) : MainNavigationAction
+    data class ToMeshGradientDetail(val index: Int) : MainNavigationAction
 }

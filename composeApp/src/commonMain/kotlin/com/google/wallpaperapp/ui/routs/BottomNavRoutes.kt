@@ -20,6 +20,10 @@ import wallpaperapp.composeapp.generated.resources.favourite
 import wallpaperapp.composeapp.generated.resources.home
 import wallpaperapp.composeapp.generated.resources.settings
 
+import androidx.compose.material.icons.filled.Gradient
+import androidx.compose.material.icons.outlined.Gradient
+import wallpaperapp.composeapp.generated.resources.mesh_gradients
+
 data class BottomNavItem(
     val key: TopLevelBackStack,
     val icon: ImageVector,
@@ -37,6 +41,9 @@ sealed interface TopLevelBackStack : NavKey {
 
     @Serializable
     data object Categories :  TopLevelBackStack
+    
+    @Serializable
+    data object MeshGradients :  TopLevelBackStack
 
     @Serializable
     data object Favourite :  TopLevelBackStack
@@ -51,6 +58,8 @@ val bottomNavigationItems = listOf(
         label = Res.string.home, key = TopLevelBackStack.Home, icon = Icons.Outlined.Dashboard, selectedIcon = Icons.Filled.Dashboard
     ), BottomNavItem(
         label = Res.string.categories, key = TopLevelBackStack.Categories, icon = Icons.Outlined.Category, selectedIcon = Icons.Filled.Category
+    ), BottomNavItem(
+        label = Res.string.mesh_gradients, key = TopLevelBackStack.MeshGradients, icon = Icons.Outlined.Gradient, selectedIcon = Icons.Filled.Gradient
     ), BottomNavItem(
         label = Res.string.favourite, key = TopLevelBackStack.Favourite, icon = Icons.Outlined.FavoriteBorder, selectedIcon = Icons.Filled.Favorite
     ), BottomNavItem(

@@ -26,6 +26,9 @@ sealed interface Routs : NavKey {
     @Serializable
     data class WallpaperDetail(val wallpaperId: Long) : Routs
 
+    @Serializable
+    data class MeshGradientDetail(val startIndex: Int) : Routs
+
 
     @Serializable
     data object Language : Routs
