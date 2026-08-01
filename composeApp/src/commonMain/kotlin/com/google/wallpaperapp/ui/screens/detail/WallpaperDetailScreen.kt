@@ -20,6 +20,11 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastAny
 import androidx.compose.ui.zIndex
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import com.google.wallpaperapp.ui.components.WallpaperItem
+
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.wallpaperapp.core.platform.DownloadResult
 import com.google.wallpaperapp.core.platform.PlatformType
@@ -40,6 +45,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
+import com.google.wallpaperapp.ui.composables.collectAsLazyPagingItems
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jetbrains.compose.resources.stringResource
@@ -51,12 +57,14 @@ import wallpaperapp.composeapp.generated.resources.download_started
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
-import com.google.wallpaperapp.ui.composables.collectAsLazyPagingItems
+import com.google.wallpaperapp.ui.composables.LazyPagingItems
 
 @OptIn(ExperimentalTime::class)
 @Composable
 fun WallpaperDetailScreen(
-    clickedWallpaper: Wallpaper,
+    pagedWallpapers: LazyPagingItems<Wallpaper>? = null,
+    staticWallpapers: List<Wallpaper>? = null,
+    clickedWallpaperId: Long,
     favouriteViewModel: FavouriteViewModel = koinViewModel(),
     similarWallpapersViewModel: SimilarWallpapersViewModel = koinViewModel(),
     onBack: () -> Unit
@@ -65,13 +73,19 @@ fun WallpaperDetailScreen(
     val favouriteList by favouriteViewModel.getAllFavourites.collectAsStateWithLifecycle()
     var canShowDialog by remember { mutableStateOf(false) }
 
-    val similarWallpapers = similarWallpapersViewModel.similarWallpapers.collectAsLazyPagingItems()
-
-    LaunchedEffect(clickedWallpaper.alt) {
-        similarWallpapersViewModel.fetchSimilar(clickedWallpaper.alt)
+    val index by remember {
+        mutableStateOf(
+            pagedWallpapers?.itemSnapshotList?.items?.indexOfFirst {
+                it.id == clickedWallpaperId
+            } ?: staticWallpapers?.indexOfFirst {
+                it.id == clickedWallpaperId
+            } ?: -1
+        )
     }
 
-    val pagerState = rememberPagerState(initialPage = 0) { similarWallpapers.itemCount + 1 }
+    val pagerState = rememberPagerState(initialPage = if (index != -1) index else 0) { 
+        pagedWallpapers?.itemCount ?: staticWallpapers?.size ?: 0
+    }
 
 
     var canShowList by remember { mutableStateOf(false) }
@@ -89,12 +103,16 @@ fun WallpaperDetailScreen(
         canShowList = true
     }
 
-    val currentActiveWallpaper = if (pagerState.currentPage == 0) clickedWallpaper else {
-        similarWallpapers[pagerState.currentPage - 1] ?: clickedWallpaper
+    val currentWallpaperObj = if (pagedWallpapers != null) {
+        if (pagedWallpapers.itemCount > 0) pagedWallpapers[pagerState.currentPage] else null
+    } else {
+        staticWallpapers?.getOrNull(pagerState.currentPage)
     }
 
-    LaunchedEffect(key1 = currentActiveWallpaper, favouriteList) {
-        isFavourite = favouriteList.fastAny { it.wallpaper == currentActiveWallpaper.portrait }
+    LaunchedEffect(key1 = currentWallpaperObj, favouriteList) {
+        if (currentWallpaperObj != null) {
+            isFavourite = favouriteList.fastAny { it.wallpaper == currentWallpaperObj.portrait }
+        }
     }
 
 
@@ -112,14 +130,22 @@ fun WallpaperDetailScreen(
         visible = canShowList, modifier = Modifier.fillMaxSize()
     ) {
 
-        Box(
-            contentAlignment = Alignment.BottomCenter, modifier = Modifier.fillMaxSize()
+        BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+            val screenHeight = maxHeight
+            
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                item {
+                    Box(
+                        contentAlignment = Alignment.BottomCenter, 
+                        modifier = Modifier.fillMaxWidth().height(screenHeight)
+                    ) {
 
-        ) {
-
-            BlurBg(currentActiveWallpaper.portrait, currentlyLoaded = {imageBitmap ->
-                currentlyLoadedWallpaper = imageBitmap
-            })
+                        val activeUrl = currentWallpaperObj?.portrait ?: ""
+                        if (activeUrl.isNotEmpty()) {
+                            BlurBg(activeUrl, currentlyLoaded = {imageBitmap ->
+                                currentlyLoadedWallpaper = imageBitmap
+                            })
+                        }
 
             Box(
                 modifier = Modifier
@@ -146,17 +172,24 @@ fun WallpaperDetailScreen(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(horizontal = 20.dp),
                 beyondViewportPageCount = 0,
-                key = { if (it == 0) clickedWallpaper.id else similarWallpapers.peek(it - 1)?.id ?: it },
+                key = { 
+                    pagedWallpapers?.peek(it)?.id ?: staticWallpapers?.getOrNull(it)?.id ?: it
+                },
             ) { page ->
 
-                val pageWallpaper = if (page == 0) clickedWallpaper else {
-                    similarWallpapers[page - 1] ?: clickedWallpaper
+                val pageWallpaper = if (pagedWallpapers != null) {
+                    pagedWallpapers[page]?.portrait ?: ""
+                } else {
+                    staticWallpapers?.getOrNull(page)?.portrait ?: ""
                 }
-                SinglePageContent(
-                    wallpaperUrl = pageWallpaper.portrait,
-                    pagerState = pagerState,
-                    page = page
-                )
+                
+                if (pageWallpaper.isNotEmpty()) {
+                    SinglePageContent(
+                        wallpaperUrl = pageWallpaper,
+                        pagerState = pagerState,
+                        page = page
+                    )
+                }
 
             }
 
@@ -171,7 +204,7 @@ fun WallpaperDetailScreen(
                                 SHORT
                             )
                         }
-                        val url = currentActiveWallpaper.portrait
+                        val url = currentWallpaperObj?.portrait ?: return@launch
                         val fileName = "${Clock.System.now().toEpochMilliseconds()}.jpeg"
                         val result = WallpaperDownloader().downloadWallpaper(url, fileName)
                         when (result) {
@@ -209,10 +242,72 @@ fun WallpaperDetailScreen(
                         }
                     }
                 }, onFavourite = {
-                    val wallpaper = currentActiveWallpaper
-                    favouriteViewModel.addOrRemoveFavourite(wallpaper = wallpaper)
+                    val wallpaper = currentWallpaperObj
+                    if (wallpaper != null) {
+                        favouriteViewModel.addOrRemoveFavourite(wallpaper = wallpaper)
+                    }
                 })
-        }
+                    }
+                } // End of main Box item
+                
+                // Similar Wallpapers Section
+                if (currentWallpaperObj != null) {
+                    item {
+                        Text(
+                            text = "Similar Wallpapers",
+                            style = MaterialTheme.typography.titleLarge,
+                            modifier = Modifier.padding(16.dp),
+                            color = Color.White
+                        )
+                    }
+                    
+                    item {
+                        
+                        val similarWallpapers = similarWallpapersViewModel.similarWallpapers.collectAsLazyPagingItems()
+                        
+                        LaunchedEffect(currentWallpaperObj.alt) {
+                            if (currentWallpaperObj.alt.isNotEmpty()) {
+                                similarWallpapersViewModel.fetchSimilar(currentWallpaperObj.alt)
+                            }
+                        }
+                        
+                        val columns = 3
+                        val itemCount = similarWallpapers.itemCount
+                        val rowCount = if (itemCount == 0) 0 else (itemCount + columns - 1) / columns
+                        
+                        if (itemCount > 0) {
+                            Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)) {
+                                for (rowIndex in 0 until rowCount) {
+                                    Row(modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)) {
+                                        for (colIndex in 0 until columns) {
+                                            val itemIndex = rowIndex * columns + colIndex
+                                            Box(modifier = Modifier.weight(1f).padding(4.dp)) {
+                                                if (itemIndex < itemCount) {
+                                                    val wallpaper = similarWallpapers[itemIndex]
+                                                    if (wallpaper != null) {
+                                                        WallpaperItem(
+                                                            modifier = Modifier.height(200.dp),
+                                                            wallpaper = wallpaper.portrait,
+                                                            onWallpaperClick = { 
+                                                                // Navigate or expand functionality can go here
+                                                            }
+                                                        )
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        } else if (similarWallpapers.loadState.refresh is androidx.paging.LoadState.Loading) {
+                            Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) {
+                                CircularProgressIndicator(color = Color.White)
+                            }
+                        }
+                    }
+                }
+            } // End of LazyColumn
+        } // End of BoxWithConstraints
     }
 
     if (canShowDialog){
