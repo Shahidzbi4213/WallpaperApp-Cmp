@@ -2,8 +2,8 @@ package com.google.wallpaperapp.ui.screens.category
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -24,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -34,6 +35,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.wallpaperapp.ui.components.LoadingPlaceHolder
 import com.google.wallpaperapp.ui.composables.shimmerBrush
+import com.google.wallpaperapp.ui.theme.GlassBorderHi
+import com.google.wallpaperapp.ui.theme.Violet
 import com.google.wallpaperapp.ui.theme.getScreenyFontFamily
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil3.CoilImage
@@ -92,10 +95,14 @@ fun CategoryItem(category: Category, onClick: () -> Unit) {
         mutableStateOf(true)
     }
 
+    val shape = RoundedCornerShape(16.dp)
+
     Box(
         modifier = Modifier
             .height(100.dp)
-            .clip(RoundedCornerShape(10.dp))
+            .shadow(12.dp, shape, spotColor = Violet, ambientColor = Violet)
+            .clip(shape)
+            .border(1.dp, GlassBorderHi, shape)
             .clickable { onClick() },
         contentAlignment = Alignment.Center,
     ) {
@@ -123,7 +130,7 @@ fun CategoryItem(category: Category, onClick: () -> Unit) {
                     shimmerBrush(
                         targetValue = 1300f,
                         showShimmer = showShimmer
-                    ), shape = RoundedCornerShape(10.dp)
+                    ), shape = shape
                 )
 
         )
@@ -133,9 +140,9 @@ fun CategoryItem(category: Category, onClick: () -> Unit) {
             modifier = Modifier
                 .matchParentSize()
                 .background(
-                    brush = Brush.linearGradient(
-                        colors = listOf(Color.Black, Color(0xFF29323B))
-                    ), alpha = if (isSystemInDarkTheme()) 0.45f else 0.35f
+                    brush = Brush.verticalGradient(
+                        colors = listOf(Color.Black.copy(alpha = 0.18f), Color.Black.copy(alpha = 0.58f))
+                    )
                 ), contentAlignment = Alignment.Center
         ) {
             Text(

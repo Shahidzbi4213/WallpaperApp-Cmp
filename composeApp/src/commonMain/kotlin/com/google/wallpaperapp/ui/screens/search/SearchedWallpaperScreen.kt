@@ -20,11 +20,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.wallpaperapp.core.platform.BackHandler
+import com.google.wallpaperapp.ui.theme.auroraBackground
 import com.google.wallpaperapp.domain.models.RecentSearch
 import com.google.wallpaperapp.domain.models.Wallpaper
 import com.google.wallpaperapp.ui.composables.collectAsLazyPagingItems
@@ -56,6 +58,7 @@ fun SearchedWallpaperScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .auroraBackground()
             .safeDrawingPadding()
 
     ) {
@@ -95,7 +98,7 @@ fun SearchedWallpaperScreen(
             onExpandedChange = { searchViewModel.onEvent(SearchEvent.OnExpandChange(it)) },
             colors = SearchBarDefaults.colors(
                 containerColor = if (state.isExpanded) {
-                    MaterialTheme.colorScheme.background
+                    Color.Transparent
                 } else {
                     MaterialTheme.colorScheme.surfaceContainerHigh
                 }, dividerColor = MaterialTheme.colorScheme.outline

@@ -1,9 +1,7 @@
 package com.google.wallpaperapp.ui.screens.splash
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -13,13 +11,18 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.wallpaperapp.ui.components.SplashProgressBar
 import com.google.wallpaperapp.core.platform.BackHandler
+import com.google.wallpaperapp.ui.components.SplashProgressBar
+import com.google.wallpaperapp.ui.theme.ScreenyGradient
+import com.google.wallpaperapp.ui.theme.TextLow
+import com.google.wallpaperapp.ui.theme.auroraBackground
+import com.google.wallpaperapp.ui.theme.eyebrowStyle
 import com.google.wallpaperapp.ui.theme.getScreenyFontFamily
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -42,7 +45,7 @@ fun SplashScreen(
 
     val splashTitle = remember {
         buildAnnotatedString {
-            pushStyle(SpanStyle(fontWeight = FontWeight.Bold, fontSize = 29.sp))
+            pushStyle(SpanStyle(fontWeight = FontWeight.Bold, fontSize = 30.sp))
             append("Screeny")
             pushStyle(SpanStyle(fontWeight = FontWeight.Light, fontSize = 24.sp))
             append(" Wallpaper")
@@ -58,7 +61,7 @@ fun SplashScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .auroraBackground()
             .consumeWindowInsets(WindowInsets(0.dp)),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -72,11 +75,23 @@ fun SplashScreen(
             contentDescription = stringResource(Res.string.app_name)
         )
 
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(14.dp))
 
-        Text(text = splashTitle, color = MaterialTheme.colorScheme.onBackground, fontFamily = getScreenyFontFamily())
+        Text(
+            text = splashTitle,
+            style = TextStyle(brush = ScreenyGradient),
+            fontFamily = getScreenyFontFamily()
+        )
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text(
+            text = "DRESS YOUR SCREEN IN LIGHT",
+            style = eyebrowStyle(),
+            color = TextLow
+        )
+
+        Spacer(modifier = Modifier.height(28.dp))
 
 
         SplashProgressBar(progress = { progress })

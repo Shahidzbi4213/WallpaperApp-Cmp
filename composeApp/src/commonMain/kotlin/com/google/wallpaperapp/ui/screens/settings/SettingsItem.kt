@@ -57,6 +57,7 @@ fun SettingsItem(
             modifier = Modifier.weight(1f),
             text = stringResource(title),
             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+            color = MaterialTheme.colorScheme.onSurface,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             fontFamily = getScreenyFontFamily()
@@ -74,6 +75,7 @@ fun SettingsItem(
                     .mirror()
                     .rotate(90f),
                 imageVector = Icons.Default.KeyboardArrowUp,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 contentDescription = null
             )
         }
