@@ -27,14 +27,14 @@ fun HomeScreen(
     onWallpaperClick: (Wallpaper) -> Unit
 ) {
 
-    val state = rememberLazyGridState()
+    val state = androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState()
 
-    LazyVerticalGrid(
+    androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid(
         state = state,
-        columns = GridCells.Fixed(3),
+        columns = androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells.Fixed(3),
         contentPadding = PaddingValues(10.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+        verticalItemSpacing = 8.dp,
         overscrollEffect = null,
         modifier = modifier
             .fillMaxSize(),
@@ -49,13 +49,22 @@ fun HomeScreen(
 
 
         items(wallpapers.itemCount, key = { index ->
-            val item = wallpapers[index]
+            val item = wallpapers.peek(index)
             item?.id ?: "fallback_$index"
         }) { index ->
             val wallpaper = remember { wallpapers[index] }
 
             if (wallpaper != null) {
+                val height = remember(wallpaper.id) {
+                    val hash = kotlin.math.abs(wallpaper.id.hashCode()) % 3
+                    when (hash) {
+                        0 -> 200.dp
+                        1 -> 250.dp
+                        else -> 300.dp
+                    }
+                }
                 WallpaperItem(
+                    modifier = Modifier.height(height),
                     wallpaper = wallpaper.portrait,
                 ) {
                     onWallpaperClick(wallpaper)
@@ -64,7 +73,7 @@ fun HomeScreen(
         }
 
         if (wallpapers.loadState.append == LoadState.Loading)
-            item(span = { GridItemSpan(this.maxLineSpan) }) {
+            item(span = androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan.FullLine) {
                 Footer()
             }
 

@@ -9,9 +9,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -49,7 +49,7 @@ import kotlin.time.Duration.Companion.milliseconds
 @Composable
 fun CategoryScreen(
     modifier: Modifier = Modifier,
-    onCategoryClick: (String) -> Unit
+    onCategoryClick: (name: String, query: String) -> Unit
 ) {
 
     var showContent by remember { mutableStateOf(false) }
@@ -60,9 +60,9 @@ fun CategoryScreen(
     }
 
 
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+    LazyVerticalStaggeredGrid(
+        columns = StaggeredGridCells.Fixed(2),
+        verticalItemSpacing = 16.dp,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         contentPadding = PaddingValues(16.dp),
         modifier = modifier.fillMaxSize()
@@ -72,7 +72,7 @@ fun CategoryScreen(
         if (showContent) {
             items(categories, key = { it.name }) { category ->
                 CategoryItem(category = category) {
-                    onCategoryClick(category.name)
+                    onCategoryClick(category.name, category.query)
                 }
             }
 
@@ -95,11 +95,20 @@ fun CategoryItem(category: Category, onClick: () -> Unit) {
         mutableStateOf(true)
     }
 
-    val shape = RoundedCornerShape(16.dp)
+    val shape = RoundedCornerShape(24.dp)
+    
+    val height = remember(category.name) { 
+        val hash = kotlin.math.abs(category.name.hashCode()) % 3
+        when (hash) {
+            0 -> 160.dp
+            1 -> 200.dp
+            else -> 240.dp
+        }
+    }
 
     Box(
         modifier = Modifier
-            .height(100.dp)
+            .height(height)
             .shadow(12.dp, shape, spotColor = Violet, ambientColor = Violet)
             .clip(shape)
             .border(1.dp, GlassBorderHi, shape)

@@ -17,7 +17,11 @@ class CategoryViewModel(private val repo: SearchWallpapersRepository) : ViewMode
 
       @OptIn(ExperimentalCoroutinesApi::class)
       val wallpapers =   _query.filter { it != null }.flatMapLatest {
-          repo.getSearchWallpapers(it!!)
+          if (it!!.isEmpty()) {
+              kotlinx.coroutines.flow.flowOf(androidx.paging.PagingData.empty())
+          } else {
+              repo.getSearchWallpapers(it)
+          }
       }  .cachedIn(viewModelScope)
 
 

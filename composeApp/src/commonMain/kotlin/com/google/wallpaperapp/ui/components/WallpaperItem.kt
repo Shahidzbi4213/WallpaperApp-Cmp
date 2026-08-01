@@ -44,7 +44,6 @@ fun WallpaperItem(
             CrossfadePlugin(250)
         },
         modifier = modifier
-            .height(200.dp)
             .shadow(6.dp, shape)
             .clip(shape)
             .background(

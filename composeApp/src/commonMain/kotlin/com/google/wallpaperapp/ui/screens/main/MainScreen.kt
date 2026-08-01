@@ -109,7 +109,7 @@ fun MainScreen(
                     }
 
                     entry<TopLevelBackStack.Categories> {
-                        CategoryScreen(onCategoryClick = { onNavigate(MainNavigationAction.ToCategoryDetail(it)) })
+                        CategoryScreen(onCategoryClick = { name, query -> onNavigate(MainNavigationAction.ToCategoryDetail(name, query)) })
                     }
 
                     entry<TopLevelBackStack.Favourite> {

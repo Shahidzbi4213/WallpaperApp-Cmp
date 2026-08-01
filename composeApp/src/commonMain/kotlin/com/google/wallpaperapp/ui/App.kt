@@ -100,7 +100,7 @@ fun App(
                             wallpapers = wallpapers,
                             onNavigate = { action ->
                                 when (action) {
-                                    is MainNavigationAction.ToCategoryDetail -> backStack.add(Routs.CategoryDetail(action.category))
+                                    is MainNavigationAction.ToCategoryDetail -> backStack.add(Routs.CategoryDetail(action.name, action.query))
                                     MainNavigationAction.ToLanguage -> backStack.add(Routs.Language)
                                     MainNavigationAction.ToSearch -> backStack.add(Routs.SearchedWallpaper)
                                     is MainNavigationAction.ToFavouriteDetail -> backStack.add(Routs.FavouriteDetail(action.id, action.url))
@@ -128,13 +128,14 @@ fun App(
                     }
 
                     entry<Routs.CategoryDetail> {
-                        val query = it.categoryName
+                        val query = it.categoryQuery
+                        val name = it.categoryName
                         LaunchedEffect(query) {
                             categoryViewModel.updateQuery(query)
                         }
 
                         CategoryDetailScreen(
-                            query,
+                            name,
                             wallpapersByCategory,
                             onWallpaperClick = { wallpaper ->
                                 isCategory = true

@@ -18,7 +18,7 @@ sealed interface Routs : NavKey {
 
     @Serializable
     @Stable
-    data class CategoryDetail(val categoryName: String) : Routs
+    data class CategoryDetail(val categoryName: String, val categoryQuery: String) : Routs
 
     @Serializable
     data object SearchedWallpaper : Routs

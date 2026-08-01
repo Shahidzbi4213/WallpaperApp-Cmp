@@ -7,5 +7,5 @@ sealed interface MainNavigationAction {
     data class ToFavouriteDetail(val id: Long, val url: String) : MainNavigationAction
 
     data class ToWallpaperDetail(val id: Long, val url: String) : MainNavigationAction
-    data class ToCategoryDetail(val category: String) : MainNavigationAction
+    data class ToCategoryDetail(val name: String, val query: String) : MainNavigationAction
 }

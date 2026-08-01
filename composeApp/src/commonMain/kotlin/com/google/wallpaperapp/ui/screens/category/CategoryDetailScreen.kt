@@ -83,6 +83,7 @@ fun CategoryDetailScreen(
             ) { index ->
                 wallpapers[index]?.let { wallpaper ->
                     WallpaperItem(
+                        modifier = Modifier.height(200.dp),
                         wallpaper = wallpaper.portrait,) {
                         onWallpaperClick(wallpaper)
                     }

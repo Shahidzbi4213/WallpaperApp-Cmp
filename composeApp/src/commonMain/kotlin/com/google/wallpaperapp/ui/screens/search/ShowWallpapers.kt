@@ -66,11 +66,12 @@ fun ShowWallpapers(
 
 
             items(wallpapers.itemCount, key = { index ->
-                wallpapers[index]?.id ?: "fallback_$index"
+                wallpapers.peek(index)?.id ?: "fallback_$index"
             }) { index ->
                 val wallpaper = wallpapers[index]
                 if (wallpaper != null) {
                     WallpaperItem(
+                        modifier = Modifier.height(200.dp),
                         wallpaper = wallpaper.portrait,
                         onWallpaperClick = { onWallpaperClick(wallpaper, wallpapers.itemSnapshotList.items) }
                     )
