@@ -35,6 +35,7 @@ import com.google.wallpaperapp.core.platform.WallpaperManager
 import com.google.wallpaperapp.core.platform.getPlatformType
 import com.google.wallpaperapp.domain.models.Wallpaper
 import com.google.wallpaperapp.ui.components.ActionButtons
+import com.google.wallpaperapp.ui.components.AttributionBar
 import com.google.wallpaperapp.ui.components.BlurBg
 import com.google.wallpaperapp.ui.components.SinglePageContent
 import com.google.wallpaperapp.ui.dialogs.WallpaperApplyDialog
@@ -64,7 +65,7 @@ import com.google.wallpaperapp.ui.composables.LazyPagingItems
 fun WallpaperDetailScreen(
     pagedWallpapers: LazyPagingItems<Wallpaper>? = null,
     staticWallpapers: List<Wallpaper>? = null,
-    clickedWallpaperId: Long,
+    clickedWallpaperId: String,
     favouriteViewModel: FavouriteViewModel = koinViewModel(),
     similarWallpapersViewModel: SimilarWallpapersViewModel = koinViewModel(),
     onBack: () -> Unit
@@ -111,7 +112,7 @@ fun WallpaperDetailScreen(
 
     LaunchedEffect(key1 = currentWallpaperObj, favouriteList) {
         if (currentWallpaperObj != null) {
-            isFavourite = favouriteList.fastAny { it.wallpaper == currentWallpaperObj.portrait }
+            isFavourite = favouriteList.fastAny { it.id == currentWallpaperObj.id }
         }
     }
 
@@ -140,7 +141,7 @@ fun WallpaperDetailScreen(
                         modifier = Modifier.fillMaxWidth().height(screenHeight)
                     ) {
 
-                        val activeUrl = currentWallpaperObj?.portrait ?: ""
+                        val activeUrl = currentWallpaperObj?.previewUrl ?: ""
                         if (activeUrl.isNotEmpty()) {
                             BlurBg(activeUrl, currentlyLoaded = {imageBitmap ->
                                 currentlyLoadedWallpaper = imageBitmap
@@ -178,9 +179,9 @@ fun WallpaperDetailScreen(
             ) { page ->
 
                 val pageWallpaper = if (pagedWallpapers != null) {
-                    pagedWallpapers[page]?.portrait ?: ""
+                    pagedWallpapers[page]?.previewUrl ?: ""
                 } else {
-                    staticWallpapers?.getOrNull(page)?.portrait ?: ""
+                    staticWallpapers?.getOrNull(page)?.previewUrl ?: ""
                 }
                 
                 if (pageWallpaper.isNotEmpty()) {
@@ -204,7 +205,7 @@ fun WallpaperDetailScreen(
                                 SHORT
                             )
                         }
-                        val url = currentWallpaperObj?.portrait ?: return@launch
+                        val url = currentWallpaperObj?.fullUrl ?: return@launch
                         val fileName = "${Clock.System.now().toEpochMilliseconds()}.jpeg"
                         val result = WallpaperDownloader().downloadWallpaper(url, fileName)
                         when (result) {
@@ -249,7 +250,18 @@ fun WallpaperDetailScreen(
                 })
                     }
                 } // End of main Box item
-                
+
+                // Photographer + provider credit. Pexels and Unsplash both
+                // require this to be visible and linked.
+                currentWallpaperObj?.let { wallpaper ->
+                    item {
+                        AttributionBar(
+                            wallpaper = wallpaper,
+                            modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp),
+                        )
+                    }
+                }
+
                 // Similar Wallpapers Section
                 if (currentWallpaperObj != null) {
                     item {
@@ -287,7 +299,7 @@ fun WallpaperDetailScreen(
                                                     if (wallpaper != null) {
                                                         WallpaperItem(
                                                             modifier = Modifier.height(200.dp),
-                                                            wallpaper = wallpaper.portrait,
+                                                            wallpaper = wallpaper.thumbUrl,
                                                             onWallpaperClick = { 
                                                                 // Navigate or expand functionality can go here
                                                             }

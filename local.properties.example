@@ -1,0 +1,14 @@
+# Copy to `local.properties` and fill in the keys you have.
+#
+# Every key is optional. A provider whose key is blank reports itself disabled
+# and is skipped, so the app still builds and runs with none of these set —
+# Wallhaven needs no key and carries the feed on its own.
+#
+# These may also be supplied as environment variables of the same name, which is
+# what CI should do.
+
+# https://www.pexels.com/api/
+PEXELS_API_KEY=
+
+# https://unsplash.com/developers  (demo tier is 50 requests/hour)
+UNSPLASH_ACCESS_KEY=

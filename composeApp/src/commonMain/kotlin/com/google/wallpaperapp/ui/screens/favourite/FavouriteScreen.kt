@@ -41,7 +41,7 @@ fun FavouriteScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
     favouriteViewModel: FavouriteViewModel = koinViewModel(),
     onExplore: () -> Unit,
-    onWallpaperClick: (Long, String) -> Unit
+    onWallpaperClick: (String, String) -> Unit
 ) {
 
     val favourites by favouriteViewModel.getAllFavourites.collectAsStateWithLifecycle()

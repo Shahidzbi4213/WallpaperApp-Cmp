@@ -7,15 +7,11 @@ import androidx.room.Query
 import com.google.wallpaperapp.data.local.entities.WallpaperRemoteKeyEntity
 
 @Dao
-interface PexelWallpaperRemoteKeysDao {
+interface WallpaperRemoteKeysDao {
 
-    @Query("SELECT * FROM pexel_wallpaper_remote_keys_table WHERE id =:id")
-    suspend fun getRemoteKeyByWallpaperId(id: Long): WallpaperRemoteKeyEntity?
+    @Query("SELECT * FROM wallpaper_remote_keys_table WHERE id =:id")
+    suspend fun getRemoteKeyByWallpaperId(id: String): WallpaperRemoteKeyEntity?
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addAllRemoteKeys(remoteKeys: List<WallpaperRemoteKeyEntity>)
-
-
-
-
 }

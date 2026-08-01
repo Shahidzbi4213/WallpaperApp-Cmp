@@ -65,7 +65,7 @@ fun HomeScreen(
                 }
                 WallpaperItem(
                     modifier = Modifier.height(height),
-                    wallpaper = wallpaper.portrait,
+                    wallpaper = wallpaper.thumbUrl,
                 ) {
                     onWallpaperClick(wallpaper)
                 }

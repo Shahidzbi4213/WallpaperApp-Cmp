@@ -3,37 +3,27 @@ package com.google.wallpaperapp.data.repositories
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.map
 import com.google.wallpaperapp.data.local.dao.CommonDao
-import com.google.wallpaperapp.data.utils.Constant
-import com.google.wallpaperapp.data.local.dao.PexelWallpaperDao
-import com.google.wallpaperapp.data.local.dao.PexelWallpaperRemoteKeysDao
+import com.google.wallpaperapp.data.local.dao.WallpaperDao
+import com.google.wallpaperapp.data.local.dao.WallpaperRemoteKeysDao
 import com.google.wallpaperapp.data.local.entities.WallpaperEntity
-import com.google.wallpaperapp.data.paging.PexelWallpaperRemoteMediator
-import com.google.wallpaperapp.data.remote.PexelWallpapersApi
-import com.google.wallpaperapp.domain.mappers.toWallpaper
-import com.google.wallpaperapp.domain.models.Wallpaper
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import com.google.wallpaperapp.data.paging.WallpaperRemoteMediator
+import com.google.wallpaperapp.data.remote.provider.WallpaperAggregator
+import com.google.wallpaperapp.data.utils.PagingDefaults
 
 
 @OptIn(ExperimentalPagingApi::class)
 class WallpaperRepository(
-    private val wallpaperDao: PexelWallpaperDao,
-    private val remoteKeysDao: PexelWallpaperRemoteKeysDao,
+    private val wallpaperDao: WallpaperDao,
+    private val remoteKeysDao: WallpaperRemoteKeysDao,
     private val commonDao: CommonDao,
-    private val api: PexelWallpapersApi
+    private val aggregator: WallpaperAggregator,
 ) {
-    fun getAllWallpapers(): Pager<Int, WallpaperEntity> {
-        val pageConfig = PagingConfig(
-            pageSize = Constant.PER_PAGE_ITEMS,
-        )
-
-        return Pager(
-            config = pageConfig,
-            remoteMediator = PexelWallpaperRemoteMediator(wallpaperDao, remoteKeysDao, commonDao,api),
-            pagingSourceFactory = { wallpaperDao.getAllWallpapers() }
-        )
-    }
+    fun getAllWallpapers(): Pager<Int, WallpaperEntity> = Pager(
+        config = PagingConfig(pageSize = PagingDefaults.PAGE_SIZE),
+        remoteMediator = WallpaperRemoteMediator(
+            wallpaperDao, remoteKeysDao, commonDao, aggregator
+        ),
+        pagingSourceFactory = { wallpaperDao.getAllWallpapers() },
+    )
 }

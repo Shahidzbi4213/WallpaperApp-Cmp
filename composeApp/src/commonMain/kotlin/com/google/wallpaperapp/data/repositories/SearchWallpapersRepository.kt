@@ -3,29 +3,20 @@ package com.google.wallpaperapp.data.repositories
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.map
 import com.google.wallpaperapp.data.paging.SearchWallpapersPagingSource
-import com.google.wallpaperapp.data.remote.PexelWallpapersApi
-import com.google.wallpaperapp.data.utils.Constant
-import com.google.wallpaperapp.domain.mappers.toWallpaper
+import com.google.wallpaperapp.data.remote.provider.WallpaperAggregator
+import com.google.wallpaperapp.data.utils.PagingDefaults
 import com.google.wallpaperapp.domain.models.Wallpaper
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
-class SearchWallpapersRepository(private val api: PexelWallpapersApi) {
+class SearchWallpapersRepository(private val aggregator: WallpaperAggregator) {
 
-    fun getSearchWallpapers(query: String): Flow<PagingData<Wallpaper>>  {
-
-        val pageConfig = PagingConfig(
-            pageSize = Constant.PER_PAGE_ITEMS,
-            initialLoadSize = Constant.PER_PAGE_ITEMS * 2,
-            enablePlaceholders = false
-        )
-        return Pager(
-            config = pageConfig,
-            pagingSourceFactory = { SearchWallpapersPagingSource(api, query) },
-        ).flow.map { pagingData ->
-            pagingData.map { wallpaperResponse -> wallpaperResponse.toWallpaper()}
-        }
-    }
+    fun getSearchWallpapers(query: String): Flow<PagingData<Wallpaper>> = Pager(
+        config = PagingConfig(
+            pageSize = PagingDefaults.PAGE_SIZE,
+            initialLoadSize = PagingDefaults.PAGE_SIZE,
+            enablePlaceholders = false,
+        ),
+        pagingSourceFactory = { SearchWallpapersPagingSource(aggregator, query) },
+    ).flow
 }

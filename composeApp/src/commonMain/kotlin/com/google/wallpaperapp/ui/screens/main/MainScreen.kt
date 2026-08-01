@@ -105,7 +105,7 @@ fun MainScreen(
                         HomeScreen(
                             wallpapers,
                             onWallpaperClick = { wallpaper ->
-                                onNavigate(MainNavigationAction.ToWallpaperDetail(wallpaper.id, wallpaper.portrait))
+                                onNavigate(MainNavigationAction.ToWallpaperDetail(wallpaper.id, wallpaper.previewUrl))
                             }
                         )
                     }

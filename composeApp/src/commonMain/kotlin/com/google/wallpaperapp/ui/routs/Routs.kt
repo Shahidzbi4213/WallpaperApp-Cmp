@@ -14,7 +14,7 @@ sealed interface Routs : NavKey {
     data object MainScreen : Routs
 
     @Serializable
-    data class FavouriteDetail(val wallpaperId: Long, val wallpaperUrl: String) : Routs
+    data class FavouriteDetail(val wallpaperId: String, val wallpaperUrl: String) : Routs
 
     @Serializable
     @Stable
@@ -24,7 +24,7 @@ sealed interface Routs : NavKey {
     data object SearchedWallpaper : Routs
 
     @Serializable
-    data class WallpaperDetail(val wallpaperId: Long) : Routs
+    data class WallpaperDetail(val wallpaperId: String) : Routs
 
     @Serializable
     data class MeshGradientDetail(val startIndex: Int) : Routs

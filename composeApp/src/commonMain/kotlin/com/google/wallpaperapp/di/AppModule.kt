@@ -3,11 +3,11 @@ package com.google.wallpaperapp.di
 import com.google.wallpaperapp.data.local.dao.CommonDao
 import com.google.wallpaperapp.data.local.dao.FavouriteWallpaperDao
 import com.google.wallpaperapp.ui.screens.splash.SplashViewModel
-import com.google.wallpaperapp.data.local.dao.PexelWallpaperDao
-import com.google.wallpaperapp.data.local.dao.PexelWallpaperRemoteKeysDao
+import com.google.wallpaperapp.data.local.dao.WallpaperDao
+import com.google.wallpaperapp.data.local.dao.WallpaperRemoteKeysDao
 import com.google.wallpaperapp.data.local.dao.RecentSearchDao
 import com.google.wallpaperapp.data.local.dao.UserPreferenceDao
-import com.google.wallpaperapp.data.remote.PexelWallpapersApi
+import com.google.wallpaperapp.data.remote.provider.WallpaperAggregator
 import com.google.wallpaperapp.data.repositories.FavouriteRepo
 import com.google.wallpaperapp.data.repositories.RecentSearchRepository
 import com.google.wallpaperapp.data.repositories.SearchWallpapersRepository
@@ -52,18 +52,18 @@ class AppModule {
 
 
     @Factory
-    fun provideSearchRepo(api: PexelWallpapersApi): SearchWallpapersRepository {
-        return SearchWallpapersRepository(api)
+    fun provideSearchRepo(aggregator: WallpaperAggregator): SearchWallpapersRepository {
+        return SearchWallpapersRepository(aggregator)
     }
 
     @Single
     fun provideWallpaperRepo(
-        wallpaperDao: PexelWallpaperDao,
-        keysDao: PexelWallpaperRemoteKeysDao,
+        wallpaperDao: WallpaperDao,
+        keysDao: WallpaperRemoteKeysDao,
         commonDao: CommonDao,
-        api: PexelWallpapersApi
+        aggregator: WallpaperAggregator
     ): WallpaperRepository {
-        return WallpaperRepository(wallpaperDao, keysDao, commonDao, api)
+        return WallpaperRepository(wallpaperDao, keysDao, commonDao, aggregator)
     }
 
     @Single

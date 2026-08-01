@@ -122,7 +122,10 @@ fun FavouriteDetailScreen(
                                 SHORT
                             )
                         }
-                        val url = wallpaper().wallpaper
+                        // Prefer the original; favourites opened straight from a
+                        // nav argument only carry the preview URL.
+                        val favourite = wallpaper()
+                        val url = favourite.fullUrl.ifBlank { favourite.wallpaper }
                         val fileName = "${Clock.System.now().toEpochMilliseconds()}.jpeg"
                         val result = WallpaperDownloader().downloadWallpaper(url, fileName)
                         when (result) {

@@ -10,12 +10,14 @@ interface CommonDao {
     @Transaction
     suspend fun clearAllWallpapers() {
         deleteAllWallpapers()
-        deleteAllWallpapers()
+        // Previously this called deleteAllWallpapers() a second time, so remote
+        // keys were never cleared and leaked on every refresh.
+        deleteAllRemoteKeys()
     }
 
-    @Query("DELETE FROM pexel_wallpaper_table")
+    @Query("DELETE FROM wallpaper_table")
     suspend fun deleteAllWallpapers()
 
-    @Query("DELETE FROM pexel_wallpaper_remote_keys_table")
+    @Query("DELETE FROM wallpaper_remote_keys_table")
     suspend fun deleteAllRemoteKeys()
 }

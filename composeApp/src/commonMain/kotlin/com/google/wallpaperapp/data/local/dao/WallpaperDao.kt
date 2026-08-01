@@ -9,16 +9,18 @@ import com.google.wallpaperapp.data.local.entities.WallpaperEntity
 
 
 @Dao
-interface PexelWallpaperDao {
+interface WallpaperDao {
 
-    @Query("SELECT * FROM pexel_wallpaper_table order by page")
+    /**
+     * Ordered by page then insertion order, so the blended ordering the
+     * aggregator produced survives a replay from cache.
+     */
+    @Query("SELECT * FROM wallpaper_table ORDER BY page, rowid")
     fun getAllWallpapers(): PagingSource<Int, WallpaperEntity>
 
-    @Query("SELECT COUNT(*) FROM pexel_wallpaper_table")
+    @Query("SELECT COUNT(*) FROM wallpaper_table")
     suspend fun getWallpaperCount(): Int
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addWallpapers(wallpapers: List<WallpaperEntity>)
-
-
 }

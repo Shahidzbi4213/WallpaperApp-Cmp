@@ -1,7 +1,7 @@
 package com.google.wallpaperapp.data.repositories
 
 import com.google.wallpaperapp.data.local.dao.FavouriteWallpaperDao
-import com.google.wallpaperapp.data.local.entities.FavouriteWallpaperEntity
+import com.google.wallpaperapp.domain.mappers.toEntity
 import com.google.wallpaperapp.domain.mappers.toFavouriteWallpapers
 import com.google.wallpaperapp.domain.models.FavouriteWallpaper
 import kotlinx.coroutines.Dispatchers
@@ -20,25 +20,18 @@ class FavouriteRepo(private val dao: FavouriteWallpaperDao) {
 
     suspend fun addOrRemove(wallpaper: FavouriteWallpaper) {
         withContext(ioDispatcher) {
-            val savedWallpaper = dao.getFavouriteById(wallpaper.id)
-
-            if (savedWallpaper != null) {
-                dao.removeFromFavourite(savedWallpaper)
+            val saved = dao.getFavouriteById(wallpaper.id)
+            if (saved != null) {
+                dao.removeFromFavourite(saved)
             } else {
-                val favouriteWallpaper = FavouriteWallpaperEntity(
-                    wallpaper.id, wallpaper.wallpaper,
-                )
-                dao.addToFavourite(favouriteWallpaper)
+                dao.addToFavourite(wallpaper.toEntity())
             }
         }
     }
-
 
     suspend fun removeWallpaper(url: String) {
         withContext(ioDispatcher) {
             dao.deleteViaUrl(url)
         }
     }
-
-
 }

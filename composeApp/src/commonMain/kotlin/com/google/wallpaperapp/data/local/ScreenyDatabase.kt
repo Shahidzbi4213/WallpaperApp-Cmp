@@ -7,8 +7,8 @@ import androidx.room.RoomDatabaseConstructor
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import com.google.wallpaperapp.data.local.dao.CommonDao
 import com.google.wallpaperapp.data.local.dao.FavouriteWallpaperDao
-import com.google.wallpaperapp.data.local.dao.PexelWallpaperDao
-import com.google.wallpaperapp.data.local.dao.PexelWallpaperRemoteKeysDao
+import com.google.wallpaperapp.data.local.dao.WallpaperDao
+import com.google.wallpaperapp.data.local.dao.WallpaperRemoteKeysDao
 import com.google.wallpaperapp.data.local.dao.RecentSearchDao
 import com.google.wallpaperapp.data.local.dao.UserPreferenceDao
 import com.google.wallpaperapp.data.local.entities.FavouriteWallpaperEntity
@@ -23,16 +23,16 @@ import kotlinx.coroutines.IO
     entities = [FavouriteWallpaperEntity::class, WallpaperEntity::class,
         WallpaperRemoteKeyEntity::class, UserPreferenceEntity::class,
         RecentSearchEntity::class
-    ], version = 2, exportSchema = false
+    ], version = 3, exportSchema = true
 )
 @ConstructedBy(AppDatabaseConstructor::class)
 abstract class ScreenyDatabase : RoomDatabase() {
 
     abstract fun favouriteWallpaperDao(): FavouriteWallpaperDao
 
-    abstract fun wallpaperDao(): PexelWallpaperDao
+    abstract fun wallpaperDao(): WallpaperDao
 
-    abstract fun remoteKeysDao(): PexelWallpaperRemoteKeysDao
+    abstract fun remoteKeysDao(): WallpaperRemoteKeysDao
 
     abstract fun commonDao(): CommonDao
 

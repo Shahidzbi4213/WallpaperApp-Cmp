@@ -72,7 +72,7 @@ fun ShowWallpapers(
                 if (wallpaper != null) {
                     WallpaperItem(
                         modifier = Modifier.height(200.dp),
-                        wallpaper = wallpaper.portrait,
+                        wallpaper = wallpaper.thumbUrl,
                         onWallpaperClick = { onWallpaperClick(wallpaper, wallpapers.itemSnapshotList.items) }
                     )
                 }
