@@ -2,7 +2,12 @@
 
 A Kotlin Multiplatform wallpaper app for **Android** and **iOS**, built with Compose Multiplatform. Browse, search, and favourite high-resolution wallpapers, then download them or set them straight as your device wallpaper. Wallpapers are sourced from the [Pexels API](https://www.pexels.com/api/).
 
-<img width="736" height="1600" alt="Screeny" src="https://github.com/user-attachments/assets/f0dd660b-58a7-4118-8881-78c7e36c6d41" />
+<p align="center">
+  <img src="screenshots/home.png" width="200" />
+  <img src="screenshots/detail.png" width="200" />
+  <img src="screenshots/similar.png" width="200" />
+  <img src="screenshots/after_back.png" width="200" />
+</p>
 
 ## Features
 
