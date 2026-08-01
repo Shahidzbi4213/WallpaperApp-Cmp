@@ -14,7 +14,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
@@ -40,11 +39,8 @@ import com.google.wallpaperapp.ui.screens.languages.LanguageScreen
 import com.google.wallpaperapp.ui.screens.main.MainNavigationAction
 import com.google.wallpaperapp.ui.screens.main.MainScreen
 import com.google.wallpaperapp.ui.screens.search.SearchedWallpaperScreen
-import com.google.wallpaperapp.ui.screens.settings.SettingViewModel
 import com.google.wallpaperapp.ui.screens.splash.SplashScreen
 import com.google.wallpaperapp.ui.theme.ScreenyTheme
-import com.google.wallpaperapp.utils.AppMode
-import com.google.wallpaperapp.utils.isDarkMode
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 import org.koin.compose.viewmodel.koinViewModel
@@ -54,7 +50,6 @@ import org.koin.compose.viewmodel.koinViewModel
 fun App(
     modifier: Modifier = Modifier,
     homeScreenViewModel: HomeScreenViewModel = koinViewModel(),
-    settingViewModel: SettingViewModel = koinViewModel(),
     categoryViewModel: CategoryViewModel = koinViewModel()
 ) {
     val configuration = SavedStateConfiguration {
@@ -78,13 +73,7 @@ fun App(
     var searchedWallpapers by remember { mutableStateOf(emptyList<Wallpaper>()) }
 
     val wallpapers = homeScreenViewModel.wallpapers.collectAsLazyPagingItems()
-    val userPreferences by settingViewModel.userPreference.collectAsStateWithLifecycle()
-
-
-    ScreenyTheme(
-        dynamicColor = userPreferences.shouldShowDynamicColor,
-        darkTheme = isDarkMode(appMode = AppMode.getModeById(userPreferences.appMode))
-    ) {
+    ScreenyTheme {
 
         SharedTransitionLayout {
 

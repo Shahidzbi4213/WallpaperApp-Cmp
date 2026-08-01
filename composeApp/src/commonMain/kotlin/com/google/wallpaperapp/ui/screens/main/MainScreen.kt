@@ -1,6 +1,10 @@
 package com.google.wallpaperapp.ui.screens.main
 
 import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -61,13 +65,15 @@ fun MainScreen(
         topBar = {
             TopBar(title = bottomNavigationItems.firstOrNull() {
                 it.key == selectedBottomNavItem
-            }?.label ?: Res.string.app_name, isHome = true, onClick = { onNavigate(MainNavigationAction.ToSearch) })
+            }?.label ?: Res.string.app_name, isHome = selectedBottomNavItem == TopLevelBackStack.Home, onClick = { onNavigate(MainNavigationAction.ToSearch) })
         },
         bottomBar = {
             BottomNavigationBar(
                 selected = selectedBottomNavItem,
                 onTabClick = { key ->
                     if (bottomNavBackStack.lastOrNull() != key) {
+                        // Dedupe so the backstack never grows unbounded across taps
+                        bottomNavBackStack.remove(key)
                         bottomNavBackStack.add(key)
                     }
                 }
@@ -83,6 +89,11 @@ fun MainScreen(
                 onBack = {
                     bottomNavBackStack.removeLastOrNull()
                 },
+                // Quick cross-fade instead of the default slide: top-level tab
+                // switches feel instant and don't stutter on heavy screens.
+                transitionSpec = { fadeIn(tween(150)) togetherWith fadeOut(tween(150)) },
+                popTransitionSpec = { fadeIn(tween(150)) togetherWith fadeOut(tween(150)) },
+                predictivePopTransitionSpec = { fadeIn(tween(150)) togetherWith fadeOut(tween(150)) },
                 entryDecorators = listOf(
                     rememberSaveableStateHolderNavEntryDecorator(),
                     rememberViewModelStoreNavEntryDecorator()
