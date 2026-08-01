@@ -16,5 +16,7 @@ data class WallpaperResponse(
     val photographerUrl: String,
     @SerialName("src")
      val wallpaperSource: SrcResponse,
+    @SerialName("alt")
+    val alt: String = "",
     @Transient var page: Int = 0
 )

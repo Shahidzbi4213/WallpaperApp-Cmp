@@ -6,5 +6,6 @@ data class Wallpaper (
     val photographerUrl: String,
     val medium: String,
     val portrait: String,
-    val small:String
+    val small:String,
+    val alt: String = ""
 )

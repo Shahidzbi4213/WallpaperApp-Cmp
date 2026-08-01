@@ -15,5 +15,7 @@ data class WallpaperEntity @OptIn(ExperimentalTime::class) constructor(
     @ColumnInfo("photographer_url")
     val photographerUrl: String,
     @Embedded val wallpaperSource: SrcEntity,
+    @ColumnInfo("alt")
+    val alt: String = "",
     var page: Int = 0
 )

@@ -15,7 +15,8 @@ fun WallpaperResponse.toWallpaperEntity(): WallpaperEntity {
         photographerName = photographerName,
         photographerUrl = photographerUrl,
         wallpaperSource = wallpaperSource.toSrcEntity(),
-        page = page
+        page = page,
+        alt = alt
     )
 }
 
@@ -26,7 +27,8 @@ fun WallpaperResponse.toWallpaper(): Wallpaper {
         photographerUrl = photographerUrl,
         portrait = wallpaperSource.portrait,
         medium = wallpaperSource.medium,
-        small = wallpaperSource.small
+        small = wallpaperSource.small,
+        alt = alt
     )
 }
 
@@ -43,7 +45,8 @@ fun WallpaperEntity.toWallpaper(): Wallpaper {
         small = wallpaperSource.small,
         portrait = wallpaperSource.portrait,
         photographerUrl = photographerUrl,
-        photographerName = photographerName
+        photographerName = photographerName,
+        alt = alt
     )
 }
 

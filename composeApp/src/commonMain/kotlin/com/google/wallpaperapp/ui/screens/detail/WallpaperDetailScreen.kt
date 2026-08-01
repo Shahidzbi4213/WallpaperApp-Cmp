@@ -51,27 +51,27 @@ import wallpaperapp.composeapp.generated.resources.download_started
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
+import com.google.wallpaperapp.ui.composables.collectAsLazyPagingItems
+
 @OptIn(ExperimentalTime::class)
 @Composable
 fun WallpaperDetailScreen(
-    wallpapers: List<Wallpaper>,
-    clickedWallpaperId: Long,
+    clickedWallpaper: Wallpaper,
     favouriteViewModel: FavouriteViewModel = koinViewModel(),
+    similarWallpapersViewModel: SimilarWallpapersViewModel = koinViewModel(),
     onBack: () -> Unit
 ) {
 
     val favouriteList by favouriteViewModel.getAllFavourites.collectAsStateWithLifecycle()
     var canShowDialog by remember { mutableStateOf(false) }
 
-    val index by remember {
-        mutableStateOf(
-            wallpapers.indexOfFirst {
-                it.id == clickedWallpaperId
-            }
-        )
+    val similarWallpapers = similarWallpapersViewModel.similarWallpapers.collectAsLazyPagingItems()
+
+    LaunchedEffect(clickedWallpaper.alt) {
+        similarWallpapersViewModel.fetchSimilar(clickedWallpaper.alt)
     }
 
-    val pagerState = rememberPagerState(initialPage = if (index != -1) index else 0) { wallpapers.size }
+    val pagerState = rememberPagerState(initialPage = 0) { similarWallpapers.itemCount + 1 }
 
 
     var canShowList by remember { mutableStateOf(false) }
@@ -89,8 +89,12 @@ fun WallpaperDetailScreen(
         canShowList = true
     }
 
-    LaunchedEffect(key1 = pagerState.currentPage, favouriteList) {
-        isFavourite = favouriteList.fastAny { it.wallpaper == wallpapers[pagerState.currentPage].portrait }
+    val currentActiveWallpaper = if (pagerState.currentPage == 0) clickedWallpaper else {
+        similarWallpapers[pagerState.currentPage - 1] ?: clickedWallpaper
+    }
+
+    LaunchedEffect(key1 = currentActiveWallpaper, favouriteList) {
+        isFavourite = favouriteList.fastAny { it.wallpaper == currentActiveWallpaper.portrait }
     }
 
 
@@ -113,7 +117,7 @@ fun WallpaperDetailScreen(
 
         ) {
 
-            BlurBg(wallpapers[pagerState.currentPage].portrait, currentlyLoaded = {imageBitmap ->
+            BlurBg(currentActiveWallpaper.portrait, currentlyLoaded = {imageBitmap ->
                 currentlyLoadedWallpaper = imageBitmap
             })
 
@@ -142,12 +146,14 @@ fun WallpaperDetailScreen(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(horizontal = 20.dp),
                 beyondViewportPageCount = 0,
-                key = { wallpapers[it].id },
+                key = { if (it == 0) clickedWallpaper.id else similarWallpapers.peek(it - 1)?.id ?: it },
             ) { page ->
 
-                val currentWallpaper = wallpapers[page].portrait
+                val pageWallpaper = if (page == 0) clickedWallpaper else {
+                    similarWallpapers[page - 1] ?: clickedWallpaper
+                }
                 SinglePageContent(
-                    wallpaperUrl = currentWallpaper,
+                    wallpaperUrl = pageWallpaper.portrait,
                     pagerState = pagerState,
                     page = page
                 )
@@ -165,7 +171,7 @@ fun WallpaperDetailScreen(
                                 SHORT
                             )
                         }
-                        val url = wallpapers[pagerState.currentPage].portrait
+                        val url = currentActiveWallpaper.portrait
                         val fileName = "${Clock.System.now().toEpochMilliseconds()}.jpeg"
                         val result = WallpaperDownloader().downloadWallpaper(url, fileName)
                         when (result) {
@@ -203,7 +209,7 @@ fun WallpaperDetailScreen(
                         }
                     }
                 }, onFavourite = {
-                    val wallpaper = wallpapers[pagerState.currentPage]
+                    val wallpaper = currentActiveWallpaper
                     favouriteViewModel.addOrRemoveFavourite(wallpaper = wallpaper)
                 })
         }

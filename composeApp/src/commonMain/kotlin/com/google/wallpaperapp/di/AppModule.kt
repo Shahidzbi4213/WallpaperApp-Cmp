@@ -14,6 +14,7 @@ import com.google.wallpaperapp.data.repositories.SearchWallpapersRepository
 import com.google.wallpaperapp.data.repositories.UserPreferenceRepo
 import com.google.wallpaperapp.data.repositories.WallpaperRepository
 import com.google.wallpaperapp.ui.screens.category.CategoryViewModel
+import com.google.wallpaperapp.ui.screens.detail.SimilarWallpapersViewModel
 import com.google.wallpaperapp.ui.screens.favourite.FavouriteViewModel
 import com.google.wallpaperapp.ui.screens.home.HomeScreenViewModel
 import com.google.wallpaperapp.ui.screens.languages.LanguageViewModel
@@ -42,6 +43,11 @@ class AppModule {
     @KoinViewModel
     fun provideCategoryViewModel(repository: SearchWallpapersRepository): CategoryViewModel {
         return CategoryViewModel(repository)
+    }
+
+    @KoinViewModel
+    fun provideSimilarWallpapersViewModel(repository: SearchWallpapersRepository): SimilarWallpapersViewModel {
+        return SimilarWallpapersViewModel(repository)
     }
 
 

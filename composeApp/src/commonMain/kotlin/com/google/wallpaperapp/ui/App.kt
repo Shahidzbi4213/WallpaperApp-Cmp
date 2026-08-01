@@ -110,21 +110,23 @@ fun App(
                     }
 
                     entry<Routs.WallpaperDetail> {
-                        WallpaperDetailScreen(
-                            wallpapers = if (isSearch) {
-                                searchedWallpapers
-                            } else {
-                                if (isCategory) wallpapersByCategory.itemSnapshotList.items else
-                                    wallpapers.itemSnapshotList.items
-                            },
-                            clickedWallpaperId = it.wallpaperId,
-                            onBack = {
-                                isSearch = false
-                                searchedWallpapers = emptyList()
-                                isCategory = false
-                                backStack.removeLastOrNull()
-                            }
-                        )
+                        val clickedWallpaper = remember(it.wallpaperId) {
+                            searchedWallpapers.find { w -> w.id == it.wallpaperId }
+                                ?: wallpapersByCategory.itemSnapshotList.items.find { w -> w.id == it.wallpaperId }
+                                ?: wallpapers.itemSnapshotList.items.find { w -> w.id == it.wallpaperId }
+                        }
+
+                        if (clickedWallpaper != null) {
+                            WallpaperDetailScreen(
+                                clickedWallpaper = clickedWallpaper,
+                                onBack = {
+                                    isSearch = false
+                                    searchedWallpapers = emptyList()
+                                    isCategory = false
+                                    backStack.removeLastOrNull()
+                                }
+                            )
+                        }
                     }
 
                     entry<Routs.CategoryDetail> {

@@ -23,7 +23,7 @@ import kotlinx.coroutines.IO
     entities = [FavouriteWallpaperEntity::class, WallpaperEntity::class,
         WallpaperRemoteKeyEntity::class, UserPreferenceEntity::class,
         RecentSearchEntity::class
-    ], version = 1, exportSchema = false
+    ], version = 2, exportSchema = false
 )
 @ConstructedBy(AppDatabaseConstructor::class)
 abstract class ScreenyDatabase : RoomDatabase() {
