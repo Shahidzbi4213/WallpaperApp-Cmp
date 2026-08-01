@@ -5,8 +5,6 @@ A Kotlin Multiplatform wallpaper app for **Android** and **iOS**, built with Com
 <p align="center">
   <img src="screenshots/home.png" width="200" />
   <img src="screenshots/detail.png" width="200" />
-  <img src="screenshots/similar.png" width="200" />
-  <img src="screenshots/after_back.png" width="200" />
 </p>
 
 ## Features
