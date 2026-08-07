@@ -32,6 +32,8 @@ sqlite = "2.6.2"
 androidx-paging = "3.5.0"
 multiplatform-paging = "3.3.0-alpha02-0.5.1"
 compose-multiplatform-lifecycle = "2.10.0"
+uiToolingPreview = "1.11.4"
+uiTooling = "1.11.4"
 
 
 
@@ -86,6 +88,8 @@ paging-multiplatform-common = { module = "app.cash.paging:paging-common", versio
 paging-multiplatform-compose-common = { module = "app.cash.paging:paging-compose-common", version.ref = "multiplatform-paging" }
 paging-android = { module = "androidx.paging:paging-runtime", version.ref = "androidx-paging" }
 paging-uikit = { module = "app.cash.paging:paging-runtime-uikit", version.ref = "multiplatform-paging" }
+androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "uiToolingPreview" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "uiTooling" }
 
 
 [bundles]
