@@ -146,7 +146,6 @@ fun WallpaperDetailScreen(
                                 currentlyLoadedWallpaper = imageBitmap
                             })
                         }
-
             Box(
                 modifier = Modifier
                     .align(Alignment.TopStart)
