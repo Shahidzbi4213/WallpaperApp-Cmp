@@ -36,15 +36,16 @@ import com.google.wallpaperapp.ui.desktop.screens.DesktopFavouriteScreen
 import com.google.wallpaperapp.ui.desktop.screens.DesktopLanguageDialog
 import com.google.wallpaperapp.ui.desktop.screens.DesktopMeshGradientScreen
 import com.google.wallpaperapp.ui.desktop.screens.DesktopSettingsScreen
-import com.google.wallpaperapp.ui.desktop.components.WallpaperPagedGrid
+import com.google.wallpaperapp.ui.desktop.components.WallpaperPageGrid
+import com.google.wallpaperapp.ui.desktop.paging.WallpaperFeed
+import com.google.wallpaperapp.ui.desktop.paging.WallpaperPageLoader
+import com.google.wallpaperapp.ui.desktop.paging.rememberWallpaperPageLoader
 import com.google.wallpaperapp.ui.desktop.theme.DesktopDimens
 import com.google.wallpaperapp.ui.desktop.theme.DesktopTheme
 import com.google.wallpaperapp.ui.routs.TopLevelBackStack
 import com.google.wallpaperapp.ui.routs.bottomNavigationItems
-import com.google.wallpaperapp.ui.screens.category.CategoryViewModel
 import com.google.wallpaperapp.ui.screens.detail.SimilarWallpapersViewModel
 import com.google.wallpaperapp.ui.screens.favourite.FavouriteViewModel
-import com.google.wallpaperapp.ui.screens.home.HomeScreenViewModel
 import com.google.wallpaperapp.ui.screens.languages.Language
 import com.google.wallpaperapp.ui.screens.languages.LanguageViewModel
 import com.google.wallpaperapp.ui.screens.search.SearchEvent
@@ -84,8 +85,6 @@ fun DesktopApp(controller: DesktopAppController = remember { DesktopAppControlle
 @Composable
 private fun DesktopAppContent(
     controller: DesktopAppController,
-    homeViewModel: HomeScreenViewModel = koinViewModel(),
-    categoryViewModel: CategoryViewModel = koinViewModel(),
     favouriteViewModel: FavouriteViewModel = koinViewModel(),
     searchViewModel: SearchViewModel = koinViewModel(),
     similarViewModel: SimilarWallpapersViewModel = koinViewModel(),
@@ -100,9 +99,12 @@ private fun DesktopAppContent(
     var searchQuery by remember { mutableStateOf("") }
     var showLanguageDialog by remember { mutableStateOf(false) }
 
-    val homeWallpapers = homeViewModel.wallpapers.collectAsLazyPagingItems()
-    val categoryWallpapers = categoryViewModel.wallpapers.collectAsLazyPagingItems()
-    val searchWallpapers = searchViewModel.searchedWallpapers.collectAsLazyPagingItems()
+    // One loader per browsing context, so paging Home does not disturb a category or a search
+    // and each keeps its own page number while you switch between them.
+    val homeLoader = rememberWallpaperPageLoader()
+    val categoryLoader = rememberWallpaperPageLoader()
+    val searchLoader = rememberWallpaperPageLoader()
+
     val similarWallpapers = similarViewModel.similarWallpapers.collectAsLazyPagingItems()
 
     val favourites by favouriteViewModel.getAllFavourites.collectAsStateWithLifecycle()
@@ -124,14 +126,21 @@ private fun DesktopAppContent(
         is DesktopDestination.Search -> "\"${destination.query}\""
     }
 
-    // Feed the shared ViewModels whatever the desktop navigation currently points at.
+    // Point the right loader at whatever the desktop navigation is showing.
     LaunchedEffect(destination) {
         when (destination) {
-            is DesktopDestination.Category -> categoryViewModel.updateQuery(destination.query)
-            is DesktopDestination.Search ->
-                searchViewModel.onEvent(SearchEvent.OnQueryChange(destination.query))
+            is DesktopDestination.Category ->
+                categoryLoader.setFeed(WallpaperFeed.Search(destination.query))
 
-            is DesktopDestination.Section -> categoryViewModel.updateQuery("")
+            is DesktopDestination.Search -> {
+                searchViewModel.onEvent(SearchEvent.OnQueryChange(destination.query))
+                searchLoader.setFeed(WallpaperFeed.Search(destination.query))
+            }
+
+            is DesktopDestination.Section ->
+                if (destination.key == TopLevelBackStack.Home) {
+                    homeLoader.setFeed(WallpaperFeed.Curated)
+                }
         }
     }
 
@@ -182,9 +191,9 @@ private fun DesktopAppContent(
             Box(modifier = Modifier.weight(1f)) {
                 DesktopContent(
                     destination = destination,
-                    homeWallpapers = homeWallpapers,
-                    categoryWallpapers = categoryWallpapers,
-                    searchWallpapers = searchWallpapers,
+                    homeLoader = homeLoader,
+                    categoryLoader = categoryLoader,
+                    searchLoader = searchLoader,
                     favourites = favourites,
                     favouriteIds = favouriteIds,
                     selectedId = preview?.wallpaper?.id,
@@ -247,9 +256,9 @@ private fun DesktopAppContent(
 @Composable
 private fun DesktopContent(
     destination: DesktopDestination,
-    homeWallpapers: LazyPagingItems<Wallpaper>,
-    categoryWallpapers: LazyPagingItems<Wallpaper>,
-    searchWallpapers: LazyPagingItems<Wallpaper>,
+    homeLoader: WallpaperPageLoader,
+    categoryLoader: WallpaperPageLoader,
+    searchLoader: WallpaperPageLoader,
     favourites: List<FavouriteWallpaper>,
     favouriteIds: Set<Long>,
     selectedId: Long?,
@@ -268,10 +277,12 @@ private fun DesktopContent(
     val exportFailedMsg = stringResource(Res.string.desktop_gradient_export_failed)
 
     when (destination) {
-        is DesktopDestination.Category -> WallpaperPagedGrid(
-            items = categoryWallpapers,
+        is DesktopDestination.Category -> WallpaperPageGrid(
+            state = categoryLoader.state,
             favouriteIds = favouriteIds,
             selectedId = selectedId,
+            onPageSelected = categoryLoader::goToPage,
+            onRetry = categoryLoader::retry,
             onOpen = { navState.openPreview(it, PreviewSource.CATEGORY) },
             onToggleFavourite = { favouriteViewModel.addOrRemoveFavourite(it) },
             onApply = actions::apply,
@@ -284,10 +295,12 @@ private fun DesktopContent(
 
         is DesktopDestination.Search -> {
             LaunchedEffect(destination.query) { onSaveRecentSearch(destination.query) }
-            WallpaperPagedGrid(
-                items = searchWallpapers,
+            WallpaperPageGrid(
+                state = searchLoader.state,
                 favouriteIds = favouriteIds,
                 selectedId = selectedId,
+                onPageSelected = searchLoader::goToPage,
+                onRetry = searchLoader::retry,
                 onOpen = { navState.openPreview(it, PreviewSource.SEARCH) },
                 onToggleFavourite = { favouriteViewModel.addOrRemoveFavourite(it) },
                 onApply = actions::apply,
@@ -300,10 +313,12 @@ private fun DesktopContent(
         }
 
         is DesktopDestination.Section -> when (destination.key) {
-            TopLevelBackStack.Home -> WallpaperPagedGrid(
-                items = homeWallpapers,
+            TopLevelBackStack.Home -> WallpaperPageGrid(
+                state = homeLoader.state,
                 favouriteIds = favouriteIds,
                 selectedId = selectedId,
+                onPageSelected = homeLoader::goToPage,
+                onRetry = homeLoader::retry,
                 onOpen = { navState.openPreview(it, PreviewSource.PAGED) },
                 onToggleFavourite = { favouriteViewModel.addOrRemoveFavourite(it) },
                 onApply = actions::apply,

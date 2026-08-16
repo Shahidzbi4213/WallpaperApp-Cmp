@@ -72,6 +72,8 @@ Use the run configuration in your IDE's run widget, or open the [/iosApp](./iosA
 The desktop app is not a scaled-up phone layout — it has its own screens built to desktop
 conventions (fixed sidebar, persistent search field, hover and right-click actions, keyboard
 shortcuts, resizable master–detail preview) and it requests landscape imagery instead of portrait.
+Browsing uses numbered pages — 40 to a page, with a page bar and a jump box — rather than the
+phone's infinite scroll, so you always know where you are and can get back to it.
 
 Installers:
 

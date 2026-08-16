@@ -95,5 +95,8 @@
     <string name="desktop_gradient_export_failed">Could not export the gradient</string>
     <string name="desktop_wallpaper">Wallpaper</string>
     <string name="desktop_selected">Selected</string>
+    <string name="desktop_previous_page">Previous page</string>
+    <string name="desktop_next_page">Next page</string>
+    <string name="desktop_page_of">Page %1$d of %2$d</string>
 
 </resources>
