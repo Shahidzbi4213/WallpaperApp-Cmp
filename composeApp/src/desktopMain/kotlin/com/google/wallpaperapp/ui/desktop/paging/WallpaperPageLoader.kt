@@ -8,12 +8,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.google.wallpaperapp.core.platform.AppLogger
 import com.google.wallpaperapp.data.remote.PexelWallpapersApi
+import com.google.wallpaperapp.data.utils.toUserMessage
 import com.google.wallpaperapp.domain.mappers.toWallpaper
 import com.google.wallpaperapp.domain.models.Wallpaper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.StringResource
 import org.koin.mp.KoinPlatform
 import kotlin.math.ceil
 import kotlin.math.min
@@ -37,7 +40,7 @@ data class PageState(
     val page: Int = 1,
     val totalPages: Int = 1,
     val isLoading: Boolean = false,
-    val error: String? = null
+    val error: StringResource? = null
 ) {
     val isEmpty: Boolean get() = !isLoading && error == null && items.isEmpty()
 }
@@ -128,7 +131,8 @@ class WallpaperPageLoader(
                 }
                 .onFailure { throwable ->
                     if (throwable is kotlinx.coroutines.CancellationException) throw throwable
-                    state = state.copy(isLoading = false, error = throwable.message ?: "Request failed")
+                    AppLogger.e(TAG, "page $target of $feed failed", throwable)
+                    state = state.copy(isLoading = false, error = throwable.toUserMessage())
                 }
         }
     }
@@ -161,6 +165,7 @@ class WallpaperPageLoader(
     }
 
     private companion object {
+        const val TAG = "WallpaperPageLoader"
         const val MAX_CACHED_PAGES = 16
 
         /**

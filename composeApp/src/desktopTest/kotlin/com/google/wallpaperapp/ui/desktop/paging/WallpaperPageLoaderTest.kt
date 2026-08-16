@@ -7,9 +7,10 @@ import com.google.wallpaperapp.data.remote.models.WallpaperResponse
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
+import wallpaperapp.composeapp.generated.resources.Res
+import wallpaperapp.composeapp.generated.resources.something_went_wrong
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -170,8 +171,8 @@ class WallpaperPageLoaderTest {
         loader.setFeed(WallpaperFeed.Curated)
         testScheduler.advanceUntilIdle()
 
-        assertNotNull(loader.state.error)
-        assertEquals("boom", loader.state.error)
+        // A raw exception message is never shown; it is mapped to an actionable string first.
+        assertEquals(Res.string.something_went_wrong, loader.state.error)
 
         api.failWith = null
         loader.retry()

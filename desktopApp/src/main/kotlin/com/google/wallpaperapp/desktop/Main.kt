@@ -11,9 +11,12 @@ import com.google.wallpaperapp.ui.desktop.DesktopApp
 import com.google.wallpaperapp.ui.desktop.DesktopAppController
 import com.google.wallpaperapp.ui.desktop.WindowStateStore
 import com.google.wallpaperapp.ui.desktop.handleDesktopShortcut
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlin.time.Duration.Companion.milliseconds
 
+@OptIn(FlowPreview::class)
 fun main() {
     // Koin has to be up before the first composition: several platform actuals resolve their
     // dependencies through the service locator.
@@ -28,7 +31,7 @@ fun main() {
         LaunchedEffect(windowState) {
             snapshotFlow { Triple(windowState.size, windowState.position, windowState.placement) }
                 .distinctUntilChanged()
-                .debounce(500)
+                .debounce(500.milliseconds)
                 .collect { WindowStateStore.save(windowState) }
         }
 

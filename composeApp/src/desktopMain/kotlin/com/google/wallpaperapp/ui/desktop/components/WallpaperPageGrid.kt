@@ -24,7 +24,6 @@ import org.jetbrains.compose.resources.stringResource
 import wallpaperapp.composeapp.generated.resources.Res
 import wallpaperapp.composeapp.generated.resources.desktop_add_favourite
 import wallpaperapp.composeapp.generated.resources.desktop_copy_link
-import wallpaperapp.composeapp.generated.resources.desktop_load_error
 import wallpaperapp.composeapp.generated.resources.desktop_photographer
 import wallpaperapp.composeapp.generated.resources.desktop_remove_favourite
 import wallpaperapp.composeapp.generated.resources.desktop_set_as_wallpaper
@@ -57,7 +56,6 @@ fun WallpaperPageGrid(
     val removeFavLabel = stringResource(Res.string.desktop_remove_favourite)
     val copyLinkLabel = stringResource(Res.string.desktop_copy_link)
     val photographerLabel = stringResource(Res.string.desktop_photographer)
-    val loadErrorLabel = stringResource(Res.string.desktop_load_error)
 
     val gridState = rememberLazyGridState()
 
@@ -71,7 +69,7 @@ fun WallpaperPageGrid(
         Box(modifier = Modifier.weight(1f)) {
             when {
                 state.error != null -> DesktopErrorState(
-                    message = state.error.ifBlank { loadErrorLabel },
+                    message = stringResource(state.error),
                     onRetry = onRetry
                 )
 

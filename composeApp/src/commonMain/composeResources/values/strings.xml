@@ -95,6 +95,13 @@
     <string name="desktop_gradient_export_failed">Could not export the gradient</string>
     <string name="desktop_wallpaper">Wallpaper</string>
     <string name="desktop_selected">Selected</string>
+    <!-- Network errors -->
+    <string name="error_rate_limited">Too many requests right now. Wait a moment and try again.</string>
+    <string name="error_unauthorized">The Pexels API key was rejected. Check the key in NetworkModule.</string>
+    <string name="error_server">Pexels is having trouble. Try again shortly.</string>
+    <string name="error_timeout">The request timed out. Check your connection and try again.</string>
+    <string name="error_no_connection">No internet connection.</string>
+
     <string name="desktop_previous_page">Previous page</string>
     <string name="desktop_next_page">Next page</string>
     <string name="desktop_page_of">Page %1$d of %2$d</string>

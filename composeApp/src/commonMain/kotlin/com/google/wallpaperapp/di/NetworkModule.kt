@@ -29,6 +29,20 @@ class NetworkModule {
 
         return HttpClient(engine){
 
+            // Without this, a 401/429/500 body is handed straight to the WallpaperMainResponse
+            // deserializer, which then reports "fields are required" -- an error that looks like a
+            // schema bug and hides the real cause. Non-2xx now throws with the actual status.
+            expectSuccess = true
+
+            // The Pexels key is throttled under load, and a throttle is transient by definition.
+            // Retrying it is the difference between a blank error screen and the page just loading.
+            install(HttpRequestRetry) {
+                maxRetries = 3
+                retryOnServerErrors(maxRetries = 3)
+                retryIf { _, response -> response.status == HttpStatusCode.TooManyRequests }
+                exponentialDelay()
+            }
+
             install(HttpTimeout){
                 connectTimeoutMillis = TIME_OUT
                 requestTimeoutMillis = TIME_OUT
