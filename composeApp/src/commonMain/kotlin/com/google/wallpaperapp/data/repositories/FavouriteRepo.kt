@@ -26,7 +26,9 @@ class FavouriteRepo(private val dao: FavouriteWallpaperDao) {
                 dao.removeFromFavourite(savedWallpaper)
             } else {
                 val favouriteWallpaper = FavouriteWallpaperEntity(
-                    wallpaper.id, wallpaper.wallpaper,
+                    id = wallpaper.id,
+                    wallpaper = wallpaper.wallpaper,
+                    landscape = wallpaper.landscape,
                 )
                 dao.addToFavourite(favouriteWallpaper)
             }

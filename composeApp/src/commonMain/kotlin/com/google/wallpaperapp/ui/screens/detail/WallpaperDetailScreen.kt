@@ -51,6 +51,7 @@ import kotlinx.coroutines.withContext
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import wallpaperapp.composeapp.generated.resources.Res
+import wallpaperapp.composeapp.generated.resources.similar_wallpapers
 import wallpaperapp.composeapp.generated.resources.download_completed
 import wallpaperapp.composeapp.generated.resources.download_failed
 import wallpaperapp.composeapp.generated.resources.download_started
@@ -253,7 +254,7 @@ fun WallpaperDetailScreen(
                 if (currentWallpaperObj != null) {
                     item {
                         Text(
-                            text = "Similar Wallpapers",
+                            text = stringResource(Res.string.similar_wallpapers),
                             style = MaterialTheme.typography.titleLarge,
                             modifier = Modifier.padding(16.dp),
                             color = Color.White

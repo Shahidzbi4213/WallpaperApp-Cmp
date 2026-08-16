@@ -48,18 +48,48 @@ replace it with your own free key from the [Pexels API dashboard](https://www.pe
 
 Use the run configuration in your IDE's run widget, or build from the terminal:
 
+The APK is produced by `:androidApp`, not `:composeApp`:
+
 - macOS/Linux
   ```shell
-  ./gradlew :composeApp:assembleDebug
+  ./gradlew :androidApp:assembleDebug
   ```
 - Windows
   ```shell
-  .\gradlew.bat :composeApp:assembleDebug
+  .\gradlew.bat :androidApp:assembleDebug
   ```
 
 ### Build and Run — iOS
 
 Use the run configuration in your IDE's run widget, or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+
+### Build and Run — Desktop (macOS, Windows, Linux)
+
+```shell
+./gradlew :desktopApp:run
+```
+
+The desktop app is not a scaled-up phone layout — it has its own screens built to desktop
+conventions (fixed sidebar, persistent search field, hover and right-click actions, keyboard
+shortcuts, resizable master–detail preview) and it requests landscape imagery instead of portrait.
+
+Installers:
+
+```shell
+./gradlew :desktopApp:packageDmg   # macOS
+./gradlew :desktopApp:packageMsi   # Windows
+./gradlew :desktopApp:packageDeb   # Linux
+```
+
+`jpackage` cannot cross-compile, so each installer has to be built on its own OS. On a Homebrew
+JDK, Compose Desktop refuses to package by default; add
+`-Pcompose.desktop.packaging.checkJdkVendor=false`, or use a Temurin/Corretto JDK for builds you
+intend to sign or notarize.
+
+**Known limitations.** "Set as wallpaper" is implemented per OS (macOS via `osascript`, Windows via
+PowerShell, Linux via `gsettings`) but only the macOS path has been tested; on Windows, Linux
+outside GNOME, or any failure, the image is still downloaded and the app tells you where it went.
+Desktop-specific UI strings currently ship in English only.
 
 ---
 

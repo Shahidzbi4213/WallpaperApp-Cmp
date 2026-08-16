@@ -25,6 +25,12 @@ kotlin {
         }
     }
 
+    jvm("desktop") {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
+    }
+
     listOf(
         iosArm64(),
         iosSimulatorArm64()
@@ -36,6 +42,20 @@ kotlin {
     }
 
     sourceSets {
+        val desktopMain by getting
+        val desktopTest by getting
+
+        desktopMain.dependencies {
+            implementation(compose.desktop.currentOs)
+            implementation(libs.ktor.client.okhttp)
+            // Supplies Dispatchers.Main on the JVM; viewModelScope is unusable without it.
+            implementation(libs.kotlinx.coroutines.swing)
+        }
+
+        desktopTest.dependencies {
+            implementation(libs.kotlin.test)
+        }
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(compose.uiTooling)
@@ -113,6 +133,7 @@ kotlin {
 
 dependencies {
     add("kspAndroid", libs.androidx.room.compiler)
+    add("kspDesktop", libs.androidx.room.compiler)
     add("kspIosArm64", libs.androidx.room.compiler)
     add("kspIosSimulatorArm64", libs.androidx.room.compiler)
 }

@@ -47,4 +47,53 @@
     <string name="we_work">We work super hard to make application better for you,and would love to hear your feedback.</string>
     <string name="mesh_gradients">Gradient</string>
 
+    <!-- Previously hardcoded in the mobile screens -->
+    <string name="similar_wallpapers">Similar Wallpapers</string>
+    <string name="gradient_download_failed">Cannot download generated gradient</string>
+
+    <!-- Desktop -->
+    <string name="desktop_search_placeholder">Search wallpapers</string>
+    <string name="desktop_back">Back</string>
+    <string name="desktop_clear_search">Clear search</string>
+    <string name="desktop_close_preview">Close preview</string>
+    <string name="desktop_set_as_wallpaper">Set as wallpaper</string>
+    <string name="desktop_setting_wallpaper">Setting your wallpaper…</string>
+    <string name="desktop_wallpaper_set">Wallpaper set</string>
+    <string name="desktop_wallpaper_failed">Could not set the wallpaper</string>
+    <string name="desktop_downloading">Downloading…</string>
+    <string name="desktop_saved_to">Saved to %1$s</string>
+    <string name="desktop_download_failed">Download failed</string>
+    <string name="desktop_add_favourite">Add to favourites</string>
+    <string name="desktop_remove_favourite">Remove from favourites</string>
+    <string name="desktop_copy_link">Copy image link</string>
+    <string name="desktop_link_copied">Image link copied</string>
+    <string name="desktop_open_photographer">Open photographer page</string>
+    <string name="desktop_photographer">PHOTOGRAPHER</string>
+    <string name="desktop_similar">SIMILAR</string>
+    <string name="desktop_browser_failed">Could not open the browser</string>
+    <string name="desktop_retry">Retry</string>
+    <string name="desktop_error_title">Something went wrong</string>
+    <string name="desktop_load_error">Could not load wallpapers.</string>
+    <string name="desktop_load_more">Load more</string>
+    <string name="desktop_no_favourites">No favourites yet</string>
+    <string name="desktop_no_favourites_sub">Wallpapers you save will collect here.</string>
+    <string name="desktop_browse">Browse wallpapers</string>
+    <string name="desktop_no_wallpapers">No wallpapers yet</string>
+    <string name="desktop_no_wallpapers_sub">Check your connection and try again.</string>
+    <string name="desktop_no_results">No results for “%1$s”</string>
+    <string name="desktop_no_results_sub">Try a different search term.</string>
+    <string name="desktop_empty_category">Nothing in %1$s</string>
+    <string name="desktop_empty_category_sub">Try a different category.</string>
+    <string name="desktop_group_general">GENERAL</string>
+    <string name="desktop_group_locations">LOCATIONS</string>
+    <string name="desktop_group_about">ABOUT</string>
+    <string name="desktop_downloads_folder">Downloads</string>
+    <string name="desktop_appdata_folder">App data</string>
+    <string name="desktop_platform">Platform</string>
+    <string name="desktop_photos">Photos</string>
+    <string name="desktop_photos_value">Provided by Pexels</string>
+    <string name="desktop_gradient_export_failed">Could not export the gradient</string>
+    <string name="desktop_wallpaper">Wallpaper</string>
+    <string name="desktop_selected">Selected</string>
+
 </resources>
