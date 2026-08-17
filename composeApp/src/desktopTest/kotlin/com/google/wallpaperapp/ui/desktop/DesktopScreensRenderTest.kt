@@ -1,8 +1,10 @@
 package com.google.wallpaperapp.ui.desktop
 
 import com.google.wallpaperapp.domain.models.FavouriteWallpaper
+import com.google.wallpaperapp.domain.models.Wallpaper
 import com.google.wallpaperapp.ui.desktop.screens.DesktopCategoriesScreen
 import com.google.wallpaperapp.ui.desktop.screens.DesktopFavouriteScreen
+import com.google.wallpaperapp.ui.desktop.screens.DesktopFullScreenViewer
 import com.google.wallpaperapp.ui.desktop.screens.DesktopSettingsScreen
 import com.google.wallpaperapp.ui.desktop.theme.DesktopTheme
 import kotlin.test.Test
@@ -40,7 +42,12 @@ class DesktopScreensRenderTest {
             DesktopTheme {
                 DesktopFavouriteScreen(
                     favourites = emptyList(),
-                    onOpen = {}, onRemove = {}, onApply = {}, onDownload = {}, onExplore = {}
+                    onOpen = {},
+                    onOpenFullScreen = {},
+                    onRemove = {},
+                    onApply = {},
+                    onDownload = {},
+                    onExplore = {}
                 )
             }
         }
@@ -50,7 +57,45 @@ class DesktopScreensRenderTest {
                     favourites = List(7) {
                         FavouriteWallpaper(id = it.toLong(), wallpaper = "", landscape = "")
                     },
-                    onOpen = {}, onRemove = {}, onApply = {}, onDownload = {}, onExplore = {}
+                    onOpen = {},
+                    onOpenFullScreen = {},
+                    onRemove = {},
+                    onApply = {},
+                    onDownload = {},
+                    onExplore = {}
+                )
+            }
+        }
+        assertTrue(file.length() > 0)
+    }
+
+    @Test
+    fun `fullscreen viewer renders HUD and layout`() {
+        val sample = Wallpaper(
+            id = 12345L,
+            photographerName = "Jane Doe",
+            photographerUrl = "https://example.com/janedoe",
+            medium = "",
+            portrait = "",
+            small = "",
+            landscape = "",
+            original = "",
+            alt = "Aurora Borealis"
+        )
+        val file = renderToPng("$OUT/screen-fullscreen-viewer.png", 1440, 900) {
+            DesktopTheme {
+                DesktopFullScreenViewer(
+                    wallpaper = sample,
+                    isFavourite = false,
+                    items = listOf(sample),
+                    onClose = {},
+                    onNext = {},
+                    onPrevious = {},
+                    onApply = {},
+                    onDownload = {},
+                    onToggleFavourite = {},
+                    onCopyLink = {},
+                    onOpenPhotographer = {}
                 )
             }
         }

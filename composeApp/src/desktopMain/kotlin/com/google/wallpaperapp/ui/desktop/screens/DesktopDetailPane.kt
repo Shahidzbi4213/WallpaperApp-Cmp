@@ -1,6 +1,11 @@
 package com.google.wallpaperapp.ui.desktop.screens
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,17 +21,20 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.OpenInNew
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Download
 import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.Fullscreen
 import androidx.compose.material.icons.outlined.Link
-import androidx.compose.material.icons.outlined.OpenInNew
 import androidx.compose.material.icons.outlined.Wallpaper
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,15 +43,19 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.google.wallpaperapp.domain.models.Wallpaper
+import com.google.wallpaperapp.domain.models.fullUrl
 import com.google.wallpaperapp.domain.models.gridUrl
 import com.google.wallpaperapp.ui.composables.LazyPagingItems
+import com.google.wallpaperapp.ui.composables.shimmerBrush
 import com.google.wallpaperapp.ui.desktop.components.DesktopIconButton
+import com.google.wallpaperapp.ui.desktop.components.DesktopTooltip
 import com.google.wallpaperapp.ui.desktop.components.WallpaperCard
 import com.google.wallpaperapp.ui.desktop.components.desktopClickable
 import com.google.wallpaperapp.ui.desktop.theme.DesktopDimens
 import com.google.wallpaperapp.ui.theme.Crimson
 import com.google.wallpaperapp.ui.theme.EmberGradient
 import com.google.wallpaperapp.ui.theme.Ink950
+import com.google.wallpaperapp.ui.theme.ScrimGradient
 import com.google.wallpaperapp.ui.theme.TextHi
 import com.google.wallpaperapp.ui.theme.TextLow
 import com.google.wallpaperapp.ui.theme.TextMid
@@ -56,6 +68,7 @@ import wallpaperapp.composeapp.generated.resources.Res
 import wallpaperapp.composeapp.generated.resources.desktop_add_favourite
 import wallpaperapp.composeapp.generated.resources.desktop_close_preview
 import wallpaperapp.composeapp.generated.resources.desktop_copy_link
+import wallpaperapp.composeapp.generated.resources.desktop_full_screen_preview
 import wallpaperapp.composeapp.generated.resources.desktop_open_photographer
 import wallpaperapp.composeapp.generated.resources.desktop_photographer
 import wallpaperapp.composeapp.generated.resources.desktop_remove_favourite
@@ -81,8 +94,12 @@ fun DesktopDetailPane(
     onCopyLink: (Wallpaper) -> Unit,
     onOpenPhotographer: (Wallpaper) -> Unit,
     onOpenSimilar: (Wallpaper) -> Unit,
+    onOpenFullScreen: (Wallpaper) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val imageInteraction = remember { MutableInteractionSource() }
+    val isImageHovered by imageInteraction.collectIsHoveredAsState()
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -98,6 +115,13 @@ fun DesktopDetailPane(
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.weight(1f)
             )
+            DesktopTooltip(text = stringResource(Res.string.desktop_full_screen_preview)) {
+                DesktopIconButton(
+                    icon = Icons.Outlined.Fullscreen,
+                    contentDescription = stringResource(Res.string.desktop_full_screen_preview),
+                    onClick = { onOpenFullScreen(wallpaper) }
+                )
+            }
             DesktopIconButton(
                 icon = Icons.Outlined.Close,
                 contentDescription = stringResource(Res.string.desktop_close_preview),
@@ -107,23 +131,69 @@ fun DesktopDetailPane(
 
         Spacer(Modifier.height(14.dp))
 
-        // Fit, not crop: the point of the preview is to see the whole image.
+        // High-resolution preview image with full-screen trigger
+        val imageShape = RoundedCornerShape(10.dp)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f, fill = false)
                 .heightIn(min = 200.dp)
-                .clip(RoundedCornerShape(10.dp))
+                .clip(imageShape)
+                .desktopClickable(interaction = imageInteraction) {
+                    onOpenFullScreen(wallpaper)
+                }
         ) {
             CoilImage(
-                imageModel = { wallpaper.gridUrl },
+                imageModel = { wallpaper.fullUrl },
                 imageOptions = ImageOptions(
                     contentScale = ContentScale.Fit,
                     contentDescription = wallpaper.alt.ifBlank { null },
                     alignment = Alignment.Center
                 ),
+                loading = {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(shimmerBrush())
+                    )
+                },
                 modifier = Modifier.fillMaxSize()
             )
+
+            // Hover overlay hint for full screen preview
+            androidx.compose.animation.AnimatedVisibility(
+                visible = isImageHovered,
+                enter = fadeIn(),
+                exit = fadeOut(),
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(ScrimGradient),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .glass(RoundedCornerShape(20.dp), strong = true)
+                            .padding(horizontal = 14.dp, vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
+                        Icon(
+                            Icons.Outlined.Fullscreen,
+                            contentDescription = null,
+                            tint = Color.White,
+                            modifier = Modifier.size(18.dp)
+                        )
+                        Text(
+                            text = stringResource(Res.string.desktop_full_screen_preview),
+                            style = MaterialTheme.typography.labelMedium,
+                            color = Color.White
+                        )
+                    }
+                }
+            }
         }
 
         Spacer(Modifier.height(16.dp))
@@ -139,7 +209,7 @@ fun DesktopDetailPane(
                     )
                 }
                 DesktopIconButton(
-                    icon = Icons.Outlined.OpenInNew,
+                    icon = Icons.AutoMirrored.Outlined.OpenInNew,
                     contentDescription = stringResource(Res.string.desktop_open_photographer),
                     onClick = { onOpenPhotographer(wallpaper) }
                 )

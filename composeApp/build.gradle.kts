@@ -1,6 +1,8 @@
 @file:Suppress("DEPRECATION")
 
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
+import java.io.FileInputStream
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -115,9 +117,10 @@ kotlin {
             implementation(libs.ktor.client.darwin)
         }
 
-        // KSP Common sourceSet
+        // KSP Common sourceSet & Generated AppConfig
         sourceSets.named("commonMain").configure {
             kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
+            kotlin.srcDir("build/generated/appconfig/commonMain/kotlin")
         }
     }
 
@@ -131,7 +134,41 @@ kotlin {
 
 }
 
+val generateAppConfig = tasks.register("generateAppConfig") {
+    val localPropertiesFile = rootProject.file("local.properties")
+    val outputDir = layout.buildDirectory.dir("generated/appconfig/commonMain/kotlin")
+    outputs.dir(outputDir)
+    inputs.file(localPropertiesFile).optional()
 
+    doLast {
+        val properties = Properties()
+        if (localPropertiesFile.exists()) {
+            FileInputStream(localPropertiesFile).use { properties.load(it) }
+        }
+        val pexelsApiKey = properties.getProperty("PEXELS_API_KEY")
+            ?: (project.findProperty("PEXELS_API_KEY") as? String)
+            ?: System.getenv("PEXELS_API_KEY")
+            ?: ""
+        val unsplashKey = properties.getProperty("UNSPLASH_ACCESS_KEY")
+            ?: (project.findProperty("UNSPLASH_ACCESS_KEY") as? String)
+            ?: System.getenv("UNSPLASH_ACCESS_KEY")
+            ?: ""
+
+        val configFile = outputDir.get().file("com/google/wallpaperapp/AppConfig.kt").asFile
+        configFile.parentFile.mkdirs()
+        configFile.writeText(
+            """
+            |package com.google.wallpaperapp
+            |
+            |object AppConfig {
+            |    const val PEXELS_API_KEY: String = "$pexelsApiKey"
+            |    const val UNSPLASH_ACCESS_KEY: String = "$unsplashKey"
+            |}
+            |
+            """.trimMargin()
+        )
+    }
+}
 
 dependencies {
     add("kspAndroid", libs.androidx.room.compiler)
@@ -140,7 +177,16 @@ dependencies {
     add("kspIosSimulatorArm64", libs.androidx.room.compiler)
 }
 
-// Trigger Common Metadata Generation from Native tasks
+// Trigger Common Metadata Generation from Native tasks & ensure AppConfig is generated
+tasks.matching {
+    it.name.startsWith("ksp") ||
+    it.name.startsWith("compileKotlin") ||
+    it.name.startsWith("transformCommonMain") ||
+    it.name == "metadataCommonMainClasses"
+}.configureEach {
+    dependsOn(generateAppConfig)
+}
+
 tasks.matching { it.name.startsWith("ksp") && it.name != "kspCommonMainKotlinMetadata" }.configureEach {
     dependsOn("kspCommonMainKotlinMetadata")
 }

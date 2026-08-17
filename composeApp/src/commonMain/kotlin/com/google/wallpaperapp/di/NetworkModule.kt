@@ -1,6 +1,7 @@
 package com.google.wallpaperapp.di
 
 
+import com.google.wallpaperapp.AppConfig
 import com.google.wallpaperapp.core.platform.HttpEngineFactory
 import com.google.wallpaperapp.data.remote.PexelWallpapersApi
 import com.google.wallpaperapp.data.remote.PexelWallpapersApiImpl
@@ -66,7 +67,7 @@ class NetworkModule {
 
             install(DefaultRequest) {
                 header(HttpHeaders.ContentType, ContentType.Application.Json)
-                header(HttpHeaders.Authorization,"563492ad6f917001000013c33869795db4034972b1408c54283c7")
+                header(HttpHeaders.Authorization, AppConfig.PEXELS_API_KEY)
             }
 
         }

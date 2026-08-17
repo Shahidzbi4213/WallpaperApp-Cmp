@@ -40,11 +40,13 @@ A Kotlin Multiplatform wallpaper app for **Android** and **iOS**, built with Com
 
 ## Getting Started
 
-The app calls the Pexels API. **The demo key committed in
-[`NetworkModule.kt`](./composeApp/src/commonMain/kotlin/com/google/wallpaperapp/di/NetworkModule.kt)
-no longer works** — Pexels rejects it with 401. You will see cached results for some popular
-requests and "Pexels rejected the API key" for everything else, so grab your own free key from the
-[Pexels API dashboard](https://www.pexels.com/api/) and swap it in before running the app.
+The app calls the Pexels API. Obtain a free API key from the [Pexels API dashboard](https://www.pexels.com/api/) and add it to your `local.properties` (or set the `PEXELS_API_KEY` environment variable):
+
+```properties
+PEXELS_API_KEY=your_pexels_api_key_here
+```
+
+See [`local.properties.example`](./local.properties.example) for a template. `local.properties` is git-ignored and keeps your API key safe.
 
 ### Build and Run — Android
 

@@ -1,0 +1,12 @@
+## Local configuration template
+## Copy this file to local.properties and add your actual API keys.
+## local.properties is ignored by git and will never be committed.
+
+## Android SDK Location
+sdk.dir=/Users/username/Library/Android/sdk
+
+## Pexels API Key (Get a free key from https://www.pexels.com/api/)
+PEXELS_API_KEY=your_pexels_api_key_here
+
+## Unsplash Access Key (Optional)
+UNSPLASH_ACCESS_KEY=your_unsplash_access_key_here

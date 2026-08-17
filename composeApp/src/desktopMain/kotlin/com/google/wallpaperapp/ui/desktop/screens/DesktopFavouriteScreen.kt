@@ -5,6 +5,7 @@ import androidx.compose.foundation.ContextMenuItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.Download
+import androidx.compose.material.icons.outlined.Fullscreen
 import androidx.compose.material.icons.outlined.Wallpaper
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -22,6 +23,7 @@ import com.google.wallpaperapp.ui.theme.Crimson
 import org.jetbrains.compose.resources.stringResource
 import wallpaperapp.composeapp.generated.resources.Res
 import wallpaperapp.composeapp.generated.resources.desktop_browse
+import wallpaperapp.composeapp.generated.resources.desktop_full_screen_preview
 import wallpaperapp.composeapp.generated.resources.desktop_no_favourites
 import wallpaperapp.composeapp.generated.resources.desktop_no_favourites_sub
 import wallpaperapp.composeapp.generated.resources.desktop_remove_favourite
@@ -32,6 +34,7 @@ import wallpaperapp.composeapp.generated.resources.download
 fun DesktopFavouriteScreen(
     favourites: List<FavouriteWallpaper>,
     onOpen: (Wallpaper) -> Unit,
+    onOpenFullScreen: (Wallpaper) -> Unit,
     onRemove: (FavouriteWallpaper) -> Unit,
     onApply: (Wallpaper) -> Unit,
     onDownload: (Wallpaper) -> Unit,
@@ -41,6 +44,7 @@ fun DesktopFavouriteScreen(
     val applyLabel = stringResource(Res.string.desktop_set_as_wallpaper)
     val downloadLabel = stringResource(Res.string.download)
     val removeLabel = stringResource(Res.string.desktop_remove_favourite)
+    val fullScreenLabel = stringResource(Res.string.desktop_full_screen_preview)
 
     if (favourites.isEmpty()) {
         DesktopEmptyState(
@@ -60,6 +64,7 @@ fun DesktopFavouriteScreen(
 
             ContextMenuArea(items = {
                 listOf(
+                    ContextMenuItem(fullScreenLabel) { onOpenFullScreen(wallpaper) },
                     ContextMenuItem(applyLabel) { onApply(wallpaper) },
                     ContextMenuItem(downloadLabel) { onDownload(wallpaper) },
                     ContextMenuItem(removeLabel) { onRemove(favourite) },
@@ -71,6 +76,11 @@ fun DesktopFavouriteScreen(
                     onClick = { onOpen(wallpaper) }
                 ) { hovered ->
                     CardHoverActions(visible = hovered) {
+                        CardActionButton(
+                            icon = Icons.Outlined.Fullscreen,
+                            contentDescription = fullScreenLabel,
+                            onClick = { onOpenFullScreen(wallpaper) }
+                        )
                         CardActionButton(
                             icon = Icons.Outlined.Wallpaper,
                             contentDescription = applyLabel,
@@ -98,7 +108,7 @@ fun DesktopFavouriteScreen(
  * Favourites persist urls only. The landscape column may be empty for rows saved on a phone, in
  * which case every accessor falls back to the portrait url it does have.
  */
-private fun FavouriteWallpaper.asWallpaper() = Wallpaper(
+internal fun FavouriteWallpaper.asWallpaper() = Wallpaper(
     id = id,
     photographerName = "",
     photographerUrl = "",

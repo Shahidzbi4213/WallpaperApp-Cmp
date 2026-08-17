@@ -1,5 +1,13 @@
 package com.google.wallpaperapp.ui.desktop.components
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.ContextMenuArea
 import androidx.compose.foundation.ContextMenuItem
 import androidx.compose.foundation.layout.Box
@@ -10,6 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.Download
 import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.Fullscreen
 import androidx.compose.material.icons.outlined.Wallpaper
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,6 +33,7 @@ import org.jetbrains.compose.resources.stringResource
 import wallpaperapp.composeapp.generated.resources.Res
 import wallpaperapp.composeapp.generated.resources.desktop_add_favourite
 import wallpaperapp.composeapp.generated.resources.desktop_copy_link
+import wallpaperapp.composeapp.generated.resources.desktop_full_screen_preview
 import wallpaperapp.composeapp.generated.resources.desktop_photographer
 import wallpaperapp.composeapp.generated.resources.desktop_remove_favourite
 import wallpaperapp.composeapp.generated.resources.desktop_set_as_wallpaper
@@ -40,6 +50,7 @@ fun WallpaperPageGrid(
     onPageSelected: (Int) -> Unit,
     onRetry: () -> Unit,
     onOpen: (Wallpaper) -> Unit,
+    onOpenFullScreen: (Wallpaper) -> Unit,
     onToggleFavourite: (Wallpaper) -> Unit,
     onApply: (Wallpaper) -> Unit,
     onDownload: (Wallpaper) -> Unit,
@@ -56,6 +67,7 @@ fun WallpaperPageGrid(
     val removeFavLabel = stringResource(Res.string.desktop_remove_favourite)
     val copyLinkLabel = stringResource(Res.string.desktop_copy_link)
     val photographerLabel = stringResource(Res.string.desktop_photographer)
+    val fullScreenLabel = stringResource(Res.string.desktop_full_screen_preview)
 
     val gridState = rememberLazyGridState()
 
@@ -79,47 +91,68 @@ fun WallpaperPageGrid(
 
                 state.isEmpty -> DesktopEmptyState(title = emptyTitle, subtitle = emptySubtitle)
 
-                else -> ScrollableGrid(state = gridState) {
-                    items(count = state.items.size) { index ->
-                        val wallpaper = state.items[index]
-                        val isFavourite = wallpaper.id in favouriteIds
+                else -> AnimatedContent(
+                    targetState = state.page,
+                    transitionSpec = {
+                        if (targetState > initialState) {
+                            (slideInHorizontally(tween(240)) { width -> width / 4 } + fadeIn(tween(200)))
+                                .togetherWith(slideOutHorizontally(tween(200)) { width -> -width / 4 } + fadeOut(tween(160)))
+                        } else {
+                            (slideInHorizontally(tween(240)) { width -> -width / 4 } + fadeIn(tween(200)))
+                                .togetherWith(slideOutHorizontally(tween(200)) { width -> width / 4 } + fadeOut(tween(160)))
+                        }.using(SizeTransform(clip = false))
+                    },
+                    label = "pageTransition",
+                    modifier = Modifier.fillMaxSize()
+                ) { _ ->
+                    ScrollableGrid(state = gridState) {
+                        items(count = state.items.size) { index ->
+                            val wallpaper = state.items[index]
+                            val isFavourite = wallpaper.id in favouriteIds
 
-                        ContextMenuArea(items = {
-                            listOf(
-                                ContextMenuItem(applyLabel) { onApply(wallpaper) },
-                                ContextMenuItem(downloadLabel) { onDownload(wallpaper) },
-                                ContextMenuItem(
-                                    if (isFavourite) removeFavLabel else addFavLabel
-                                ) { onToggleFavourite(wallpaper) },
-                                ContextMenuItem(copyLinkLabel) { onCopyUrl(wallpaper) },
-                                ContextMenuItem("$photographerLabel: ${wallpaper.photographerName}") {
-                                    onOpenPhotographer(wallpaper)
-                                },
-                            )
-                        }) {
-                            WallpaperCard(
-                                imageUrl = wallpaper.gridUrl,
-                                contentDescription = wallpaper.alt.ifBlank { null },
-                                selected = wallpaper.id == selectedId,
-                                onClick = { onOpen(wallpaper) }
-                            ) { hovered ->
-                                CardHoverActions(visible = hovered) {
-                                    CardActionButton(
-                                        icon = Icons.Outlined.Wallpaper,
-                                        contentDescription = applyLabel,
-                                        onClick = { onApply(wallpaper) }
-                                    )
-                                    CardActionButton(
-                                        icon = Icons.Outlined.Download,
-                                        contentDescription = downloadLabel,
-                                        onClick = { onDownload(wallpaper) }
-                                    )
-                                    CardActionButton(
-                                        icon = if (isFavourite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
-                                        contentDescription = if (isFavourite) removeFavLabel else addFavLabel,
-                                        tint = if (isFavourite) Crimson else Color.White,
-                                        onClick = { onToggleFavourite(wallpaper) }
-                                    )
+                            ContextMenuArea(items = {
+                                listOf(
+                                    ContextMenuItem(fullScreenLabel) { onOpenFullScreen(wallpaper) },
+                                    ContextMenuItem(applyLabel) { onApply(wallpaper) },
+                                    ContextMenuItem(downloadLabel) { onDownload(wallpaper) },
+                                    ContextMenuItem(
+                                        if (isFavourite) removeFavLabel else addFavLabel
+                                    ) { onToggleFavourite(wallpaper) },
+                                    ContextMenuItem(copyLinkLabel) { onCopyUrl(wallpaper) },
+                                    ContextMenuItem("$photographerLabel: ${wallpaper.photographerName}") {
+                                        onOpenPhotographer(wallpaper)
+                                    },
+                                )
+                            }) {
+                                WallpaperCard(
+                                    imageUrl = wallpaper.gridUrl,
+                                    contentDescription = wallpaper.alt.ifBlank { null },
+                                    selected = wallpaper.id == selectedId,
+                                    onClick = { onOpen(wallpaper) }
+                                ) { hovered ->
+                                    CardHoverActions(visible = hovered) {
+                                        CardActionButton(
+                                            icon = Icons.Outlined.Fullscreen,
+                                            contentDescription = fullScreenLabel,
+                                            onClick = { onOpenFullScreen(wallpaper) }
+                                        )
+                                        CardActionButton(
+                                            icon = Icons.Outlined.Wallpaper,
+                                            contentDescription = applyLabel,
+                                            onClick = { onApply(wallpaper) }
+                                        )
+                                        CardActionButton(
+                                            icon = Icons.Outlined.Download,
+                                            contentDescription = downloadLabel,
+                                            onClick = { onDownload(wallpaper) }
+                                        )
+                                        CardActionButton(
+                                            icon = if (isFavourite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                                            contentDescription = if (isFavourite) removeFavLabel else addFavLabel,
+                                            tint = if (isFavourite) Crimson else Color.White,
+                                            onClick = { onToggleFavourite(wallpaper) }
+                                        )
+                                    }
                                 }
                             }
                         }

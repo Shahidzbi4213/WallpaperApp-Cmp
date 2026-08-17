@@ -1,6 +1,9 @@
 package com.google.wallpaperapp.ui.desktop
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Box
@@ -33,9 +36,11 @@ import com.google.wallpaperapp.ui.composables.collectAsLazyPagingItems
 import com.google.wallpaperapp.ui.desktop.screens.DesktopCategoriesScreen
 import com.google.wallpaperapp.ui.desktop.screens.DesktopDetailPane
 import com.google.wallpaperapp.ui.desktop.screens.DesktopFavouriteScreen
+import com.google.wallpaperapp.ui.desktop.screens.DesktopFullScreenViewer
 import com.google.wallpaperapp.ui.desktop.screens.DesktopLanguageDialog
 import com.google.wallpaperapp.ui.desktop.screens.DesktopMeshGradientScreen
 import com.google.wallpaperapp.ui.desktop.screens.DesktopSettingsScreen
+import com.google.wallpaperapp.ui.desktop.screens.asWallpaper
 import com.google.wallpaperapp.ui.desktop.components.WallpaperPageGrid
 import com.google.wallpaperapp.ui.desktop.paging.WallpaperFeed
 import com.google.wallpaperapp.ui.desktop.paging.WallpaperPageLoader
@@ -221,6 +226,12 @@ private fun DesktopAppContent(
                     Modifier.fillMaxSize()
                 }
                 preview?.let { current ->
+                    val currentList = when (current.source) {
+                        PreviewSource.PAGED -> homeLoader.state.items
+                        PreviewSource.CATEGORY -> categoryLoader.state.items
+                        PreviewSource.SEARCH -> searchLoader.state.items
+                        PreviewSource.FAVOURITE -> favourites.map { it.asWallpaper() }
+                    }
                     DesktopDetailPane(
                         wallpaper = current.wallpaper,
                         isFavourite = current.wallpaper.id in favouriteIds,
@@ -232,10 +243,34 @@ private fun DesktopAppContent(
                         onCopyLink = actions::copyLink,
                         onOpenPhotographer = actions::openPhotographer,
                         onOpenSimilar = { navState.openPreview(it, PreviewSource.SEARCH) },
+                        onOpenFullScreen = { navState.openFullScreen(it, currentList) },
                         modifier = paneModifier
                     )
                 }
             }
+        }
+    }
+
+    // Dedicated immersive full-screen high-quality preview overlay
+    AnimatedVisibility(
+        visible = navState.fullScreenPreview != null,
+        enter = fadeIn(tween(200)),
+        exit = fadeOut(tween(180))
+    ) {
+        navState.fullScreenPreview?.let { fs ->
+            DesktopFullScreenViewer(
+                wallpaper = fs.wallpaper,
+                isFavourite = fs.wallpaper.id in favouriteIds,
+                items = fs.items,
+                onClose = { navState.closeFullScreen() },
+                onNext = { navState.nextFullScreen() },
+                onPrevious = { navState.prevFullScreen() },
+                onApply = actions::apply,
+                onDownload = actions::download,
+                onToggleFavourite = { favouriteViewModel.addOrRemoveFavourite(it) },
+                onCopyLink = actions::copyLink,
+                onOpenPhotographer = actions::openPhotographer
+            )
         }
     }
 
@@ -284,6 +319,7 @@ private fun DesktopContent(
             onPageSelected = categoryLoader::goToPage,
             onRetry = categoryLoader::retry,
             onOpen = { navState.openPreview(it, PreviewSource.CATEGORY) },
+            onOpenFullScreen = { navState.openFullScreen(it, categoryLoader.state.items) },
             onToggleFavourite = { favouriteViewModel.addOrRemoveFavourite(it) },
             onApply = actions::apply,
             onDownload = actions::download,
@@ -302,6 +338,7 @@ private fun DesktopContent(
                 onPageSelected = searchLoader::goToPage,
                 onRetry = searchLoader::retry,
                 onOpen = { navState.openPreview(it, PreviewSource.SEARCH) },
+                onOpenFullScreen = { navState.openFullScreen(it, searchLoader.state.items) },
                 onToggleFavourite = { favouriteViewModel.addOrRemoveFavourite(it) },
                 onApply = actions::apply,
                 onDownload = actions::download,
@@ -320,6 +357,7 @@ private fun DesktopContent(
                 onPageSelected = homeLoader::goToPage,
                 onRetry = homeLoader::retry,
                 onOpen = { navState.openPreview(it, PreviewSource.PAGED) },
+                onOpenFullScreen = { navState.openFullScreen(it, homeLoader.state.items) },
                 onToggleFavourite = { favouriteViewModel.addOrRemoveFavourite(it) },
                 onApply = actions::apply,
                 onDownload = actions::download,
@@ -374,6 +412,7 @@ private fun DesktopContent(
             TopLevelBackStack.Favourite -> DesktopFavouriteScreen(
                 favourites = favourites,
                 onOpen = { navState.openPreview(it, PreviewSource.FAVOURITE) },
+                onOpenFullScreen = { navState.openFullScreen(it, favourites.map { f -> f.asWallpaper() }) },
                 onRemove = { favouriteViewModel.addOrRemoveFavourite(it) },
                 onApply = actions::apply,
                 onDownload = actions::download,

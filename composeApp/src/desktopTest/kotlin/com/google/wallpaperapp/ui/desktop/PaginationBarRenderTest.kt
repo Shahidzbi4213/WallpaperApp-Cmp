@@ -34,9 +34,9 @@ class PaginationBarRenderTest {
                         items = items, page = 3, totalPages = 1655
                     ),
                     favouriteIds = emptySet(),
-                    onPageSelected = {}, onRetry = {}, onOpen = {}, onToggleFavourite = {},
-                    onApply = {}, onDownload = {}, onCopyUrl = {}, onOpenPhotographer = {},
-                    emptyTitle = "", emptySubtitle = ""
+                    onPageSelected = {}, onRetry = {}, onOpen = {}, onOpenFullScreen = {},
+                    onToggleFavourite = {}, onApply = {}, onDownload = {}, onCopyUrl = {},
+                    onOpenPhotographer = {}, emptyTitle = "", emptySubtitle = ""
                 )
             }
         }
