@@ -57,9 +57,9 @@ Organize wallpapers into categories or save high-resolution favorites offline po
 
 Screeny delivers fluid edge-to-edge gesture navigation, infinite scrolling feeds, and shared element transitions on Android and iOS.
 
-| Curated Feed | Wallpaper Detail | Similar Wallpapers |
+| Curated Feed | Wallpaper Detail |
 | :---: | :---: | :---: |
-| <img src="screenshots/home.png" width="250" alt="Mobile Home" /> | <img src="screenshots/detail.png" width="250" alt="Mobile Detail" /> | <img src="screenshots/similar.png" width="250" alt="Mobile Similar" /> |
+| <img src="screenshots/home.png" width="250" alt="Mobile Home" /> | <img src="screenshots/detail.png" width="250" alt="Mobile Detail" /> | 
 
 ---
 
