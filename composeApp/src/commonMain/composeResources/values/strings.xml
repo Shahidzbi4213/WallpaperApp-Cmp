@@ -97,7 +97,7 @@
     <string name="desktop_selected">Selected</string>
     <!-- Network errors -->
     <string name="error_rate_limited">Too many requests right now. Wait a moment and try again.</string>
-    <string name="error_unauthorized">The Pexels API key was rejected. Check the key in NetworkModule.</string>
+    <string name="error_unauthorized">Pexels rejected the API key. Add your own free key from pexels.com/api in NetworkModule.kt.</string>
     <string name="error_server">Pexels is having trouble. Try again shortly.</string>
     <string name="error_timeout">The request timed out. Check your connection and try again.</string>
     <string name="error_no_connection">No internet connection.</string>

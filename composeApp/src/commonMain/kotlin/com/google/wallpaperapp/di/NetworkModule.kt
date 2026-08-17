@@ -34,13 +34,19 @@ class NetworkModule {
             // schema bug and hides the real cause. Non-2xx now throws with the actual status.
             expectSuccess = true
 
-            // The Pexels key is throttled under load, and a throttle is transient by definition.
-            // Retrying it is the difference between a blank error screen and the page just loading.
+            // Retries cover genuinely transient failures only. 401 is deliberately NOT retried:
+            // a rejected key is rejected on every attempt, so retrying only delays the error.
             install(HttpRequestRetry) {
                 maxRetries = 3
-                retryOnServerErrors(maxRetries = 3)
-                retryIf { _, response -> response.status == HttpStatusCode.TooManyRequests }
-                exponentialDelay()
+                // One predicate on purpose: retryIf REPLACES whatever retryOnServerErrors set, so
+                // combining the two silently disables server-error retries.
+                retryIf { _, response ->
+                    response.status.value >= 500 ||
+                        response.status == HttpStatusCode.TooManyRequests
+                }
+                // Keep the worst case a few seconds; the default base backs off far enough that
+                // a failing page feels like a hang.
+                exponentialDelay(base = 1.5, maxDelayMs = 2000)
             }
 
             install(HttpTimeout){

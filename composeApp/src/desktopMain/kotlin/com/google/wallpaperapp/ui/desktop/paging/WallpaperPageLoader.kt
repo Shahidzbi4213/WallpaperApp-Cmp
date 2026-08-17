@@ -131,7 +131,7 @@ class WallpaperPageLoader(
                 }
                 .onFailure { throwable ->
                     if (throwable is kotlinx.coroutines.CancellationException) throw throwable
-                    AppLogger.e(TAG, "page $target of $feed failed", throwable)
+                    AppLogger.e(TAG, "page $target of $feed failed: ${throwable::class.simpleName}: ${throwable.message}", throwable)
                     state = state.copy(isLoading = false, error = throwable.toUserMessage())
                 }
         }
