@@ -10,6 +10,11 @@ import kotlin.time.ExperimentalTime
 data class FavouriteWallpaperEntity(
     @PrimaryKey(autoGenerate = false)
     val id: Long,
+    // Always the portrait url. It doubles as the favourite's identity in the existing
+    // detail-screen comparison and in deleteViaUrl, so it must not change per platform.
     val wallpaper: String,
+    // Added in schema v3 so desktop can render a favourite without a portrait crop.
+    // Empty for rows saved before the upgrade, or from a phone.
+    val landscape: String = "",
     val timeStamp: Long = Clock.System.now().epochSeconds
 )

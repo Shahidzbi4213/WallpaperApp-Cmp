@@ -39,6 +39,9 @@ import com.google.wallpaperapp.utils.WallpaperType
 import kotlinx.coroutines.launch
 import androidx.compose.ui.graphics.Canvas as ComposeCanvas
 import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
+import org.jetbrains.compose.resources.stringResource
+import wallpaperapp.composeapp.generated.resources.Res
+import wallpaperapp.composeapp.generated.resources.gradient_download_failed
 
 @Composable
 fun MeshGradientDetailScreen(
@@ -51,6 +54,7 @@ fun MeshGradientDetailScreen(
     val pagerState = rememberPagerState(initialPage = startIndex) { randomPresets.size }
     val scope = rememberCoroutineScope()
     val toastManager = remember { ToastManager() }
+    val gradientDownloadFailed = stringResource(Res.string.gradient_download_failed)
     val density = LocalDensity.current
     val layoutDirection = LocalLayoutDirection.current
     val wallpaperManager = remember { WallpaperManager() }
@@ -94,7 +98,7 @@ fun MeshGradientDetailScreen(
                 isFavourite = false,
                 onDownload = {
                     scope.launch {
-                        toastManager.showToast("Cannot download generated gradient", SHORT)
+                        toastManager.showToast(gradientDownloadFailed, SHORT)
                     }
                 },
                 onApply = {

@@ -40,26 +40,62 @@ A Kotlin Multiplatform wallpaper app for **Android** and **iOS**, built with Com
 
 ## Getting Started
 
-The app calls the Pexels API. The repo ships with a demo API key in
-[`NetworkModule.kt`](./composeApp/src/commonMain/kotlin/com/google/wallpaperapp/di/NetworkModule.kt);
-replace it with your own free key from the [Pexels API dashboard](https://www.pexels.com/api/) for your own builds.
+The app calls the Pexels API. Obtain a free API key from the [Pexels API dashboard](https://www.pexels.com/api/) and add it to your `local.properties` (or set the `PEXELS_API_KEY` environment variable):
+
+```properties
+PEXELS_API_KEY=your_pexels_api_key_here
+```
+
+See [`local.properties.example`](./local.properties.example) for a template. `local.properties` is git-ignored and keeps your API key safe.
 
 ### Build and Run — Android
 
 Use the run configuration in your IDE's run widget, or build from the terminal:
 
+The APK is produced by `:androidApp`, not `:composeApp`:
+
 - macOS/Linux
   ```shell
-  ./gradlew :composeApp:assembleDebug
+  ./gradlew :androidApp:assembleDebug
   ```
 - Windows
   ```shell
-  .\gradlew.bat :composeApp:assembleDebug
+  .\gradlew.bat :androidApp:assembleDebug
   ```
 
 ### Build and Run — iOS
 
 Use the run configuration in your IDE's run widget, or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+
+### Build and Run — Desktop (macOS, Windows, Linux)
+
+```shell
+./gradlew :desktopApp:run
+```
+
+The desktop app is not a scaled-up phone layout — it has its own screens built to desktop
+conventions (fixed sidebar, persistent search field, hover and right-click actions, keyboard
+shortcuts, resizable master–detail preview) and it requests landscape imagery instead of portrait.
+Browsing uses numbered pages — 40 to a page, with a page bar and a jump box — rather than the
+phone's infinite scroll, so you always know where you are and can get back to it.
+
+Installers:
+
+```shell
+./gradlew :desktopApp:packageDmg   # macOS
+./gradlew :desktopApp:packageMsi   # Windows
+./gradlew :desktopApp:packageDeb   # Linux
+```
+
+`jpackage` cannot cross-compile, so each installer has to be built on its own OS. On a Homebrew
+JDK, Compose Desktop refuses to package by default; add
+`-Pcompose.desktop.packaging.checkJdkVendor=false`, or use a Temurin/Corretto JDK for builds you
+intend to sign or notarize.
+
+**Known limitations.** "Set as wallpaper" is implemented per OS (macOS via `osascript`, Windows via
+PowerShell, Linux via `gsettings`) but only the macOS path has been tested; on Windows, Linux
+outside GNOME, or any failure, the image is still downloaded and the app tells you where it went.
+Desktop-specific UI strings currently ship in English only.
 
 ---
 

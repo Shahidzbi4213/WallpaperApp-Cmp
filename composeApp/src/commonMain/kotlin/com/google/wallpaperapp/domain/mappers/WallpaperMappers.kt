@@ -28,6 +28,8 @@ fun WallpaperResponse.toWallpaper(): Wallpaper {
         portrait = wallpaperSource.portrait,
         medium = wallpaperSource.medium,
         small = wallpaperSource.small,
+        landscape = wallpaperSource.landscape,
+        original = wallpaperSource.original,
         alt = alt
     )
 }
@@ -35,7 +37,9 @@ fun WallpaperResponse.toWallpaper(): Wallpaper {
 fun SrcResponse.toSrcEntity() = SrcEntity(
     medium = medium,
     portrait = portrait,
-    small = small
+    small = small,
+    landscape = landscape,
+    original = original
 )
 
 fun WallpaperEntity.toWallpaper(): Wallpaper {
@@ -44,6 +48,8 @@ fun WallpaperEntity.toWallpaper(): Wallpaper {
         medium = wallpaperSource.medium,
         small = wallpaperSource.small,
         portrait = wallpaperSource.portrait,
+        landscape = wallpaperSource.landscape,
+        original = wallpaperSource.original,
         photographerUrl = photographerUrl,
         photographerName = photographerName,
         alt = alt
@@ -51,10 +57,11 @@ fun WallpaperEntity.toWallpaper(): Wallpaper {
 }
 
 fun FavouriteWallpaperEntity.toFavouriteWallpaper(): FavouriteWallpaper {
-    return FavouriteWallpaper(id = id, wallpaper = wallpaper)
+    return FavouriteWallpaper(id = id, wallpaper = wallpaper, landscape = landscape)
 }
 
 fun List<FavouriteWallpaperEntity>.toFavouriteWallpapers(): List<FavouriteWallpaper> = map { it.toFavouriteWallpaper() }
 
 
-fun Wallpaper.toFavouriteWallpaper(): FavouriteWallpaper = FavouriteWallpaper(wallpaper = portrait, id = id)
+fun Wallpaper.toFavouriteWallpaper(): FavouriteWallpaper =
+    FavouriteWallpaper(wallpaper = portrait, landscape = landscape, id = id)

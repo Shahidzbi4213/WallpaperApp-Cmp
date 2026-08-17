@@ -1,6 +1,7 @@
 package com.google.wallpaperapp.di
 
 
+import com.google.wallpaperapp.AppConfig
 import com.google.wallpaperapp.core.platform.HttpEngineFactory
 import com.google.wallpaperapp.data.remote.PexelWallpapersApi
 import com.google.wallpaperapp.data.remote.PexelWallpapersApiImpl
@@ -29,6 +30,26 @@ class NetworkModule {
 
         return HttpClient(engine){
 
+            // Without this, a 401/429/500 body is handed straight to the WallpaperMainResponse
+            // deserializer, which then reports "fields are required" -- an error that looks like a
+            // schema bug and hides the real cause. Non-2xx now throws with the actual status.
+            expectSuccess = true
+
+            // Retries cover genuinely transient failures only. 401 is deliberately NOT retried:
+            // a rejected key is rejected on every attempt, so retrying only delays the error.
+            install(HttpRequestRetry) {
+                maxRetries = 3
+                // One predicate on purpose: retryIf REPLACES whatever retryOnServerErrors set, so
+                // combining the two silently disables server-error retries.
+                retryIf { _, response ->
+                    response.status.value >= 500 ||
+                        response.status == HttpStatusCode.TooManyRequests
+                }
+                // Keep the worst case a few seconds; the default base backs off far enough that
+                // a failing page feels like a hang.
+                exponentialDelay(base = 1.5, maxDelayMs = 2000)
+            }
+
             install(HttpTimeout){
                 connectTimeoutMillis = TIME_OUT
                 requestTimeoutMillis = TIME_OUT
@@ -46,7 +67,7 @@ class NetworkModule {
 
             install(DefaultRequest) {
                 header(HttpHeaders.ContentType, ContentType.Application.Json)
-                header(HttpHeaders.Authorization,"563492ad6f917001000013c33869795db4034972b1408c54283c7")
+                header(HttpHeaders.Authorization, AppConfig.PEXELS_API_KEY)
             }
 
         }
