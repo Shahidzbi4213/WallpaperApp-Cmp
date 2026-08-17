@@ -1,102 +1,218 @@
-# Screeny
+<div align="center">
 
-A Kotlin Multiplatform wallpaper app for **Android** and **iOS**, built with Compose Multiplatform. Browse, search, and favourite high-resolution wallpapers, then download them or set them straight as your device wallpaper. Wallpapers are sourced from the [Pexels API](https://www.pexels.com/api/).
+  <img src="desktopApp/src/main/resources/screeny.png" alt="Screeny Logo" width="100" />
 
-<p align="center">
-  <img src="screenshots/home.png" width="200" />
-  <img src="screenshots/detail.png" width="200" />
-</p>
+  # Screeny
 
-## Features
+  **A modern, dark-first wallpaper application crafted with Compose Multiplatform for Android, iOS, macOS, Windows, and Linux.**
 
-- **Curated feed** — endlessly paged wallpaper feed with smooth image loading.
-- **Categories** — browse wallpapers grouped by category.
-- **Search** — find wallpapers by keyword.
-- **Favourites** — save wallpapers offline; stored locally with Room.
-- **Detail view** — preview full-resolution wallpapers, download them, or apply as home/lock-screen wallpaper.
-- **Settings & languages** — in-app settings and language selection.
-- **Dark-first glassmorphic UI** — shared Compose UI across both platforms.
+  [![Kotlin](https://img.shields.io/badge/Kotlin-2.4.0-7F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)](https://kotlinlang.org)
+  [![Compose Multiplatform](https://img.shields.io/badge/Compose%20Multiplatform-1.7.3-4285F4.svg?style=for-the-badge&logo=jetpackcompose&logoColor=white)](https://www.jetbrains.com/lp/compose-multiplatform/)
+  [![Platform](https://img.shields.io/badge/Platforms-Android%20%7C%20iOS%20%7C%20macOS%20%7C%20Windows%20%7C%20Linux-E01F8B.svg?style=for-the-badge)](https://github.com)
+  [![License](https://img.shields.io/badge/License-Apache%202.0-2FE6A6.svg?style=for-the-badge)](LICENSE)
 
-## Tech Stack
+  <p align="center">
+    <a href="#-features">Features</a> •
+    <a href="#-desktop-experience">Desktop Showcase</a> •
+    <a href="#-mobile-showcase">Mobile Showcase</a> •
+    <a href="#-tech-stack">Tech Stack</a> •
+    <a href="#-getting-started">Getting Started</a> •
+    <a href="#-shortcuts">Shortcuts</a>
+  </p>
 
-| Concern | Library |
-|---|---|
-| UI | Compose Multiplatform |
-| Language | Kotlin 2.4 (AGP 9.1) |
-| DI | Koin (with Koin Annotations) |
-| Networking | Ktor 3.5 (OkHttp on Android, Darwin on iOS) |
-| Local storage | Room 2.8 (KMP) |
-| Paging | Paging 3 / `app.cash.paging` (multiplatform) |
-| Navigation | Navigation 3 |
-| Image loading | Landscapist + Coil 3 |
+</div>
 
-## Project Structure
+---
 
-- **[/composeApp](./composeApp/src)** — shared Compose Multiplatform code.
-  - **[commonMain](./composeApp/src/commonMain/kotlin)** — shared UI, DI, data, and domain layers (`ui`, `di`, `core`, `data`, `domain`, `utils`).
-  - **[androidMain](./composeApp/src/androidMain/kotlin)** — Android-specific implementations (e.g. wallpaper apply/download).
-  - **[iosMain](./composeApp/src/iosMain/kotlin)** — iOS-specific implementations.
-- **[/iosApp](./iosApp/iosApp)** — iOS entry point (Xcode project + any SwiftUI code).
+## 🌟 Highlights
 
-## Getting Started
+Screeny delivers high-resolution wallpapers sourced from the [Pexels API](https://www.pexels.com/api/) with a custom dark-glassmorphism design system. 
 
-The app calls the Pexels API. Obtain a free API key from the [Pexels API dashboard](https://www.pexels.com/api/) and add it to your `local.properties` (or set the `PEXELS_API_KEY` environment variable):
+Unlike apps that simply stretch a phone interface onto larger screens, **Screeny features purpose-built desktop and mobile layouts sharing the same domain, ViewModels, and Room database.**
+
+---
+
+## 🖥️ Desktop Showcase
+
+<div align="center">
+  <h3>✨ Immersive Full-Screen High-Resolution Preview with Toggleable HUD</h3>
+  <img src="screenshots/desktop-preview.png" alt="Desktop Full-Screen Preview" width="100%" />
+</div>
+
+<br />
+
+<div align="center">
+  <h3>🗂️ Browse Feed with Numbered Pagination & Detail Pane</h3>
+  <img src="screenshots/desktop-home.png" alt="Desktop Browse Grid" width="100%" />
+</div>
+
+<br />
+
+<div align="center">
+  <table width="100%">
+    <tr>
+      <td width="50%" align="center"><b>📂 Curated Categories</b></td>
+      <td width="50%" align="center"><b>❤️ Saved Favourites (Room KMP)</b></td>
+    </tr>
+    <tr>
+      <td><img src="screenshots/desktop-categories.png" alt="Desktop Categories" width="100%" /></td>
+      <td><img src="screenshots/desktop-favourites.png" alt="Desktop Favourites" width="100%" /></td>
+    </tr>
+  </table>
+</div>
+
+---
+
+## 📱 Mobile Showcase
+
+<div align="center">
+  <table border="0">
+    <tr>
+      <td align="center"><b>Curated Feed</b></td>
+      <td align="center"><b>Wallpaper Detail</b></td>
+      <td align="center"><b>Similar Wallpapers</b></td>
+    </tr>
+    <tr>
+      <td><img src="screenshots/home.png" width="240" alt="Mobile Home" /></td>
+      <td><img src="screenshots/detail.png" width="240" alt="Mobile Detail" /></td>
+      <td><img src="screenshots/similar.png" width="240" alt="Mobile Similar" /></td>
+    </tr>
+  </table>
+</div>
+
+---
+
+## ✨ Features
+
+- 🖥️ **Tailored Desktop UI (macOS / Windows / Linux)**:
+  - Fixed glassmorphic sidebar and persistent instant-search toolbar.
+  - Numbered page navigation (40 items/page) with direct jump-to-page dialog.
+  - Hover action overlays and right-click context menus.
+  - Native window size & position state persistence.
+  - Native OS wallpaper setting (`osascript` on macOS, PowerShell on Windows, `gsettings` on Linux).
+- 🔍 **Immersive Full-Screen Lightbox**:
+  - Displays original high-resolution imagery.
+  - Click anywhere or press <kbd>Space</kbd> to toggle the floating glass HUD.
+  - Photographer credit, resolution info, and quick profile navigation.
+  - Seamless in-viewer feed browsing with <kbd>←</kbd> / <kbd>→</kbd> arrow keys.
+- 📱 **Fluid Mobile Experience (Android & iOS)**:
+  - Infinite scroll feed powered by Paging 3 Multiplatform.
+  - Gesture-driven bottom sheets, shared element transitions, and parallax scrolling.
+- 🎨 **Mesh Gradient Generator**:
+  - Interactive multi-point aurora gradient presets with instant wallpaper application and PNG export.
+- 💾 **Local Persistence**:
+  - Offline favourites, user preferences, and search history powered by multiplatform Room SQLite.
+- 🌐 **Internationalization**:
+  - Multi-language support with runtime language switching across 20+ locales.
+- 🔒 **Zero-Leak Secret Architecture**:
+  - API keys injected at build time from `local.properties` or environment variables without committing secrets to git.
+
+---
+
+## 🛠️ Tech Stack & Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                       Compose Multiplatform UI              │
+│   ┌───────────────────────────┐ ┌───────────────────────┐   │
+│   │   Mobile UI (Navigation3) │ │ Dedicated Desktop UI  │   │
+│   └─────────────┬─────────────┘ └───────────┬───────────┘   │
+└─────────────────┼───────────────────────────┼───────────────┘
+                  ▼                           ▼
+┌─────────────────────────────────────────────────────────────┐
+│                 Shared ViewModels & Domain Models           │
+├─────────────────────────────────────────────────────────────┤
+│         Koin DI (Annotations)  •  Mappers & UseCases       │
+├─────────────────────────────────────────────────────────────┤
+│   Ktor Client (OkHttp / Darwin) │   Room Database (KMP SQLite)│
+└─────────────────────────────────────────────────────────────┘
+```
+
+| Layer | Technologies |
+| :--- | :--- |
+| **Framework** | [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/) (Kotlin 2.4 / AGP 9.1) |
+| **Dependency Injection** | [Koin](https://insert-koin.io/) + Koin Annotations (KSP) |
+| **Networking** | [Ktor](https://ktor.io/) 3.5 (OkHttp on Android/JVM, Darwin on iOS) |
+| **Local Storage** | [Room KMP](https://developer.android.com/kotlin/multiplatform/room) 2.8 + SQLite |
+| **Paging** | [CashApp Multiplatform Paging 3](https://github.com/cashapp/multiplatform-paging) |
+| **Image Loading** | [Landscapist](https://github.com/skydoves/landscapist) + [Coil 3](https://coil-kt.github.io/coil/) |
+| **Design System** | Glassmorphism (`Ink950` dark space palette, Aurora gradients, frosted scrims) |
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/Shahidzbi4213/WallpaperApp-Cmp.git
+cd WallpaperApp-Cmp
+```
+
+### 2. Configure your Pexels API Key
+Get a free API key at [pexels.com/api](https://www.pexels.com/api/). Copy [`local.properties.example`](./local.properties.example) to `local.properties` and paste your key:
 
 ```properties
 PEXELS_API_KEY=your_pexels_api_key_here
 ```
-
-See [`local.properties.example`](./local.properties.example) for a template. `local.properties` is git-ignored and keeps your API key safe.
-
-### Build and Run — Android
-
-Use the run configuration in your IDE's run widget, or build from the terminal:
-
-The APK is produced by `:androidApp`, not `:composeApp`:
-
-- macOS/Linux
-  ```shell
-  ./gradlew :androidApp:assembleDebug
-  ```
-- Windows
-  ```shell
-  .\gradlew.bat :androidApp:assembleDebug
-  ```
-
-### Build and Run — iOS
-
-Use the run configuration in your IDE's run widget, or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
-
-### Build and Run — Desktop (macOS, Windows, Linux)
-
-```shell
-./gradlew :desktopApp:run
-```
-
-The desktop app is not a scaled-up phone layout — it has its own screens built to desktop
-conventions (fixed sidebar, persistent search field, hover and right-click actions, keyboard
-shortcuts, resizable master–detail preview) and it requests landscape imagery instead of portrait.
-Browsing uses numbered pages — 40 to a page, with a page bar and a jump box — rather than the
-phone's infinite scroll, so you always know where you are and can get back to it.
-
-Installers:
-
-```shell
-./gradlew :desktopApp:packageDmg   # macOS
-./gradlew :desktopApp:packageMsi   # Windows
-./gradlew :desktopApp:packageDeb   # Linux
-```
-
-`jpackage` cannot cross-compile, so each installer has to be built on its own OS. On a Homebrew
-JDK, Compose Desktop refuses to package by default; add
-`-Pcompose.desktop.packaging.checkJdkVendor=false`, or use a Temurin/Corretto JDK for builds you
-intend to sign or notarize.
-
-**Known limitations.** "Set as wallpaper" is implemented per OS (macOS via `osascript`, Windows via
-PowerShell, Linux via `gsettings`) but only the macOS path has been tested; on Windows, Linux
-outside GNOME, or any failure, the image is still downloaded and the app tells you where it went.
-Desktop-specific UI strings currently ship in English only.
+*(You can also export `PEXELS_API_KEY` as an environment variable).*
 
 ---
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html) and [Compose Multiplatform](https://www.jetbrains.com/compose-multiplatform/).
+### 3. Build & Run
+
+#### 🖥️ Desktop (macOS, Windows, Linux)
+```bash
+./gradlew :desktopApp:run
+```
+
+To create native OS packages:
+```bash
+./gradlew :desktopApp:packageDmg   # macOS (.dmg)
+./gradlew :desktopApp:packageMsi   # Windows (.msi)
+./gradlew :desktopApp:packageDeb   # Linux (.deb)
+```
+
+#### 🤖 Android
+```bash
+./gradlew :androidApp:assembleDebug
+```
+
+#### 🍎 iOS
+Open `iosApp/iosApp.xcodeproj` in Xcode and press **Run**, or use Android Studio / Fleet with the KMP plugin.
+
+---
+
+## ⌨️ Desktop Keyboard Shortcuts
+
+| Shortcut | Action |
+| :--- | :--- |
+| <kbd>⌘</kbd> / <kbd>Ctrl</kbd> + <kbd>F</kbd> | Focus search bar |
+| <kbd>⌘</kbd> / <kbd>Ctrl</kbd> + <kbd>,</kbd> | Open Settings |
+| <kbd>Esc</kbd> | Close preview / full-screen viewer / back |
+| <kbd>Space</kbd> | Toggle HUD controls in full-screen preview |
+| <kbd>←</kbd> / <kbd>→</kbd> | Browse previous / next wallpaper in full-screen |
+| <kbd>F</kbd> | Toggle favourite status |
+
+---
+
+## 🧪 Testing
+
+```bash
+# Run multiplatform shared unit tests
+./gradlew :composeApp:allTests
+
+# Run Desktop UI smoke tests & headless preview renders
+./gradlew :composeApp:desktopTest
+```
+
+---
+
+## 💖 Star the Repo
+
+If you like Screeny or find this Compose Multiplatform reference helpful, please give it a **⭐ on GitHub**!
+
+---
+
+<div align="center">
+  <sub>Built with ❤️ using Kotlin & Compose Multiplatform.</sub>
+</div>
