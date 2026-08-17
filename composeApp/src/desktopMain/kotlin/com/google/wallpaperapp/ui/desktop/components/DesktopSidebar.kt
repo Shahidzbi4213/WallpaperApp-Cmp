@@ -43,6 +43,10 @@ import com.google.wallpaperapp.ui.theme.TextMid
 import com.google.wallpaperapp.ui.theme.eyebrowStyle
 import org.jetbrains.compose.resources.stringResource
 
+import org.jetbrains.compose.resources.painterResource
+import wallpaperapp.composeapp.generated.resources.Res
+import wallpaperapp.composeapp.generated.resources.app_logo
+
 /**
  * The persistent desktop navigation: a fixed left rail, not a floating bottom bar.
  * Reuses [bottomNavigationItems] verbatim -- it is plain data, so the same five entries drive
@@ -98,11 +102,13 @@ private fun Brandmark(collapsed: Boolean) {
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
     ) {
-        Box(
+        Icon(
+            painter = painterResource(Res.drawable.app_logo),
+            contentDescription = "Screeny Logo",
+            tint = Color.Unspecified,
             modifier = Modifier
-                .size(26.dp)
+                .size(28.dp)
                 .clip(RoundedCornerShape(8.dp))
-                .background(ScreenyGradient)
         )
         if (!collapsed) {
             Spacer(Modifier.width(10.dp))
