@@ -1,111 +1,93 @@
-<div align="center">
+# Screeny — Compose Multiplatform Wallpaper App
 
-  <img src="desktopApp/src/main/resources/screeny.png" alt="Screeny Logo" width="100" />
+<p align="center">
+  <img src="desktopApp/src/main/resources/screeny.png" alt="Screeny App Icon" width="120" />
+</p>
 
-  # Screeny
+<p align="center">
+  <b>A modern, dark-first wallpaper client crafted with Compose Multiplatform for Android, iOS, macOS, Windows, and Linux.</b>
+</p>
 
-  **A modern, dark-first wallpaper application crafted with Compose Multiplatform for Android, iOS, macOS, Windows, and Linux.**
+<p align="center">
+  <a href="https://kotlinlang.org"><img src="https://img.shields.io/badge/Kotlin-2.4.0-7F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white" alt="Kotlin 2.4.0" /></a>
+  <a href="https://www.jetbrains.com/lp/compose-multiplatform/"><img src="https://img.shields.io/badge/Compose%20Multiplatform-1.7.3-4285F4.svg?style=for-the-badge&logo=jetpackcompose&logoColor=white" alt="Compose Multiplatform 1.7.3" /></a>
+  <img src="https://img.shields.io/badge/Platforms-Android%20%7C%20iOS%20%7C%20macOS%20%7C%20Windows%20%7C%20Linux-E01F8B.svg?style=for-the-badge" alt="Supported Platforms" />
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-2FE6A6.svg?style=for-the-badge" alt="Apache 2.0 License" /></a>
+</p>
 
-  [![Kotlin](https://img.shields.io/badge/Kotlin-2.4.0-7F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)](https://kotlinlang.org)
-  [![Compose Multiplatform](https://img.shields.io/badge/Compose%20Multiplatform-1.7.3-4285F4.svg?style=for-the-badge&logo=jetpackcompose&logoColor=white)](https://www.jetbrains.com/lp/compose-multiplatform/)
-  [![Platform](https://img.shields.io/badge/Platforms-Android%20%7C%20iOS%20%7C%20macOS%20%7C%20Windows%20%7C%20Linux-E01F8B.svg?style=for-the-badge)](https://github.com)
-  [![License](https://img.shields.io/badge/License-Apache%202.0-2FE6A6.svg?style=for-the-badge)](LICENSE)
-
-  <p align="center">
-    <a href="#-features">Features</a> •
-    <a href="#-desktop-experience">Desktop Showcase</a> •
-    <a href="#-mobile-showcase">Mobile Showcase</a> •
-    <a href="#-tech-stack">Tech Stack</a> •
-    <a href="#-getting-started">Getting Started</a> •
-    <a href="#-shortcuts">Shortcuts</a>
-  </p>
-
-</div>
-
----
-
-## 🌟 Highlights
-
-Screeny delivers high-resolution wallpapers sourced from the [Pexels API](https://www.pexels.com/api/) with a custom dark-glassmorphism design system. 
-
-Unlike apps that simply stretch a phone interface onto larger screens, **Screeny features purpose-built desktop and mobile layouts sharing the same domain, ViewModels, and Room database.**
+<p align="center">
+  <a href="#-desktop-showcase">Desktop Showcase</a> •
+  <a href="#-mobile-showcase">Mobile Showcase</a> •
+  <a href="#-key-features">Features</a> •
+  <a href="#-tech-stack--architecture">Tech Stack</a> •
+  <a href="#-getting-started">Getting Started</a> •
+  <a href="#-keyboard-shortcuts">Shortcuts</a>
+</p>
 
 ---
 
 ## 🖥️ Desktop Showcase
 
-<div align="center">
-  <h3>✨ Immersive Full-Screen High-Resolution Preview with Toggleable HUD</h3>
-  <img src="screenshots/desktop-preview.png" alt="Desktop Full-Screen Preview" width="100%" />
-</div>
+Screeny features a desktop experience built to macOS, Windows, and Linux conventions with a persistent sidebar, instant search, numbered pagination, and high-resolution preview modes.
 
-<br />
+### 🔍 Immersive Full-Screen Lightbox Preview
+Preview original high-resolution photography with a toggleable glassmorphic HUD, photographer metadata, direct profile links, and keyboard navigation.
 
-<div align="center">
-  <h3>🗂️ Browse Feed with Numbered Pagination & Detail Pane</h3>
-  <img src="screenshots/desktop-home.png" alt="Desktop Browse Grid" width="100%" />
-</div>
+![Desktop Full-Screen Preview](screenshots/desktop-preview.png)
 
-<br />
+---
 
-<div align="center">
-  <table width="100%">
-    <tr>
-      <td width="50%" align="center"><b>📂 Curated Categories</b></td>
-      <td width="50%" align="center"><b>❤️ Saved Favourites (Room KMP)</b></td>
-    </tr>
-    <tr>
-      <td><img src="screenshots/desktop-categories.png" alt="Desktop Categories" width="100%" /></td>
-      <td><img src="screenshots/desktop-favourites.png" alt="Desktop Favourites" width="100%" /></td>
-    </tr>
-  </table>
-</div>
+### 🗂️ Browse Feed with Numbered Pagination & Detail Pane
+Browse 16:9 wallpapers with quick-action hover buttons, contextual master-detail pane, and jump-to-page navigation.
+
+![Desktop Home Feed](screenshots/desktop-home.png)
+
+---
+
+### 📂 Curated Categories & Offline Favourites
+Organize wallpapers into categories or save high-resolution favorites offline powered by multiplatform Room SQLite.
+
+| Curated Categories | Offline Favourites |
+| :---: | :---: |
+| ![Categories](screenshots/desktop-categories.png) | ![Favourites](screenshots/desktop-favourites.png) |
 
 ---
 
 ## 📱 Mobile Showcase
 
-<div align="center">
-  <table border="0">
-    <tr>
-      <td align="center"><b>Curated Feed</b></td>
-      <td align="center"><b>Wallpaper Detail</b></td>
-      <td align="center"><b>Similar Wallpapers</b></td>
-    </tr>
-    <tr>
-      <td><img src="screenshots/home.png" width="240" alt="Mobile Home" /></td>
-      <td><img src="screenshots/detail.png" width="240" alt="Mobile Detail" /></td>
-      <td><img src="screenshots/similar.png" width="240" alt="Mobile Similar" /></td>
-    </tr>
-  </table>
-</div>
+Screeny delivers fluid edge-to-edge gesture navigation, infinite scrolling feeds, and shared element transitions on Android and iOS.
+
+| Curated Feed | Wallpaper Detail | Similar Wallpapers |
+| :---: | :---: | :---: |
+| <img src="screenshots/home.png" width="250" alt="Mobile Home" /> | <img src="screenshots/detail.png" width="250" alt="Mobile Detail" /> | <img src="screenshots/similar.png" width="250" alt="Mobile Similar" /> |
 
 ---
 
-## ✨ Features
+## ✨ Key Features
 
-- 🖥️ **Tailored Desktop UI (macOS / Windows / Linux)**:
-  - Fixed glassmorphic sidebar and persistent instant-search toolbar.
+- 🖥️ **Tailored Desktop Experience (macOS, Windows, Linux)**:
+  - Fixed glassmorphic sidebar with Screeny signature branding.
+  - Persistent instant-search toolbar (<kbd>⌘</kbd> / <kbd>Ctrl</kbd> + <kbd>F</kbd>).
   - Numbered page navigation (40 items/page) with direct jump-to-page dialog.
-  - Hover action overlays and right-click context menus.
-  - Native window size & position state persistence.
+  - Quick-action card hover overlays and right-click context menus.
+  - Native window size and position persistence.
   - Native OS wallpaper setting (`osascript` on macOS, PowerShell on Windows, `gsettings` on Linux).
-- 🔍 **Immersive Full-Screen Lightbox**:
+- 🔍 **Full-Screen Lightbox Viewer**:
   - Displays original high-resolution imagery.
   - Click anywhere or press <kbd>Space</kbd> to toggle the floating glass HUD.
   - Photographer credit, resolution info, and quick profile navigation.
   - Seamless in-viewer feed browsing with <kbd>←</kbd> / <kbd>→</kbd> arrow keys.
-- 📱 **Fluid Mobile Experience (Android & iOS)**:
+- 📱 **Mobile UI (Android & iOS)**:
   - Infinite scroll feed powered by Paging 3 Multiplatform.
   - Gesture-driven bottom sheets, shared element transitions, and parallax scrolling.
 - 🎨 **Mesh Gradient Generator**:
   - Interactive multi-point aurora gradient presets with instant wallpaper application and PNG export.
 - 💾 **Local Persistence**:
-  - Offline favourites, user preferences, and search history powered by multiplatform Room SQLite.
+  - Offline favourites, user preferences, and search history powered by Room (KMP SQLite).
 - 🌐 **Internationalization**:
-  - Multi-language support with runtime language switching across 20+ locales.
+  - Multi-language support with runtime locale switching across 20+ languages.
 - 🔒 **Zero-Leak Secret Architecture**:
-  - API keys injected at build time from `local.properties` or environment variables without committing secrets to git.
+  - Dynamic build-time config via `local.properties` or environment variables without committing secrets to git.
 
 ---
 
@@ -128,12 +110,12 @@ Unlike apps that simply stretch a phone interface onto larger screens, **Screeny
 └─────────────────────────────────────────────────────────────┘
 ```
 
-| Layer | Technologies |
+| Layer | Library / Technology |
 | :--- | :--- |
-| **Framework** | [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/) (Kotlin 2.4 / AGP 9.1) |
+| **UI Framework** | [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/) (Kotlin 2.4 / AGP 9.1) |
 | **Dependency Injection** | [Koin](https://insert-koin.io/) + Koin Annotations (KSP) |
-| **Networking** | [Ktor](https://ktor.io/) 3.5 (OkHttp on Android/JVM, Darwin on iOS) |
-| **Local Storage** | [Room KMP](https://developer.android.com/kotlin/multiplatform/room) 2.8 + SQLite |
+| **Networking** | [Ktor](https://ktor.io/) 3.5 (OkHttp on Android & Desktop, Darwin on iOS) |
+| **Local Database** | [Room KMP](https://developer.android.com/kotlin/multiplatform/room) 2.8 + SQLite |
 | **Paging** | [CashApp Multiplatform Paging 3](https://github.com/cashapp/multiplatform-paging) |
 | **Image Loading** | [Landscapist](https://github.com/skydoves/landscapist) + [Coil 3](https://coil-kt.github.io/coil/) |
 | **Design System** | Glassmorphism (`Ink950` dark space palette, Aurora gradients, frosted scrims) |
@@ -154,7 +136,7 @@ Get a free API key at [pexels.com/api](https://www.pexels.com/api/). Copy [`loca
 ```properties
 PEXELS_API_KEY=your_pexels_api_key_here
 ```
-*(You can also export `PEXELS_API_KEY` as an environment variable).*
+*(You can also set `PEXELS_API_KEY` as an environment variable).*
 
 ---
 
@@ -162,11 +144,10 @@ PEXELS_API_KEY=your_pexels_api_key_here
 
 #### 🖥️ Desktop (macOS, Windows, Linux)
 ```bash
+# Run the application
 ./gradlew :desktopApp:run
-```
 
-To create native OS packages:
-```bash
+# Package native installers
 ./gradlew :desktopApp:packageDmg   # macOS (.dmg)
 ./gradlew :desktopApp:packageMsi   # Windows (.msi)
 ./gradlew :desktopApp:packageDeb   # Linux (.deb)
@@ -178,7 +159,7 @@ To create native OS packages:
 ```
 
 #### 🍎 iOS
-Open `iosApp/iosApp.xcodeproj` in Xcode and press **Run**, or use Android Studio / Fleet with the KMP plugin.
+Open `iosApp/iosApp.xcodeproj` in Xcode and press **Run**, or run via Fleet / Android Studio.
 
 ---
 
@@ -188,8 +169,8 @@ Open `iosApp/iosApp.xcodeproj` in Xcode and press **Run**, or use Android Studio
 | :--- | :--- |
 | <kbd>⌘</kbd> / <kbd>Ctrl</kbd> + <kbd>F</kbd> | Focus search bar |
 | <kbd>⌘</kbd> / <kbd>Ctrl</kbd> + <kbd>,</kbd> | Open Settings |
-| <kbd>Esc</kbd> | Close preview / full-screen viewer / back |
-| <kbd>Space</kbd> | Toggle HUD controls in full-screen preview |
+| <kbd>Esc</kbd> | Close preview / full-screen viewer / navigate back |
+| <kbd>Space</kbd> | Toggle HUD controls in full-screen lightbox |
 | <kbd>←</kbd> / <kbd>→</kbd> | Browse previous / next wallpaper in full-screen |
 | <kbd>F</kbd> | Toggle favourite status |
 
@@ -209,7 +190,7 @@ Open `iosApp/iosApp.xcodeproj` in Xcode and press **Run**, or use Android Studio
 
 ## 💖 Star the Repo
 
-If you like Screeny or find this Compose Multiplatform reference helpful, please give it a **⭐ on GitHub**!
+If you enjoy Screeny or find this Compose Multiplatform reference helpful, please give it a **⭐ on GitHub**!
 
 ---
 
