@@ -1,5 +1,7 @@
 package com.google.wallpaperapp.ui.screens.home
 
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,8 +11,11 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import com.google.wallpaperapp.domain.models.Wallpaper
@@ -18,6 +23,8 @@ import com.google.wallpaperapp.ui.components.Footer
 import com.google.wallpaperapp.ui.components.LoadingPlaceHolder
 import com.google.wallpaperapp.ui.components.WallpaperItem
 import com.google.wallpaperapp.ui.composables.LazyPagingItems
+import dev.chrisbanes.haze.HazeProgressive
+import dev.chrisbanes.haze.hazeEffect
 
 
 @Composable
@@ -28,6 +35,14 @@ fun HomeScreen(
 ) {
 
     val state = androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState()
+    val canScroll by remember { derivedStateOf { state.canScrollBackward } }
+    val topBlurRadius by animateDpAsState(
+        targetValue = if (canScroll) 30.dp else 0.dp,
+        animationSpec = tween(durationMillis = 250),
+        label = "homeGridTopBlur"
+    )
+    val density = LocalDensity.current
+    val blurHeightPx = with(density) { 140.dp.toPx() }
 
     androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid(
         state = state,
@@ -37,9 +52,17 @@ fun HomeScreen(
         verticalItemSpacing = 8.dp,
         overscrollEffect = null,
         modifier = modifier
-            .fillMaxSize(),
-
-        ) {
+            .fillMaxSize()
+            .hazeEffect {
+                blurRadius = topBlurRadius
+                progressive = HazeProgressive.verticalGradient(
+                    startY = 0f,
+                    endY = blurHeightPx,
+                    startIntensity = 1f,
+                    endIntensity = 0f
+                )
+            },
+    ) {
 
         if (wallpapers.loadState.refresh == LoadState.Loading) {
             items(20) {

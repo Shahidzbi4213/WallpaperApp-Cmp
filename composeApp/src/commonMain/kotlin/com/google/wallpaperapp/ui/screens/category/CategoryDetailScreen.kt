@@ -37,8 +37,17 @@ import com.google.wallpaperapp.ui.components.LoadingPlaceHolder
 import com.google.wallpaperapp.ui.components.WallpaperItem
 import com.google.wallpaperapp.ui.composables.LazyPagingItems
 import com.google.wallpaperapp.ui.theme.TextHi
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalDensity
 import com.google.wallpaperapp.ui.theme.auroraBackground
 import com.google.wallpaperapp.ui.theme.glass
+import dev.chrisbanes.haze.HazeProgressive
+import dev.chrisbanes.haze.hazeEffect
 
 @Composable
 fun CategoryDetailScreen(
@@ -50,6 +59,16 @@ fun CategoryDetailScreen(
 
 
     BackHandler(true,onBackClick)
+
+    val gridState = rememberLazyGridState()
+    val canScroll by remember { derivedStateOf { gridState.canScrollBackward } }
+    val topBlurRadius by animateDpAsState(
+        targetValue = if (canScroll) 30.dp else 0.dp,
+        animationSpec = tween(durationMillis = 250),
+        label = "categoryGridTopBlur"
+    )
+    val density = LocalDensity.current
+    val blurHeightPx = with(density) { 140.dp.toPx() }
 
     Column(
         modifier = Modifier
@@ -65,10 +84,21 @@ fun CategoryDetailScreen(
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
+            state = gridState,
             contentPadding = PaddingValues(10.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .hazeEffect {
+                    blurRadius = topBlurRadius
+                    progressive = HazeProgressive.verticalGradient(
+                        startY = 0f,
+                        endY = blurHeightPx,
+                        startIntensity = 1f,
+                        endIntensity = 0f
+                    )
+                },
         ) {
 
             if (wallpapers.loadState.refresh == LoadState.Loading) {

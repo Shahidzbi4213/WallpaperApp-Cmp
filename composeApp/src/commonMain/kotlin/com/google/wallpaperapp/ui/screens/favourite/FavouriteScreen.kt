@@ -32,6 +32,8 @@ import wallpaperapp.composeapp.generated.resources.Res
 import wallpaperapp.composeapp.generated.resources.explore_wallpapers
 import wallpaperapp.composeapp.generated.resources.no_favourite_found
 import wallpaperapp.composeapp.generated.resources.your_favorite_wallpapers_will_appear_here_start_exploring_and_add_some_to_your_favorites
+import dev.chrisbanes.haze.HazeProgressive
+import dev.chrisbanes.haze.hazeEffect
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
@@ -46,17 +48,38 @@ fun FavouriteScreen(
 
     val favourites by favouriteViewModel.getAllFavourites.collectAsStateWithLifecycle()
 
+    val gridState = androidx.compose.foundation.lazy.grid.rememberLazyGridState()
+    val canScroll by androidx.compose.runtime.remember {
+        androidx.compose.runtime.derivedStateOf { gridState.canScrollBackward }
+    }
+    val topBlurRadius by androidx.compose.animation.core.animateDpAsState(
+        targetValue = if (canScroll) 30.dp else 0.dp,
+        animationSpec = androidx.compose.animation.core.tween(durationMillis = 250),
+        label = "favGridTopBlur"
+    )
+    val density = androidx.compose.ui.platform.LocalDensity.current
+    val blurHeightPx = with(density) { 140.dp.toPx() }
 
     if (favourites.isEmpty()) {
         NoFavouritePlaceholder(onExplore = onExplore)
     } else {
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
+            state = gridState,
             contentPadding = PaddingValues(10.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = modifier
                 .fillMaxSize()
+                .hazeEffect {
+                    blurRadius = topBlurRadius
+                    progressive = HazeProgressive.verticalGradient(
+                        startY = 0f,
+                        endY = blurHeightPx,
+                        startIntensity = 1f,
+                        endIntensity = 0f
+                    )
+                }
 
         ) {
 

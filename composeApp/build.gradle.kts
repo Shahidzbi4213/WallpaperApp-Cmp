@@ -89,6 +89,9 @@ kotlin {
             implementation(libs.navigation.compose)
             implementation(libs.viewmodelNavigation3)
 
+            //Visual Effects
+            implementation(libs.haze)
+
 
             //Pagination
             implementation(libs.paging.multiplatform.common)
