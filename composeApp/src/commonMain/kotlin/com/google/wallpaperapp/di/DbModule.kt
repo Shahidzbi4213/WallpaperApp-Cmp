@@ -4,6 +4,8 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.SQLiteConnection
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import androidx.sqlite.execSQL
+import com.google.wallpaperapp.data.local.MIGRATION_1_2
+import com.google.wallpaperapp.data.local.MIGRATION_1_3
 import com.google.wallpaperapp.data.local.MIGRATION_2_3
 import com.google.wallpaperapp.data.local.ScreenyDatabase
 import com.google.wallpaperapp.data.local.dao.CommonDao
@@ -23,8 +25,10 @@ class DbModule {
 
     @Single
     fun provideScreenyDb(builder: RoomDatabase.Builder<ScreenyDatabase>): ScreenyDatabase {
-        return builder.fallbackToDestructiveMigrationOnDowngrade(true)
-            .addMigrations(MIGRATION_2_3)
+        return builder
+            .fallbackToDestructiveMigration(true)
+            .fallbackToDestructiveMigrationOnDowngrade(true)
+            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_1_3)
             .setDriver(BundledSQLiteDriver()).setQueryCoroutineContext(Dispatchers.IO)
             .addCallback(object : RoomDatabase.Callback() {
                 override fun onCreate(connection: SQLiteConnection) {
