@@ -14,7 +14,6 @@ fun initKoin(config: KoinAppDeclaration? = null) {
         modules(
             NetworkModule::class,
             AppModule::class,
-            DbModule::class,
             FavouriteModule::class
         )
         modules(

@@ -3,6 +3,7 @@ package com.google.wallpaperapp.core.platform
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.google.wallpaperapp.data.local.ScreenyDatabase
+import com.google.wallpaperapp.di.dbModule
 import kotlinx.cinterop.ExperimentalForeignApi
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -13,13 +14,13 @@ import platform.Foundation.NSUserDomainMask
 @OptIn(ExperimentalForeignApi::class)
 actual fun platformDbModule(): Module {
     return module {
+        includes(dbModule)
         single<RoomDatabase.Builder<ScreenyDatabase>> {
             val dbFilePath = getDirectory() + "/${ScreenyDatabase.SCREENY_DATABASE}"
             Room.databaseBuilder<ScreenyDatabase>(name = dbFilePath)
         }
     }
 }
-
 
 @OptIn(ExperimentalForeignApi::class)
 private fun getDirectory(): String {

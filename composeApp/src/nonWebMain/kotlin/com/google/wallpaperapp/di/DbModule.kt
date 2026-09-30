@@ -16,20 +16,17 @@ import com.google.wallpaperapp.data.local.dao.RecentSearchDao
 import com.google.wallpaperapp.data.local.dao.UserPreferenceDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
-import org.koin.core.annotation.Module
-import org.koin.core.annotation.Single
+import org.koin.dsl.module
 
-
-@Module
-class DbModule {
-
-    @Single
-    fun provideScreenyDb(builder: RoomDatabase.Builder<ScreenyDatabase>): ScreenyDatabase {
-        return builder
+val dbModule = module {
+    single<ScreenyDatabase> {
+        val builder = get<RoomDatabase.Builder<ScreenyDatabase>>()
+        builder
             .fallbackToDestructiveMigration(true)
             .fallbackToDestructiveMigrationOnDowngrade(true)
             .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_1_3)
-            .setDriver(BundledSQLiteDriver()).setQueryCoroutineContext(Dispatchers.IO)
+            .setDriver(BundledSQLiteDriver())
+            .setQueryCoroutineContext(Dispatchers.IO)
             .addCallback(object : RoomDatabase.Callback() {
                 override fun onCreate(connection: SQLiteConnection) {
                     super.onCreate(connection)
@@ -39,33 +36,10 @@ class DbModule {
             .build()
     }
 
-    @Single
-    fun provideFavouriteWallpapersDao(db: ScreenyDatabase): FavouriteWallpaperDao {
-        return db.favouriteWallpaperDao()
-    }
-
-    @Single
-    fun provideWallpaperDao(db: ScreenyDatabase): PexelWallpaperDao {
-        return db.wallpaperDao()
-    }
-
-    @Single
-    fun provideRemoteKeysDao(db: ScreenyDatabase): PexelWallpaperRemoteKeysDao {
-        return db.remoteKeysDao()
-    }
-
-    @Single
-    fun provideCommonDao(db: ScreenyDatabase): CommonDao {
-        return db.commonDao()
-    }
-
-    @Single
-    fun provideUserPreferenceDao(db: ScreenyDatabase): UserPreferenceDao {
-        return db.userPreferenceDao()
-    }
-
-    @Single
-    fun  provideRecentSearchedDao(db: ScreenyDatabase): RecentSearchDao{
-        return db.recentSearchDao()
-    }
+    single<FavouriteWallpaperDao> { get<ScreenyDatabase>().favouriteWallpaperDao() }
+    single<PexelWallpaperDao> { get<ScreenyDatabase>().wallpaperDao() }
+    single<PexelWallpaperRemoteKeysDao> { get<ScreenyDatabase>().remoteKeysDao() }
+    single<CommonDao> { get<ScreenyDatabase>().commonDao() }
+    single<UserPreferenceDao> { get<ScreenyDatabase>().userPreferenceDao() }
+    single<RecentSearchDao> { get<ScreenyDatabase>().recentSearchDao() }
 }

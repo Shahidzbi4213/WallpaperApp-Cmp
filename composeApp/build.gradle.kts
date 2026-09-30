@@ -43,9 +43,54 @@ kotlin {
         }
     }
 
+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+    wasmJs {
+        browser {
+            val projectDirPath = project.projectDir.path
+            commonWebpackConfig {
+                outputFileName = "screeny.js"
+                devServer = (devServer ?: org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.DevServer()).apply {
+                    static = (static ?: mutableListOf()).apply {
+                        add(projectDirPath)
+                    }
+                }
+            }
+        }
+        binaries.executable()
+    }
+
+    applyDefaultHierarchyTemplate {
+        common {
+            group("nonWeb") {
+                withJvm()
+                withAndroidTarget()
+                withIos()
+            }
+        }
+    }
+
     sourceSets {
+        val commonMain by getting
         val desktopMain by getting
         val desktopTest by getting
+        val androidMain by getting
+        val wasmJsMain by getting {
+            dependencies {
+                implementation(libs.ktor.client.js)
+            }
+        }
+
+        val nonWebMain by getting {
+            dependencies {
+                implementation(libs.androidx.room.runtime)
+                implementation(libs.androidx.sqlite.bundled)
+                implementation(libs.androidx.room.paging)
+            }
+        }
+
+        val iosMain by getting {
+            dependsOn(nonWebMain)
+        }
 
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -95,7 +140,6 @@ kotlin {
 
             //Pagination
             implementation(libs.paging.multiplatform.common)
-            implementation(libs.paging.multiplatform.compose.common)
 
             //Koin
             implementation(project.dependencies.platform(libs.koin.bom))
@@ -104,13 +148,6 @@ kotlin {
 
             //Ktor
             implementation(libs.bundles.ktor.networking)
-
-            //Room
-            implementation(libs.androidx.room.runtime)
-            implementation(libs.androidx.sqlite.bundled)
-            implementation(libs.androidx.room.paging)
-
-
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
