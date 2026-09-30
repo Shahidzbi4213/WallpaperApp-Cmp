@@ -4,7 +4,8 @@ package com.google.wallpaperapp.core.platform
 enum class PlatformType {
     ANDROID,
     IOS,
-    DESKTOP
+    DESKTOP,
+    WEB
 }
 
 expect fun getPlatformType(): PlatformType

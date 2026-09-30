@@ -5,17 +5,19 @@
 </p>
 
 <p align="center">
-  <b>A modern, dark-first wallpaper client crafted with Compose Multiplatform for Android, iOS, macOS, Windows, and Linux.</b>
+  <b>A modern, dark-first wallpaper client crafted with Compose Multiplatform for Android, iOS, Web (Wasm), macOS, Windows, and Linux.</b>
 </p>
 
 <p align="center">
-  <a href="https://kotlinlang.org"><img src="https://img.shields.io/badge/Kotlin-2.4.0-7F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white" alt="Kotlin 2.4.0" /></a>
+  <a href="https://shahidzbi4213.github.io/WallpaperApp-Cmp/"><img src="https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-success?style=for-the-badge&logo=githubpages&logoColor=white" alt="Live Demo" /></a>
+  <a href="https://kotlinlang.org"><img src="https://img.shields.io/badge/Kotlin-2.4.20-7F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white" alt="Kotlin 2.4.20" /></a>
   <a href="https://www.jetbrains.com/lp/compose-multiplatform/"><img src="https://img.shields.io/badge/Compose%20Multiplatform-1.7.3-4285F4.svg?style=for-the-badge&logo=jetpackcompose&logoColor=white" alt="Compose Multiplatform 1.7.3" /></a>
-  <img src="https://img.shields.io/badge/Platforms-Android%20%7C%20iOS%20%7C%20macOS%20%7C%20Windows%20%7C%20Linux-E01F8B.svg?style=for-the-badge" alt="Supported Platforms" />
+  <img src="https://img.shields.io/badge/Platforms-Android%20%7C%20iOS%20%7C%20Web%20%7C%20macOS%20%7C%20Windows%20%7C%20Linux-E01F8B.svg?style=for-the-badge" alt="Supported Platforms" />
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-2FE6A6.svg?style=for-the-badge" alt="Apache 2.0 License" /></a>
 </p>
 
 <p align="center">
+  <a href="https://shahidzbi4213.github.io/WallpaperApp-Cmp/"><b>🚀 Live Web App</b></a> •
   <a href="#-desktop-showcase">Desktop Showcase</a> •
   <a href="#-mobile-showcase">Mobile Showcase</a> •
   <a href="#-key-features">Features</a> •

@@ -2,7 +2,7 @@ package com.google.wallpaperapp.ui.screens.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.cash.paging.cachedIn
+import androidx.paging.cachedIn
 import com.google.wallpaperapp.data.repositories.RecentSearchRepository
 import com.google.wallpaperapp.data.repositories.SearchWallpapersRepository
 import com.google.wallpaperapp.domain.models.RecentSearch
