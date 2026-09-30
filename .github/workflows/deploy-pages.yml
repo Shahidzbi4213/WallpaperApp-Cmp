@@ -39,6 +39,7 @@ jobs:
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
         run: |
           chmod +x gradlew
+          touch local.properties
           ./gradlew :composeApp:wasmJsBrowserDistribution --no-daemon
 
       - name: Upload GitHub Pages artifact

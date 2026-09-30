@@ -178,7 +178,9 @@ val generateAppConfig = tasks.register("generateAppConfig") {
     val localPropertiesFile = rootProject.file("local.properties")
     val outputDir = layout.buildDirectory.dir("generated/appconfig/commonMain/kotlin")
     outputs.dir(outputDir)
-    inputs.file(localPropertiesFile).optional()
+    if (localPropertiesFile.exists()) {
+        inputs.file(localPropertiesFile)
+    }
 
     doLast {
         val properties = Properties()
