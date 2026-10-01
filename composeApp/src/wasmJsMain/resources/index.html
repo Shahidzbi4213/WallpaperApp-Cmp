@@ -16,10 +16,11 @@
             height: 100%;
             margin: 0;
             padding: 0;
-            background-color: #0c0e14;
+            background-color: #0c0e15;
             color: #ffffff;
             overflow: hidden;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
         #loading {
@@ -29,236 +30,331 @@
             right: 0;
             bottom: 0;
             display: flex;
-            flex-direction: column;
-            background: #0c0e14;
+            flex-direction: row;
+            background: radial-gradient(1200px circle at 15% 15%, rgba(65, 30, 95, 0.25) 0%, transparent 60%),
+                        radial-gradient(1000px circle at 85% 85%, rgba(20, 35, 70, 0.3) 0%, transparent 60%),
+                        #0c0e15;
             overflow: hidden;
             pointer-events: none;
             z-index: 9999;
         }
 
-        @keyframes shimmer {
+        @keyframes shimmer-glide {
             0% {
-                background-position: -200% 0;
+                background-position: -600px 0;
             }
             100% {
-                background-position: 200% 0;
+                background-position: 1200px 0;
             }
         }
 
-        .shimmer {
-            background: linear-gradient(
-                90deg,
-                rgba(255, 255, 255, 0.03) 20%,
-                rgba(255, 255, 255, 0.09) 50%,
-                rgba(255, 255, 255, 0.03) 80%
-            );
-            background-size: 200% 100%;
-            animation: shimmer 1.8s infinite ease-in-out;
-        }
-
-        /* Top Bar */
-        .skeleton-topbar {
-            height: 64px;
-            display: flex;
-            align-items: center;
-            padding: 0 24px;
-            gap: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            flex-shrink: 0;
-        }
-
-        .skeleton-brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .skeleton-logo {
-            width: 34px;
-            height: 34px;
-            border-radius: 10px;
-        }
-
-        .skeleton-title {
-            width: 110px;
-            height: 20px;
-            border-radius: 6px;
-        }
-
-        .skeleton-search {
-            flex: 1;
-            max-width: 440px;
-            height: 40px;
-            border-radius: 20px;
-            margin: 0 auto;
-        }
-
-        .skeleton-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .skeleton-action-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-        }
-
-        /* Body container */
-        .skeleton-body {
-            display: flex;
-            flex: 1;
-            overflow: hidden;
-        }
-
-        /* Sidebar rail */
-        .skeleton-sidebar {
-            width: 76px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 24px;
-            gap: 20px;
-            border-right: 1px solid rgba(255, 255, 255, 0.06);
-            flex-shrink: 0;
-        }
-
-        .skeleton-nav-item {
-            width: 44px;
-            height: 44px;
-            border-radius: 14px;
-        }
-
-        /* Main Content */
-        .skeleton-main {
-            flex: 1;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            overflow: hidden;
-        }
-
-        .skeleton-header-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .skeleton-section-title {
-            width: 160px;
-            height: 26px;
-            border-radius: 6px;
-        }
-
-        .skeleton-filter-pill {
-            width: 90px;
-            height: 32px;
-            border-radius: 16px;
-        }
-
-        .skeleton-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 16px;
-            flex: 1;
-            overflow: hidden;
-        }
-
-        .skeleton-card {
+        .shimmer-card {
             aspect-ratio: 16 / 9;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            background-color: #131620;
+            background-image: linear-gradient(
+                90deg,
+                #131620 0%,
+                #222737 50%,
+                #131620 100%
+            );
+            background-size: 800px 100%;
+            background-repeat: no-repeat;
+            animation: shimmer-glide 1.6s infinite ease-in-out;
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        /* Status pill floating at the bottom */
-        .skeleton-status {
-            position: absolute;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%);
+        /* --- Left Sidebar --- */
+        .sidebar {
+            width: 232px;
+            height: 100%;
+            background: rgba(10, 12, 18, 0.55);
+            border-right: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 16px 12px;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .brandmark {
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 8px 18px;
-            background: rgba(18, 21, 30, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 20px;
-            backdrop-filter: blur(12px);
-            font-size: 13px;
+            padding: 4px 8px;
+        }
+
+        .brandmark-logo {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #7f52ff 0%, #ff5722 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .brandmark-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brandmark-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        .brandmark-sub {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            color: rgba(255, 255, 255, 0.4);
+            line-height: 1.2;
+            margin-top: 2px;
+        }
+
+        .nav-list {
+            margin-top: 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .nav-item {
+            height: 44px;
+            border-radius: 10px;
+            padding: 0 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
             font-weight: 500;
-            color: rgba(255, 255, 255, 0.8);
-            letter-spacing: 0.3px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.36);
+            color: rgba(255, 255, 255, 0.7);
         }
 
-        .pulse-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #ff5722;
-            box-shadow: 0 0 10px #ff5722;
-            animation: pulse 1.5s infinite;
+        .nav-item.active {
+            background: linear-gradient(90deg, #ff4e50, #f97316);
+            color: #ffffff;
+            font-weight: 600;
+            box-shadow: 0 4px 14px rgba(255, 78, 80, 0.3);
         }
 
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-                transform: scale(1);
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        /* --- Main Content Area --- */
+        .main-content {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Toolbar */
+        .toolbar {
+            height: 60px;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        .toolbar-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: -0.2px;
+        }
+
+        .search-capsule {
+            width: 280px;
+            height: 38px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            padding: 0 14px;
+            gap: 10px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 13px;
+        }
+
+        /* Content Grid */
+        .grid-container {
+            flex: 1;
+            padding: 0 24px 16px 24px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+            flex: 1;
+            overflow: hidden;
+            align-content: start;
+        }
+
+        /* Pagination Bar */
+        .pagination-bar {
+            height: 40px;
+            margin: 12px auto 8px auto;
+            padding: 0 16px;
+            background: rgba(20, 23, 34, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(12px);
+        }
+
+        .page-pill-active {
+            width: 24px;
+            height: 24px;
+            border-radius: 12px;
+            background: #ff4e50;
+            color: #ffffff;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        /* Responsive collapse */
+        @media (max-width: 1099px) {
+            .sidebar {
+                width: 76px;
+                padding: 16px 8px;
             }
-            50% {
-                opacity: 0.4;
-                transform: scale(0.85);
+            .brandmark-text {
+                display: none;
+            }
+            .brandmark {
+                justify-content: center;
+                padding: 4px 0;
+            }
+            .nav-item {
+                justify-content: center;
+                padding: 0;
+            }
+            .nav-item span {
+                display: none;
             }
         }
     </style>
 </head>
 <body>
     <div id="loading">
-        <div class="skeleton-topbar">
-            <div class="skeleton-brand">
-                <div class="skeleton-logo shimmer"></div>
-                <div class="skeleton-title shimmer"></div>
-            </div>
-            <div class="skeleton-search shimmer"></div>
-            <div class="skeleton-actions">
-                <div class="skeleton-action-btn shimmer"></div>
-                <div class="skeleton-action-btn shimmer"></div>
-            </div>
-        </div>
-
-        <div class="skeleton-body">
-            <div class="skeleton-sidebar">
-                <div class="skeleton-nav-item shimmer"></div>
-                <div class="skeleton-nav-item shimmer"></div>
-                <div class="skeleton-nav-item shimmer"></div>
-                <div class="skeleton-nav-item shimmer"></div>
-            </div>
-
-            <div class="skeleton-main">
-                <div class="skeleton-header-row">
-                    <div class="skeleton-section-title shimmer"></div>
-                    <div class="skeleton-filter-pill shimmer"></div>
+        <!-- Persistent Left Sidebar -->
+        <aside class="sidebar">
+            <div class="brandmark">
+                <div class="brandmark-logo">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                        <polyline points="2 17 12 22 22 17"></polyline>
+                        <polyline points="2 12 12 17 22 12"></polyline>
+                    </svg>
                 </div>
-
-                <div class="skeleton-grid">
-                    <div class="skeleton-card shimmer"></div>
-                    <div class="skeleton-card shimmer"></div>
-                    <div class="skeleton-card shimmer"></div>
-                    <div class="skeleton-card shimmer"></div>
-                    <div class="skeleton-card shimmer"></div>
-                    <div class="skeleton-card shimmer"></div>
-                    <div class="skeleton-card shimmer"></div>
-                    <div class="skeleton-card shimmer"></div>
+                <div class="brandmark-text">
+                    <div class="brandmark-title">Screeny</div>
+                    <div class="brandmark-sub">WALLPAPERS</div>
                 </div>
             </div>
-        </div>
 
-        <div class="skeleton-status">
-            <div class="pulse-dot"></div>
-            <span>Loading Screeny Engine...</span>
-        </div>
+            <nav class="nav-list">
+                <div class="nav-item active">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    <span>Home</span>
+                </div>
+                <div class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    <span>Categories</span>
+                </div>
+                <div class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 2a7 7 0 0 0 7 7c0 3.87-3.13 7-7 7a7 7 0 0 1-7-7c0-3.87 3.13-7 7-7z"></path>
+                    </svg>
+                    <span>Gradient</span>
+                </div>
+                <div class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                    <span>Favourite</span>
+                </div>
+                <div class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                    <span>Settings</span>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="main-content">
+            <!-- Toolbar -->
+            <header class="toolbar">
+                <h1 class="toolbar-title">Discover</h1>
+                <div class="search-capsule">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <span>Search wallpapers</span>
+                </div>
+            </header>
+
+            <!-- Wallpaper Grid with Shimmer Cards -->
+            <div class="grid-container">
+                <div class="card-grid">
+                    <div class="shimmer-card"></div>
+                    <div class="shimmer-card"></div>
+                    <div class="shimmer-card"></div>
+                    <div class="shimmer-card"></div>
+                    <div class="shimmer-card"></div>
+                    <div class="shimmer-card"></div>
+                    <div class="shimmer-card"></div>
+                    <div class="shimmer-card"></div>
+                </div>
+
+                <!-- Pagination Bar -->
+                <div class="pagination-bar">
+                    <span>&lsaquo;</span>
+                    <div class="page-pill-active">1</div>
+                    <span>2</span>
+                    <span>3</span>
+                    <span>4</span>
+                    <span>5</span>
+                    <span>&hellip;</span>
+                    <span>&rsaquo;</span>
+                </div>
+            </div>
+        </main>
     </div>
     <script type="module" src="screeny.js"></script>
 </body>

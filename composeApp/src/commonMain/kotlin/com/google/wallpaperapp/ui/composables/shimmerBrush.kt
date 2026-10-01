@@ -11,31 +11,35 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
+/**
+ * Premium dark glass shimmer sweep matching Screeny's design system.
+ * Uses subtle, monochromatic neutral tones (#131620 -> #222737 -> #131620) with a clean
+ * horizontal light sweep across cards, replacing harsh saturated color flashes.
+ */
 @Composable
-fun shimmerBrush(showShimmer: Boolean = true, targetValue: Float = 1000f): Brush {
+fun shimmerBrush(showShimmer: Boolean = true, targetValue: Float = 1200f): Brush {
     return if (showShimmer) {
         val shimmerColors = listOf(
-            MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f),
-            MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
-            MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f)
+            Color(0xFF131620),
+            Color(0xFF222737),
+            Color(0xFF131620)
         )
 
         val transition = rememberInfiniteTransition(label = "Shimmer")
         val translateAnimation = transition.animateFloat(
-            initialValue = 0f,
-            targetValue = targetValue,
+            initialValue = -targetValue,
+            targetValue = targetValue * 1.5f,
             animationSpec = infiniteRepeatable(
-                animation = tween(1200), // Slower and smoother
+                animation = tween(1600),
                 repeatMode = RepeatMode.Restart
             ),
             label = "Shimmer"
         )
 
-
         Brush.linearGradient(
             colors = shimmerColors,
-            start = Offset.Zero,
-            end = Offset(x = translateAnimation.value, y = translateAnimation.value)
+            start = Offset(x = translateAnimation.value, y = 0f),
+            end = Offset(x = translateAnimation.value + targetValue * 0.7f, y = 140f)
         )
     } else {
         Brush.linearGradient(

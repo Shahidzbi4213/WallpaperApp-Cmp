@@ -1,6 +1,7 @@
 package com.google.wallpaperapp.ui.desktop.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,6 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.google.wallpaperapp.ui.composables.shimmerBrush
 import com.google.wallpaperapp.ui.desktop.theme.DesktopDimens
+import com.google.wallpaperapp.ui.theme.GlassBorder
 import com.google.wallpaperapp.ui.theme.TextHi
 import com.google.wallpaperapp.ui.theme.TextMid
 import com.google.wallpaperapp.ui.theme.glass
@@ -30,11 +32,13 @@ import wallpaperapp.composeapp.generated.resources.desktop_retry
 /** Grid-shaped skeleton. Desktop windows show many cards at once, so a single spinner reads as a hang. */
 @Composable
 fun WallpaperCardSkeleton(modifier: Modifier = Modifier) {
+    val shape = RoundedCornerShape(DesktopDimens.CardCorner)
     Box(
         modifier = modifier
             .fillMaxWidth()
             .aspectRatio(DesktopDimens.CardAspectRatio)
-            .clip(RoundedCornerShape(DesktopDimens.CardCorner))
+            .clip(shape)
+            .border(1.dp, GlassBorder, shape)
             .background(shimmerBrush())
     )
 }
