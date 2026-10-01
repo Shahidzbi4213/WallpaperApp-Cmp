@@ -5,11 +5,16 @@ import com.google.wallpaperapp.data.remote.models.WallpaperMainResponse
 
 interface PexelWallpapersApi {
 
-    suspend fun getWallpapers(page: Int, perPage: Int = PER_PAGE_ITEMS): WallpaperMainResponse
+    suspend fun getWallpapers(
+        page: Int,
+        perPage: Int = PER_PAGE_ITEMS,
+        orientation: String? = null
+    ): WallpaperMainResponse
 
     suspend fun searchWallpaper(
         page: Int,
         query: String,
-        perPage: Int = PER_PAGE_ITEMS
+        perPage: Int = PER_PAGE_ITEMS,
+        orientation: String? = null
     ): WallpaperMainResponse
 }

@@ -11,4 +11,16 @@ data class FavouriteWallpaper(
 
 /** Favourites saved on a phone have no landscape url; show the portrait one rather than nothing. */
 val FavouriteWallpaper.gridUrl: String
-    get() = if (getPlatformType() == PlatformType.DESKTOP) landscape.ifBlank { wallpaper } else wallpaper
+    get() = when (getPlatformType()) {
+        PlatformType.DESKTOP, PlatformType.WEB -> {
+            val base = landscape.ifBlank { wallpaper }
+            if (base.contains("images.pexels.com") && !base.contains("dpr=")) {
+                "$base&dpr=2"
+            } else if (base.contains("dpr=1")) {
+                base.replace("dpr=1", "dpr=2")
+            } else {
+                base
+            }
+        }
+        else -> wallpaper
+    }

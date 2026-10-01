@@ -9,18 +9,32 @@ data class Wallpaper (
     val photographerUrl: String,
     val medium: String,
     val portrait: String,
-    val small:String,
+    val small: String,
     val landscape: String = "",
     val original: String = "",
-    val alt: String = ""
+    val alt: String = "",
+    val width: Int = 0,
+    val height: Int = 0
 )
 
 /**
- * The url to show in a grid or preview. Desktop wants the 16:9 crop, phones want the tall one.
- * Falls back to portrait for rows cached before the landscape column existed.
+ * The url to show in a grid or preview. Desktop and web want the 16:9 crop at high-definition (HD),
+ * phones want the tall one. Enhances Pexels landscape URLs with &dpr=2 for 2400px Retina/4K sharpness.
  */
 val Wallpaper.gridUrl: String
-    get() = if (getPlatformType() == PlatformType.DESKTOP) landscape.ifBlank { portrait } else portrait
+    get() = when (getPlatformType()) {
+        PlatformType.DESKTOP, PlatformType.WEB -> {
+            val base = landscape.ifBlank { portrait }
+            if (base.contains("images.pexels.com") && !base.contains("dpr=")) {
+                "$base&dpr=2"
+            } else if (base.contains("dpr=1")) {
+                base.replace("dpr=1", "dpr=2")
+            } else {
+                base
+            }
+        }
+        else -> portrait
+    }
 
 /** Highest resolution available -- used when downloading or setting an actual wallpaper. */
 val Wallpaper.fullUrl: String

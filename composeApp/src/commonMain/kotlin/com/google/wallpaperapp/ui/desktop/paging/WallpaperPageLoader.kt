@@ -123,7 +123,10 @@ class WallpaperPageLoader(
         job = scope.launch {
             runCatching { fetch(feed, target) }
                 .onSuccess { response ->
-                    val items = response.wallpapers.map { it.toWallpaper() }
+                    // For desktop & web, filter to ensure only horizontal (landscape) photos are displayed
+                    val items = response.wallpapers
+                        .filter { it.width == 0 || it.height == 0 || it.width >= it.height }
+                        .map { it.toWallpaper() }
 
                     if (items.isEmpty() && target > 1) {
                         // total_results overstated the real depth; clamp and step back so the
@@ -159,8 +162,8 @@ class WallpaperPageLoader(
     }
 
     private suspend fun fetch(feed: WallpaperFeed, page: Int) = when (feed) {
-        is WallpaperFeed.Curated -> api.getWallpapers(page = page, perPage = perPage)
-        is WallpaperFeed.Search -> api.searchWallpaper(page = page, query = feed.query, perPage = perPage)
+        is WallpaperFeed.Curated -> api.getWallpapers(page = page, perPage = perPage, orientation = "landscape")
+        is WallpaperFeed.Search -> api.searchWallpaper(page = page, query = feed.query, perPage = perPage, orientation = "landscape")
     }
 
     private fun totalPagesFrom(totalResults: Int): Int {

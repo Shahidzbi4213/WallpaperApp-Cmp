@@ -18,5 +18,9 @@ data class WallpaperResponse(
      val wallpaperSource: SrcResponse,
     @SerialName("alt")
     val alt: String = "",
+    @SerialName("width")
+    val width: Int = 0,
+    @SerialName("height")
+    val height: Int = 0,
     @Transient var page: Int = 0
 )

@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.map
 
 class SearchWallpapersRepository(private val api: PexelWallpapersApi) {
 
-    fun getSearchWallpapers(query: String): Flow<PagingData<Wallpaper>>  {
+    fun getSearchWallpapers(query: String, orientation: String? = null): Flow<PagingData<Wallpaper>>  {
 
         val pageConfig = PagingConfig(
             pageSize = Constant.PER_PAGE_ITEMS,
@@ -23,7 +23,7 @@ class SearchWallpapersRepository(private val api: PexelWallpapersApi) {
         )
         return Pager(
             config = pageConfig,
-            pagingSourceFactory = { SearchWallpapersPagingSource(api, query) },
+            pagingSourceFactory = { SearchWallpapersPagingSource(api, query, orientation) },
         ).flow.map { pagingData ->
             pagingData.map { wallpaperResponse -> wallpaperResponse.toWallpaper()}
         }

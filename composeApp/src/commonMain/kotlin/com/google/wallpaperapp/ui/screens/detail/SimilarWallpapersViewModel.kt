@@ -3,6 +3,8 @@ package com.google.wallpaperapp.ui.screens.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import com.google.wallpaperapp.core.platform.PlatformType
+import com.google.wallpaperapp.core.platform.getPlatformType
 import com.google.wallpaperapp.data.repositories.SearchWallpapersRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +21,10 @@ class SimilarWallpapersViewModel(private val repo: SearchWallpapersRepository) :
         if (it!!.isEmpty()) {
             kotlinx.coroutines.flow.flowOf(androidx.paging.PagingData.empty())
         } else {
-            repo.getSearchWallpapers(it)
+            val orientation = if (getPlatformType() == PlatformType.DESKTOP || getPlatformType() == PlatformType.WEB) {
+                "landscape"
+            } else null
+            repo.getSearchWallpapers(it, orientation = orientation)
         }
     }.cachedIn(viewModelScope)
 

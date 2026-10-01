@@ -30,7 +30,9 @@ fun WallpaperResponse.toWallpaper(): Wallpaper {
         small = wallpaperSource.small,
         landscape = wallpaperSource.landscape,
         original = wallpaperSource.original,
-        alt = alt
+        alt = alt,
+        width = width,
+        height = height
     )
 }
 

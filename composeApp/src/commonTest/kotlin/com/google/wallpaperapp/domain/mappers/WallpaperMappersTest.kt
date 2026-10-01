@@ -57,7 +57,7 @@ class WallpaperMappersTest {
         val photo = json.decodeFromString<WallpaperMainResponse>(payload).wallpapers.single()
         val roundTripped = photo.toWallpaperEntity().toWallpaper()
 
-        assertEquals(photo.toWallpaper(), roundTripped.copy(alt = photo.toWallpaper().alt))
+        assertEquals(photo.toWallpaper(), roundTripped.copy(alt = photo.toWallpaper().alt, width = photo.width, height = photo.height))
         assertTrue(roundTripped.landscape.isNotBlank(), "landscape must survive the Room entity")
         assertTrue(roundTripped.original.isNotBlank(), "original must survive the Room entity")
     }

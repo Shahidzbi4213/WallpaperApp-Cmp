@@ -40,12 +40,12 @@ class WallpaperPageLoaderTest {
             )
         }
 
-        override suspend fun getWallpapers(page: Int, perPage: Int): WallpaperMainResponse {
+        override suspend fun getWallpapers(page: Int, perPage: Int, orientation: String?): WallpaperMainResponse {
             calls += "curated" to page
             return respond(page, perPage)
         }
 
-        override suspend fun searchWallpaper(page: Int, query: String, perPage: Int): WallpaperMainResponse {
+        override suspend fun searchWallpaper(page: Int, query: String, perPage: Int, orientation: String?): WallpaperMainResponse {
             calls += query to page
             return respond(page, perPage)
         }
