@@ -23,6 +23,9 @@ import androidx.compose.ui.zIndex
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.foundation.background
+import androidx.compose.foundation.shape.RoundedCornerShape
+import com.google.wallpaperapp.ui.composables.shimmerBrush
 import com.google.wallpaperapp.ui.components.WallpaperItem
 
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -118,13 +121,11 @@ fun WallpaperDetailScreen(
 
 
     if (!canShowList) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            CircularProgressIndicator(
-                modifier = Modifier.size(40.dp),
-                strokeWidth = 4.dp,
-                strokeCap = StrokeCap.Round
-            )
-        }
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(shimmerBrush())
+        )
     }
 
     AnimatedVisibility(
@@ -300,8 +301,22 @@ fun WallpaperDetailScreen(
                                 }
                             }
                         } else if (similarWallpapers.loadState.refresh is androidx.paging.LoadState.Loading) {
-                            Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) {
-                                CircularProgressIndicator(color = Color.White)
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(180.dp)
+                                    .padding(horizontal = 16.dp),
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                repeat(3) {
+                                    Box(
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .fillMaxHeight()
+                                            .clip(RoundedCornerShape(12.dp))
+                                            .background(shimmerBrush())
+                                    )
+                                }
                             }
                         }
                     }

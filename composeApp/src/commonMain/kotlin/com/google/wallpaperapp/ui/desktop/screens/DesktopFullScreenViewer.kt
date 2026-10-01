@@ -62,6 +62,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.wallpaperapp.domain.models.Wallpaper
 import com.google.wallpaperapp.domain.models.fullUrl
+import com.google.wallpaperapp.domain.models.gridUrl
+import com.google.wallpaperapp.ui.composables.shimmerBrush
 import com.google.wallpaperapp.ui.desktop.components.DesktopIconButton
 import com.google.wallpaperapp.ui.desktop.components.DesktopTooltip
 import com.google.wallpaperapp.ui.desktop.components.desktopClickable
@@ -167,7 +169,7 @@ fun DesktopFullScreenViewer(
     ) {
         // High-resolution image canvas
         CoilImage(
-            imageModel = { wallpaper.fullUrl },
+            imageModel = { wallpaper.gridUrl },
             imageOptions = ImageOptions(
                 contentScale = ContentScale.Fit,
                 contentDescription = wallpaper.alt.ifBlank { null },
@@ -175,15 +177,10 @@ fun DesktopFullScreenViewer(
             ),
             loading = {
                 Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator(
-                        color = Ember,
-                        strokeWidth = 2.5.dp,
-                        modifier = Modifier.size(40.dp)
-                    )
-                }
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(shimmerBrush())
+                )
             },
             modifier = Modifier.fillMaxSize()
         )

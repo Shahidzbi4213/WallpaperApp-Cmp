@@ -50,6 +50,7 @@ import com.google.wallpaperapp.ui.composables.shimmerBrush
 import com.google.wallpaperapp.ui.desktop.components.DesktopIconButton
 import com.google.wallpaperapp.ui.desktop.components.DesktopTooltip
 import com.google.wallpaperapp.ui.desktop.components.WallpaperCard
+import com.google.wallpaperapp.ui.desktop.components.WallpaperCardSkeleton
 import com.google.wallpaperapp.ui.desktop.components.desktopClickable
 import com.google.wallpaperapp.ui.desktop.theme.DesktopDimens
 import com.google.wallpaperapp.ui.theme.Crimson
@@ -144,7 +145,7 @@ fun DesktopDetailPane(
                 }
         ) {
             CoilImage(
-                imageModel = { wallpaper.fullUrl },
+                imageModel = { wallpaper.gridUrl },
                 imageOptions = ImageOptions(
                     contentScale = ContentScale.Fit,
                     contentDescription = wallpaper.alt.ifBlank { null },
@@ -250,15 +251,25 @@ fun DesktopDetailPane(
             Spacer(Modifier.height(22.dp))
             Text(stringResource(Res.string.desktop_similar), style = eyebrowStyle(), color = TextLow)
             Spacer(Modifier.height(8.dp))
-            LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                items(count = minOf(similar.itemCount, 12)) { index ->
-                    val item = similar[index] ?: return@items
-                    Box(modifier = Modifier.width(180.dp)) {
-                        WallpaperCard(
-                            imageUrl = item.gridUrl,
-                            contentDescription = item.alt.ifBlank { null },
-                            onClick = { onOpenSimilar(item) }
-                        )
+            if (similar.itemCount == 0 && similar.loadState.refresh is androidx.paging.LoadState.Loading) {
+                LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    items(4) {
+                        Box(modifier = Modifier.width(180.dp)) {
+                            WallpaperCardSkeleton()
+                        }
+                    }
+                }
+            } else {
+                LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    items(count = minOf(similar.itemCount, 12)) { index ->
+                        val item = similar[index] ?: return@items
+                        Box(modifier = Modifier.width(180.dp)) {
+                            WallpaperCard(
+                                imageUrl = item.gridUrl,
+                                contentDescription = item.alt.ifBlank { null },
+                                onClick = { onOpenSimilar(item) }
+                            )
+                        }
                     }
                 }
             }

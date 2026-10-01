@@ -5,12 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Screeny — Compose Multiplatform Wallpaper Client</title>
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         html, body {
             width: 100%;
             height: 100%;
             margin: 0;
             padding: 0;
-            background-color: #0d0f14;
+            background-color: #0c0e14;
             color: #ffffff;
             overflow: hidden;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -18,34 +24,241 @@
 
         #loading {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            background: #0c0e14;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        .shimmer {
+            background: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0.03) 20%,
+                rgba(255, 255, 255, 0.09) 50%,
+                rgba(255, 255, 255, 0.03) 80%
+            );
+            background-size: 200% 100%;
+            animation: shimmer 1.8s infinite ease-in-out;
+        }
+
+        /* Top Bar */
+        .skeleton-topbar {
+            height: 64px;
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            gap: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            flex-shrink: 0;
+        }
+
+        .skeleton-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .skeleton-logo {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+        }
+
+        .skeleton-title {
+            width: 110px;
+            height: 20px;
+            border-radius: 6px;
+        }
+
+        .skeleton-search {
+            flex: 1;
+            max-width: 440px;
+            height: 40px;
+            border-radius: 20px;
+            margin: 0 auto;
+        }
+
+        .skeleton-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .skeleton-action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+        }
+
+        /* Body container */
+        .skeleton-body {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Sidebar rail */
+        .skeleton-sidebar {
+            width: 76px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            padding-top: 24px;
+            gap: 20px;
+            border-right: 1px solid rgba(255, 255, 255, 0.06);
+            flex-shrink: 0;
+        }
+
+        .skeleton-nav-item {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+        }
+
+        /* Main Content */
+        .skeleton-main {
+            flex: 1;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow: hidden;
+        }
+
+        .skeleton-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .skeleton-section-title {
+            width: 160px;
+            height: 26px;
+            border-radius: 6px;
+        }
+
+        .skeleton-filter-pill {
+            width: 90px;
+            height: 32px;
+            border-radius: 16px;
+        }
+
+        .skeleton-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 16px;
+            flex: 1;
+            overflow: hidden;
         }
 
-        .spinner {
-            width: 48px;
-            height: 48px;
-            border: 4px solid rgba(255, 255, 255, 0.1);
-            border-top-color: #7f52ff;
+        .skeleton-card {
+            aspect-ratio: 16 / 9;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Status pill floating at the bottom */
+        .skeleton-status {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 18px;
+            background: rgba(18, 21, 30, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+            backdrop-filter: blur(12px);
+            font-size: 13px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8);
+            letter-spacing: 0.3px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.36);
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            background: #ff5722;
+            box-shadow: 0 0 10px #ff5722;
+            animation: pulse 1.5s infinite;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.4;
+                transform: scale(0.85);
+            }
         }
     </style>
 </head>
 <body>
     <div id="loading">
-        <div class="spinner"></div>
-        <div style="font-size: 16px; font-weight: 500; letter-spacing: 0.5px;">Loading Screeny...</div>
+        <div class="skeleton-topbar">
+            <div class="skeleton-brand">
+                <div class="skeleton-logo shimmer"></div>
+                <div class="skeleton-title shimmer"></div>
+            </div>
+            <div class="skeleton-search shimmer"></div>
+            <div class="skeleton-actions">
+                <div class="skeleton-action-btn shimmer"></div>
+                <div class="skeleton-action-btn shimmer"></div>
+            </div>
+        </div>
+
+        <div class="skeleton-body">
+            <div class="skeleton-sidebar">
+                <div class="skeleton-nav-item shimmer"></div>
+                <div class="skeleton-nav-item shimmer"></div>
+                <div class="skeleton-nav-item shimmer"></div>
+                <div class="skeleton-nav-item shimmer"></div>
+            </div>
+
+            <div class="skeleton-main">
+                <div class="skeleton-header-row">
+                    <div class="skeleton-section-title shimmer"></div>
+                    <div class="skeleton-filter-pill shimmer"></div>
+                </div>
+
+                <div class="skeleton-grid">
+                    <div class="skeleton-card shimmer"></div>
+                    <div class="skeleton-card shimmer"></div>
+                    <div class="skeleton-card shimmer"></div>
+                    <div class="skeleton-card shimmer"></div>
+                    <div class="skeleton-card shimmer"></div>
+                    <div class="skeleton-card shimmer"></div>
+                    <div class="skeleton-card shimmer"></div>
+                    <div class="skeleton-card shimmer"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="skeleton-status">
+            <div class="pulse-dot"></div>
+            <span>Loading Screeny Engine...</span>
+        </div>
     </div>
     <script type="module" src="screeny.js"></script>
 </body>

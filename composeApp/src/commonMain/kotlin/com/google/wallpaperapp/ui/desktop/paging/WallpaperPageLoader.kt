@@ -21,8 +21,8 @@ import org.koin.mp.KoinPlatform
 import kotlin.math.ceil
 import kotlin.math.min
 
-/** Desktop shows 40 to a page: about 1.5 screens, so a page is scanned rather than scrolled. */
-const val DESKTOP_PER_PAGE = 40
+/** Desktop shows 24 to a page: a clean 4x6 grid that loads fast and prevents network queuing. */
+const val DESKTOP_PER_PAGE = 24
 
 /** Which feed to page through. */
 @Immutable
@@ -106,6 +106,7 @@ class WallpaperPageLoader(
         feed = newFeed
         discoveredLastPage = null
         feedTotalPages = 1
+        state = PageState(isLoading = true)
         goToPage(1)
     }
 
@@ -118,7 +119,7 @@ class WallpaperPageLoader(
             return
         }
 
-        state = state.copy(page = target, isLoading = true, error = null)
+        state = PageState(page = target, totalPages = feedTotalPages, isLoading = true, error = null)
 
         job = scope.launch {
             runCatching { fetch(feed, target) }
