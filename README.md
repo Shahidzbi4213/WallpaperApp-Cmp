@@ -18,12 +18,28 @@
 
 <p align="center">
   <a href="https://shahidzbi4213.github.io/WallpaperApp-Cmp/"><b>🚀 Live Web App</b></a> •
+  <a href="#-web-showcase-kotlinwasm">Web Showcase</a> •
   <a href="#-desktop-showcase">Desktop Showcase</a> •
   <a href="#-mobile-showcase">Mobile Showcase</a> •
   <a href="#-key-features">Features</a> •
   <a href="#-tech-stack--architecture">Tech Stack</a> •
   <a href="#-getting-started">Getting Started</a> •
   <a href="#-keyboard-shortcuts">Shortcuts</a>
+</p>
+
+---
+
+## 🌐 Web Showcase (Kotlin/Wasm)
+
+Screeny runs natively in modern web browsers powered by **Kotlin/Wasm** and **Compose Multiplatform**. It renders high-performance 60 FPS graphics directly to HTML5 canvas using Skiko, featuring an adaptive wide layout, 1:1 dark glass skeleton shimmers with zero layout shift, and in-browser asynchronous Blob streaming for direct wallpaper downloads.
+
+- 🚀 **Live Demo on GitHub Pages**: [https://shahidzbi4213.github.io/WallpaperApp-Cmp/](https://shahidzbi4213.github.io/WallpaperApp-Cmp/)
+- 🎬 **Product Walkthrough**: [▶️ Watch HD Web Demo Video (`media/screeny-web-demo.mp4`)](media/screeny-web-demo.mp4)
+
+<p align="center">
+  <video src="media/screeny-web-demo.mp4" controls width="100%" style="max-width: 860px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+    Your browser does not support the video tag. <a href="media/screeny-web-demo.mp4">Click here to view the recorded walkthrough</a>.
+  </video>
 </p>
 
 ---
@@ -79,6 +95,12 @@ Screeny delivers fluid edge-to-edge gesture navigation, infinite scrolling feeds
   - Click anywhere or press <kbd>Space</kbd> to toggle the floating glass HUD.
   - Photographer credit, resolution info, and quick profile navigation.
   - Seamless in-viewer feed browsing with <kbd>←</kbd> / <kbd>→</kbd> arrow keys.
+- 🌐 **Web (Kotlin/Wasm)**:
+  - High-performance Skiko canvas rendering running at 60 FPS in modern browsers via WebAssembly.
+  - 1:1 pixel-perfect dark glass shimmer skeletons with zero layout shift during asset loading.
+  - Responsive wide layout with master-detail side pane tailored for 16:9 HD wallpapers.
+  - In-browser asynchronous Blob streaming for direct wallpaper downloads without server roundtrips.
+  - Automated continuous deployment to GitHub Pages via GitHub Actions.
 - 📱 **Mobile UI (Android & iOS)**:
   - Infinite scroll feed powered by Paging 3 Multiplatform.
   - Gesture-driven bottom sheets, shared element transitions, and parallax scrolling.
@@ -97,9 +119,10 @@ Screeny delivers fluid edge-to-edge gesture navigation, infinite scrolling feeds
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                       Compose Multiplatform UI              │
+│                   Compose Multiplatform UI                  │
 │   ┌───────────────────────────┐ ┌───────────────────────┐   │
-│   │   Mobile UI (Navigation3) │ │ Dedicated Desktop UI  │   │
+│   │   Mobile UI (Navigation3) │ │ Dedicated Desktop/Web │   │
+│   │       (Android & iOS)     │ │  (macOS/Win/Linux/Wasm)│  │
 │   └─────────────┬─────────────┘ └───────────┬───────────┘   │
 └─────────────────┼───────────────────────────┼───────────────┘
                   ▼                           ▼
@@ -108,7 +131,7 @@ Screeny delivers fluid edge-to-edge gesture navigation, infinite scrolling feeds
 ├─────────────────────────────────────────────────────────────┤
 │         Koin DI (Annotations)  •  Mappers & UseCases       │
 ├─────────────────────────────────────────────────────────────┤
-│   Ktor Client (OkHttp / Darwin) │   Room Database (KMP SQLite)│
+│   Ktor Client (OkHttp/Darwin/Js)│   Room Database (KMP SQLite)│
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -116,7 +139,7 @@ Screeny delivers fluid edge-to-edge gesture navigation, infinite scrolling feeds
 | :--- | :--- |
 | **UI Framework** | [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/) (Kotlin 2.4 / AGP 9.1) |
 | **Dependency Injection** | [Koin](https://insert-koin.io/) + Koin Annotations (KSP) |
-| **Networking** | [Ktor](https://ktor.io/) 3.5 (OkHttp on Android & Desktop, Darwin on iOS) |
+| **Networking** | [Ktor](https://ktor.io/) 3.5 (OkHttp on Android & Desktop, Darwin on iOS, Js/Wasm on Web) |
 | **Local Database** | [Room KMP](https://developer.android.com/kotlin/multiplatform/room) 2.8 + SQLite |
 | **Paging** | [CashApp Multiplatform Paging 3](https://github.com/cashapp/multiplatform-paging) |
 | **Image Loading** | [Landscapist](https://github.com/skydoves/landscapist) + [Coil 3](https://coil-kt.github.io/coil/) |
@@ -153,6 +176,15 @@ PEXELS_API_KEY=your_pexels_api_key_here
 ./gradlew :desktopApp:packageDmg   # macOS (.dmg)
 ./gradlew :desktopApp:packageMsi   # Windows (.msi)
 ./gradlew :desktopApp:packageDeb   # Linux (.deb)
+```
+
+#### 🌐 Web (Kotlin/Wasm)
+```bash
+# Run local development server with hot reload (http://localhost:8080)
+./gradlew :composeApp:wasmJsBrowserDevelopmentRun
+
+# Build production distribution for deployment (composeApp/build/dist/wasmJs/productionExecutable)
+./gradlew :composeApp:wasmJsBrowserDistribution
 ```
 
 #### 🤖 Android
