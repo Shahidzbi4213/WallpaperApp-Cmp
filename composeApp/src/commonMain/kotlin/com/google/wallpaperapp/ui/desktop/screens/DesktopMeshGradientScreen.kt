@@ -1,8 +1,6 @@
 package com.google.wallpaperapp.ui.desktop.screens
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.ContextMenuArea
-import androidx.compose.foundation.ContextMenuItem
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
@@ -23,6 +21,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.google.wallpaperapp.ui.desktop.components.CardActionButton
 import com.google.wallpaperapp.ui.desktop.components.CardHoverActions
+import com.google.wallpaperapp.ui.desktop.components.DesktopContextMenuArea
+import com.google.wallpaperapp.ui.desktop.components.DesktopContextMenuItem
 import com.google.wallpaperapp.ui.desktop.components.ScrollableGrid
 import com.google.wallpaperapp.ui.desktop.components.desktopClickable
 import com.google.wallpaperapp.ui.desktop.theme.DesktopDimens
@@ -65,10 +65,10 @@ private fun MeshCard(
     val applyLabel = stringResource(Res.string.desktop_set_as_wallpaper)
     val downloadLabel = stringResource(Res.string.download)
 
-    ContextMenuArea(items = {
+    DesktopContextMenuArea(items = {
         listOf(
-            ContextMenuItem(applyLabel) { onApply() },
-            ContextMenuItem(downloadLabel) { onDownload() },
+            DesktopContextMenuItem(applyLabel) { onApply() },
+            DesktopContextMenuItem(downloadLabel) { onDownload() },
         )
     }) {
         Box(

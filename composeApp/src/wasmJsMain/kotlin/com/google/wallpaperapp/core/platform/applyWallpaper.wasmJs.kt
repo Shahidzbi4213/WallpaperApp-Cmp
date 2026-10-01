@@ -11,3 +11,11 @@ actual class WallpaperManager actual constructor() {
         return WallpaperApplyResult.Success
     }
 }
+
+actual suspend fun applyWallpaperFromUrl(url: String): WallpaperApplyResult {
+    val name = "screeny-${url.hashCode().toUInt()}.jpg"
+    return when (val result = WallpaperDownloader().downloadWallpaper(url, name)) {
+        is DownloadResult.Success -> WallpaperApplyResult.Success
+        is DownloadResult.Failure -> WallpaperApplyResult.Failure(result.throwable.message)
+    }
+}

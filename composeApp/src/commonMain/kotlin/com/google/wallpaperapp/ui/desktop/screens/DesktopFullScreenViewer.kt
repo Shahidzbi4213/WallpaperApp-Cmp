@@ -92,7 +92,7 @@ import wallpaperapp.composeapp.generated.resources.desktop_wallpaper
 import wallpaperapp.composeapp.generated.resources.download
 
 /**
- * Full-screen high-quality wallpaper preview viewer for desktop.
+ * Full-screen high-quality wallpaper preview viewer for desktop and web.
  *
  * Displays the original high-resolution photo with an interactive glassmorphic HUD.
  * Clicking anywhere on the canvas or pressing Space toggles the info/action overlays.

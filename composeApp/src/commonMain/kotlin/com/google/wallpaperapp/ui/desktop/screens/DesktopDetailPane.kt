@@ -78,7 +78,7 @@ import wallpaperapp.composeapp.generated.resources.desktop_wallpaper
 import wallpaperapp.composeapp.generated.resources.download
 
 /**
- * The desktop preview. Not the phone's full-viewport pager: the image sits at its natural aspect
+ * The desktop and web preview. Not the phone's full-viewport pager: the image sits at its natural aspect
  * ratio inside a pane, with metadata and actions beside it, so the grid can stay visible on a
  * wide window and the user keeps browsing while previewing.
  */
@@ -217,7 +217,7 @@ fun DesktopDetailPane(
             Spacer(Modifier.height(16.dp))
         }
 
-        // No home/lock/both choice -- that distinction does not exist on a desktop.
+        // Action buttons
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(10.dp),

@@ -6,6 +6,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,18 +22,21 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.input.key.onKeyEvent
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.wallpaperapp.core.platform.DownloadResult
 import com.google.wallpaperapp.core.platform.LocaleManager
-import com.google.wallpaperapp.core.platform.WallpaperApplyResult
-import com.google.wallpaperapp.core.platform.applyWallpaperFile
-import com.google.wallpaperapp.core.platform.downloadsDir
 import com.google.wallpaperapp.core.platform.ToastManager
+import com.google.wallpaperapp.core.platform.WallpaperApplyResult
 import com.google.wallpaperapp.core.platform.desktopLocale
 import com.google.wallpaperapp.domain.models.FavouriteWallpaper
 import com.google.wallpaperapp.domain.models.Wallpaper
-import com.google.wallpaperapp.ui.composables.LazyPagingItems
 import com.google.wallpaperapp.ui.composables.collectAsLazyPagingItems
+import com.google.wallpaperapp.ui.desktop.components.WallpaperPageGrid
+import com.google.wallpaperapp.ui.desktop.paging.WallpaperFeed
+import com.google.wallpaperapp.ui.desktop.paging.WallpaperPageLoader
+import com.google.wallpaperapp.ui.desktop.paging.rememberWallpaperPageLoader
 import com.google.wallpaperapp.ui.desktop.screens.DesktopCategoriesScreen
 import com.google.wallpaperapp.ui.desktop.screens.DesktopDetailPane
 import com.google.wallpaperapp.ui.desktop.screens.DesktopFavouriteScreen
@@ -41,10 +45,6 @@ import com.google.wallpaperapp.ui.desktop.screens.DesktopLanguageDialog
 import com.google.wallpaperapp.ui.desktop.screens.DesktopMeshGradientScreen
 import com.google.wallpaperapp.ui.desktop.screens.DesktopSettingsScreen
 import com.google.wallpaperapp.ui.desktop.screens.asWallpaper
-import com.google.wallpaperapp.ui.desktop.components.WallpaperPageGrid
-import com.google.wallpaperapp.ui.desktop.paging.WallpaperFeed
-import com.google.wallpaperapp.ui.desktop.paging.WallpaperPageLoader
-import com.google.wallpaperapp.ui.desktop.paging.rememberWallpaperPageLoader
 import com.google.wallpaperapp.ui.desktop.theme.DesktopDimens
 import com.google.wallpaperapp.ui.desktop.theme.DesktopTheme
 import com.google.wallpaperapp.ui.routs.TopLevelBackStack
@@ -56,10 +56,7 @@ import com.google.wallpaperapp.ui.screens.languages.LanguageViewModel
 import com.google.wallpaperapp.ui.screens.search.SearchEvent
 import com.google.wallpaperapp.ui.screens.search.SearchViewModel
 import com.google.wallpaperapp.ui.screens.settings.SettingViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.File
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import wallpaperapp.composeapp.generated.resources.Res
@@ -75,14 +72,15 @@ import wallpaperapp.composeapp.generated.resources.desktop_setting_wallpaper
 import wallpaperapp.composeapp.generated.resources.desktop_wallpaper_set
 
 @Composable
-fun DesktopApp(controller: DesktopAppController = remember { DesktopAppController() }) {
+fun DesktopApp(
+    controller: DesktopAppController = remember { DesktopAppController() },
+    modifier: Modifier = Modifier
+) {
     val locale by desktopLocale.collectAsStateWithLifecycle()
 
     DesktopTheme {
-        // Compose Resources resolves strings against Locale.getDefault() at composition time and
-        // does not observe changes, so a language switch remounts the tree rather than recomposing.
         key(locale) {
-            DesktopAppContent(controller = controller)
+            DesktopAppContent(controller = controller, modifier = modifier)
         }
     }
 }
@@ -90,6 +88,7 @@ fun DesktopApp(controller: DesktopAppController = remember { DesktopAppControlle
 @Composable
 private fun DesktopAppContent(
     controller: DesktopAppController,
+    modifier: Modifier = Modifier,
     favouriteViewModel: FavouriteViewModel = koinViewModel(),
     searchViewModel: SearchViewModel = koinViewModel(),
     similarViewModel: SimilarWallpapersViewModel = koinViewModel(),
@@ -101,11 +100,10 @@ private fun DesktopAppContent(
     val scope = rememberCoroutineScope()
 
     val searchFocusRequester = remember { FocusRequester() }
+    val rootFocusRequester = remember { FocusRequester() }
     var searchQuery by remember { mutableStateOf("") }
     var showLanguageDialog by remember { mutableStateOf(false) }
 
-    // One loader per browsing context, so paging Home does not disturb a category or a search
-    // and each keeps its own page number while you switch between them.
     val homeLoader = rememberWallpaperPageLoader()
     val categoryLoader = rememberWallpaperPageLoader()
     val searchLoader = rememberWallpaperPageLoader()
@@ -115,8 +113,6 @@ private fun DesktopAppContent(
     val favourites by favouriteViewModel.getAllFavourites.collectAsStateWithLifecycle()
     val userPreference by settingViewModel.userPreference.collectAsStateWithLifecycle()
 
-    // Favourites are matched by Pexels id, so the same photo is recognised regardless of which
-    // orientation url a given platform happened to save.
     val favouriteIds = remember(favourites) { favourites.map { it.id }.toSet() }
 
     val destination = navState.destination
@@ -131,7 +127,6 @@ private fun DesktopAppContent(
         is DesktopDestination.Search -> "\"${destination.query}\""
     }
 
-    // Point the right loader at whatever the desktop navigation is showing.
     LaunchedEffect(destination) {
         when (destination) {
             is DesktopDestination.Category ->
@@ -153,8 +148,6 @@ private fun DesktopAppContent(
         preview?.wallpaper?.let { similarViewModel.fetchSimilar(it.alt) }
     }
 
-    // Let the window's menu bar and key handler drive this composition, and unhook on exit so a
-    // late menu click cannot call into a composition that is gone.
     DisposableEffect(controller, navState) {
         controller.onFocusSearch = { runCatching { searchFocusRequester.requestFocus() } }
         controller.onSelectSection = { section ->
@@ -167,6 +160,10 @@ private fun DesktopAppContent(
             controller.onSelectSection = null
             controller.onBackRequest = null
         }
+    }
+
+    LaunchedEffect(Unit) {
+        runCatching { rootFocusRequester.requestFocus() }
     }
 
     DesktopShell(
@@ -190,7 +187,21 @@ private fun DesktopAppContent(
         onBack = {
             if (destination is DesktopDestination.Search && preview == null) searchQuery = ""
             navState.back()
-        }
+        },
+        modifier = modifier
+            .focusRequester(rootFocusRequester)
+            .focusable()
+            .onKeyEvent { event ->
+                handleDesktopShortcut(
+                    event = event,
+                    onFocusSearch = { runCatching { searchFocusRequester.requestFocus() } },
+                    onOpenSettings = {
+                        searchQuery = ""
+                        navState.selectSection(TopLevelBackStack.Settings)
+                    },
+                    onBack = { navState.back() }
+                )
+            }
     ) { isWide ->
         Row(modifier = Modifier.fillMaxSize()) {
             Box(modifier = Modifier.weight(1f)) {
@@ -213,8 +224,6 @@ private fun DesktopAppContent(
                 )
             }
 
-            // Master-detail on a wide window: the grid stays usable while previewing. On a
-            // narrower one the pane takes the whole content area instead.
             AnimatedVisibility(
                 visible = preview != null,
                 enter = slideInHorizontally { it },
@@ -251,7 +260,6 @@ private fun DesktopAppContent(
         }
     }
 
-    // Dedicated immersive full-screen high-quality preview overlay
     AnimatedVisibility(
         visible = navState.fullScreenPreview != null,
         enter = fadeIn(tween(200)),
@@ -278,7 +286,6 @@ private fun DesktopAppContent(
         DesktopLanguageDialog(
             currentLanguageCode = userPreference.languageCode,
             onSelect = { language ->
-                // Persist it, then swap the JVM locale -- the shell remounts on the second step.
                 languageViewModel.updateCurrentLanguage(language)
                 LocaleManager().changeLocale(language.languageCode)
                 showLanguageDialog = false
@@ -375,36 +382,25 @@ private fun DesktopContent(
                 onApply = { preset ->
                     scope.launch {
                         meshToast.showToast(settingMsg)
-                        val file = withContext(Dispatchers.IO) {
-                            runCatching { exportMeshPreset(preset, meshExportFile(preset)) }
+                        when (val result = applyMeshPreset(preset)) {
+                            is WallpaperApplyResult.Success -> meshToast.showToast(setMsg)
+                            is WallpaperApplyResult.Failure -> meshToast.showToast(result.message ?: exportFailedMsg)
                         }
-                        file.fold(
-                            onSuccess = {
-                                val result = applyWallpaperFile(it)
-                                meshToast.showToast(
-                                    (result as? WallpaperApplyResult.Failure)?.message ?: setMsg
-                                )
-                            },
-                            onFailure = { meshToast.showToast(it.message ?: exportFailedMsg) }
-                        )
                     }
                 },
                 onDownload = { preset ->
                     scope.launch {
-                        val result = withContext(Dispatchers.IO) {
-                            runCatching {
-                                exportMeshPreset(
-                                    preset,
-                                    File(downloadsDir(), "screeny-gradient-${preset.name}.png")
-                                )
+                        when (val result = downloadMeshPreset(preset)) {
+                            is DownloadResult.Success -> {
+                                val msg = if (savedMsg.contains("%s")) {
+                                    savedMsg.replace("%s", result.filePath)
+                                } else {
+                                    "$savedMsg: ${result.filePath}"
+                                }
+                                meshToast.showToast(msg)
                             }
+                            is DownloadResult.Failure -> meshToast.showToast(result.throwable.message ?: exportFailedMsg)
                         }
-                        meshToast.showToast(
-                            result.fold(
-                                onSuccess = { savedMsg.format(it.absolutePath) },
-                                onFailure = { it.message ?: exportFailedMsg }
-                            )
-                        )
                     }
                 }
             )

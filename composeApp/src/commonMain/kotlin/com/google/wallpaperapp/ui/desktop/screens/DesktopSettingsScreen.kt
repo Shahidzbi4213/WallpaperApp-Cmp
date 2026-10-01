@@ -1,6 +1,5 @@
 package com.google.wallpaperapp.ui.desktop.screens
 
-import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -23,12 +21,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.google.wallpaperapp.core.platform.appDataDir
-import com.google.wallpaperapp.core.platform.currentOs
-import com.google.wallpaperapp.core.platform.downloadsDir
+import com.google.wallpaperapp.core.platform.getDesktopStoragePaths
+import com.google.wallpaperapp.core.platform.getPlatformDisplayName
+import com.google.wallpaperapp.ui.desktop.components.DesktopScrollStateScrollbar
 import com.google.wallpaperapp.ui.desktop.components.desktopClickable
 import com.google.wallpaperapp.ui.desktop.theme.DesktopDimens
 import com.google.wallpaperapp.ui.theme.TextHi
@@ -49,8 +48,7 @@ import wallpaperapp.composeapp.generated.resources.desktop_platform
 import wallpaperapp.composeapp.generated.resources.language
 
 /**
- * A desktop preferences page: content capped at a readable width and left-aligned, rather than
- * the phone's `fillMaxWidth(0.95f)` cards which would stretch across an ultrawide display.
+ * Preferences page for desktop and web: content capped at a readable width and left-aligned.
  */
 @Composable
 fun DesktopSettingsScreen(
@@ -59,6 +57,8 @@ fun DesktopSettingsScreen(
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
+    val storagePaths = remember { getDesktopStoragePaths() }
+    val platformName = remember { getPlatformDisplayName() }
 
     Box(modifier = modifier.fillMaxSize()) {
         Column(
@@ -77,19 +77,18 @@ fun DesktopSettingsScreen(
                     )
                 }
 
-                Spacer(Modifier.height(24.dp))
-
-                SettingsGroup(title = stringResource(Res.string.desktop_group_locations)) {
-                    // Desktop users expect to know where their files actually landed.
-                    SettingsRow(label = stringResource(Res.string.desktop_downloads_folder), value = downloadsDir().absolutePath)
-                    SettingsRow(label = stringResource(Res.string.desktop_appdata_folder), value = appDataDir().absolutePath)
+                if (storagePaths != null) {
+                    Spacer(Modifier.height(24.dp))
+                    SettingsGroup(title = stringResource(Res.string.desktop_group_locations)) {
+                        SettingsRow(label = stringResource(Res.string.desktop_downloads_folder), value = storagePaths.downloadsFolder)
+                        SettingsRow(label = stringResource(Res.string.desktop_appdata_folder), value = storagePaths.appDataFolder)
+                    }
                 }
 
                 Spacer(Modifier.height(24.dp))
 
                 SettingsGroup(title = stringResource(Res.string.desktop_group_about)) {
-                    SettingsRow(label = stringResource(Res.string.desktop_platform), value = currentOs.name.lowercase()
-                        .replaceFirstChar { it.uppercase() })
+                    SettingsRow(label = stringResource(Res.string.desktop_platform), value = platformName)
                     SettingsRow(label = stringResource(Res.string.desktop_photos), value = stringResource(Res.string.desktop_photos_value))
                 }
 
@@ -97,8 +96,8 @@ fun DesktopSettingsScreen(
             }
         }
 
-        VerticalScrollbar(
-            adapter = rememberScrollbarAdapter(scrollState),
+        DesktopScrollStateScrollbar(
+            state = scrollState,
             modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight().padding(2.dp)
         )
     }

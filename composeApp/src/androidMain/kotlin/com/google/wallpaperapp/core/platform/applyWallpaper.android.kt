@@ -45,3 +45,7 @@ actual class WallpaperManager actual constructor() : KoinComponent {
     }
 
 }
+
+actual suspend fun applyWallpaperFromUrl(url: String): WallpaperApplyResult {
+    return WallpaperApplyResult.Failure("Direct URL wallpaper setting not supported on Android")
+}

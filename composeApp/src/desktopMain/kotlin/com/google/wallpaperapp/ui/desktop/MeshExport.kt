@@ -54,3 +54,21 @@ fun exportMeshPreset(preset: MeshPreset, target: File): File {
 
 fun meshExportFile(preset: MeshPreset): File =
     File(appDataDir(), "gradients/screeny-gradient-${preset.name}.png")
+
+actual suspend fun applyMeshPreset(preset: MeshPreset): com.google.wallpaperapp.core.platform.WallpaperApplyResult =
+    kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+        val file = runCatching { exportMeshPreset(preset, meshExportFile(preset)) }.getOrElse {
+            return@withContext com.google.wallpaperapp.core.platform.WallpaperApplyResult.Failure(it.message)
+        }
+        com.google.wallpaperapp.core.platform.applyWallpaperFile(file)
+    }
+
+actual suspend fun downloadMeshPreset(preset: MeshPreset): com.google.wallpaperapp.core.platform.DownloadResult =
+    kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+        val target = File(com.google.wallpaperapp.core.platform.downloadsDir(), "screeny-gradient-${preset.name}.png")
+        runCatching {
+            exportMeshPreset(preset, target)
+            com.google.wallpaperapp.core.platform.DownloadResult.Success(target.absolutePath)
+        }.getOrElse { com.google.wallpaperapp.core.platform.DownloadResult.Failure(it) }
+    }
+

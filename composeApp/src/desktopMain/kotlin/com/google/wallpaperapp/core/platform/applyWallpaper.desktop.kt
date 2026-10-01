@@ -44,7 +44,7 @@ actual class WallpaperManager actual constructor() {
  * screen, and holding a 5000px ImageBitmap in memory just to re-encode it would be wasteful. So we
  * fetch the original straight to disk and point the desktop environment at it.
  */
-suspend fun applyWallpaperFromUrl(url: String): WallpaperApplyResult =
+actual suspend fun applyWallpaperFromUrl(url: String): WallpaperApplyResult =
     withContext(Dispatchers.IO) {
         val dir = File(appDataDir(), "wallpapers").apply { if (!exists()) mkdirs() }
         val target = File(dir, "current-${url.hashCode().toUInt()}.jpg")

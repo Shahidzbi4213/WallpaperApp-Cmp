@@ -2,7 +2,6 @@ package com.google.wallpaperapp.ui.desktop.components
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -13,7 +12,6 @@ import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -74,8 +72,8 @@ fun ScrollableGrid(
             content = content
         )
 
-        VerticalScrollbar(
-            adapter = rememberScrollbarAdapter(state),
+        DesktopGridScrollbar(
+            state = state,
             modifier = Modifier
                 .align(Alignment.CenterEnd)
                 .fillMaxHeight()

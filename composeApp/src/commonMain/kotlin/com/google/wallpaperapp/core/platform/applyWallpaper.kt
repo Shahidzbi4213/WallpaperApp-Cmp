@@ -17,3 +17,6 @@ expect class WallpaperManager(){
         type: WallpaperType
     ): WallpaperApplyResult
 }
+
+expect suspend fun applyWallpaperFromUrl(url: String): WallpaperApplyResult
+

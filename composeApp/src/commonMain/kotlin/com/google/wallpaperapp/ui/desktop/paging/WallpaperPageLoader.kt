@@ -78,10 +78,21 @@ class WallpaperPageLoader(
      * Pages already fetched this session, so paging back to 1 is instant and does not spend
      * another request. Bounded because a long session could otherwise hold thousands of images.
      */
-    private val cache = object : LinkedHashMap<String, List<Wallpaper>>(0, 0.75f, true) {
-        override fun removeEldestEntry(eldest: MutableMap.MutableEntry<String, List<Wallpaper>>) =
-            size > MAX_CACHED_PAGES
+    private val cache = mutableMapOf<String, List<Wallpaper>>()
+    private val cacheKeys = mutableListOf<String>()
+
+    private fun cacheGet(key: String): List<Wallpaper>? = cache[key]
+
+    private fun cachePut(key: String, items: List<Wallpaper>) {
+        if (cache.size >= MAX_CACHED_PAGES && cacheKeys.isNotEmpty()) {
+            val oldest = cacheKeys.removeAt(0)
+            cache.remove(oldest)
+        }
+        cache[key] = items
+        cacheKeys.remove(key)
+        cacheKeys.add(key)
     }
+
 
     /**
      * Page count belongs to the feed, not to any one page. Kept out of the cache so a page
@@ -102,7 +113,7 @@ class WallpaperPageLoader(
         val target = page.coerceAtLeast(1)
         job?.cancel()
 
-        cache[keyFor(feed, target)]?.let { cached ->
+        cacheGet(keyFor(feed, target))?.let { cached ->
             state = PageState(cached, target, feedTotalPages)
             return
         }
@@ -126,7 +137,7 @@ class WallpaperPageLoader(
                     }
 
                     feedTotalPages = totalPagesFrom(response.totalResults)
-                    cache[keyFor(feed, target)] = items
+                    cachePut(keyFor(feed, target), items)
                     state = PageState(items, target, feedTotalPages)
                 }
                 .onFailure { throwable ->

@@ -108,3 +108,7 @@ fun Data.toNSData(): NSData {
         NSData.create(bytes = pinned.addressOf(0), length = bytes.size.toULong())
     }
 }
+
+actual suspend fun applyWallpaperFromUrl(url: String): WallpaperApplyResult {
+    return WallpaperApplyResult.Failure("Direct URL wallpaper setting not supported on iOS")
+}

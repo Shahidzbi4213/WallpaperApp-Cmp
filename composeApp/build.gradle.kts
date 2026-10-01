@@ -73,7 +73,6 @@ kotlin {
         val commonMain by getting
         val desktopMain by getting
         val desktopTest by getting
-        val androidMain by getting
         val wasmJsMain by getting {
             dependencies {
                 implementation(libs.ktor.client.js)
@@ -89,6 +88,10 @@ kotlin {
         }
 
         val iosMain by getting {
+            dependsOn(nonWebMain)
+        }
+
+        val androidMain by getting {
             dependsOn(nonWebMain)
         }
 
@@ -110,7 +113,6 @@ kotlin {
             implementation(compose.uiTooling)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
-
         }
         commonMain.dependencies {
             implementation(compose.runtime)

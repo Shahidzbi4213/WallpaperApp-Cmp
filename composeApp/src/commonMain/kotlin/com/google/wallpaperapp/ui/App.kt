@@ -2,6 +2,7 @@ package com.google.wallpaperapp.ui
 
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -14,6 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
@@ -22,11 +24,14 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
+import com.google.wallpaperapp.core.platform.PlatformType
 import com.google.wallpaperapp.core.platform.exitApp
+import com.google.wallpaperapp.core.platform.getPlatformType
 import com.google.wallpaperapp.domain.models.FavouriteWallpaper
 import com.google.wallpaperapp.domain.models.Wallpaper
 import com.google.wallpaperapp.ui.composables.ManageBarVisibility
 import com.google.wallpaperapp.ui.composables.collectAsLazyPagingItems
+import com.google.wallpaperapp.ui.desktop.DesktopApp
 import com.google.wallpaperapp.ui.routs.Routs
 import com.google.wallpaperapp.ui.routs.TopLevelBackStack
 import com.google.wallpaperapp.ui.screens.category.CategoryDetailScreen
@@ -45,12 +50,32 @@ import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 import org.koin.compose.viewmodel.koinViewModel
 
-@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun App(
     modifier: Modifier = Modifier,
-    homeScreenViewModel: HomeScreenViewModel = koinViewModel(),
-    categoryViewModel: CategoryViewModel = koinViewModel()
+    homeScreenViewModel: HomeScreenViewModel? = null,
+    categoryViewModel: CategoryViewModel? = null
+) {
+    BoxWithConstraints(modifier = modifier.fillMaxSize()) {
+        val isWideLayout = maxWidth >= 840.dp || getPlatformType() == PlatformType.DESKTOP
+        if (isWideLayout) {
+            DesktopApp(modifier = Modifier.fillMaxSize())
+        } else {
+            MobileApp(
+                modifier = Modifier.fillMaxSize(),
+                homeScreenViewModel = homeScreenViewModel ?: koinViewModel(),
+                categoryViewModel = categoryViewModel ?: koinViewModel()
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalSharedTransitionApi::class)
+@Composable
+private fun MobileApp(
+    modifier: Modifier = Modifier,
+    homeScreenViewModel: HomeScreenViewModel,
+    categoryViewModel: CategoryViewModel
 ) {
     val configuration = SavedStateConfiguration {
         serializersModule = SerializersModule {

@@ -7,16 +7,14 @@ import androidx.compose.ui.input.key.isCtrlPressed
 import androidx.compose.ui.input.key.isMetaPressed
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.type
-import com.google.wallpaperapp.core.platform.DesktopOs
-import com.google.wallpaperapp.core.platform.currentOs
 
-/** Command on macOS, Control everywhere else -- matching what each platform's users expect. */
+/** Command on macOS, Control everywhere else. Checking both ensures web and desktop work seamlessly. */
 val KeyEvent.isMenuModifierPressed: Boolean
-    get() = if (currentOs == DesktopOs.MAC) isMetaPressed else isCtrlPressed
+    get() = isMetaPressed || isCtrlPressed
 
 /** The modifier name to print in a menu item. */
 val menuModifierLabel: String
-    get() = if (currentOs == DesktopOs.MAC) "⌘" else "Ctrl+"
+    get() = "⌘/Ctrl+"
 
 /**
  * Window-level shortcuts. Returns true when the event was consumed.

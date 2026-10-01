@@ -47,7 +47,7 @@ data class WallpaperActionStrings(
 )
 
 /**
- * Apply / download / copy / open, in one place. Every desktop surface that can act on a wallpaper
+ * Apply / download / copy / open, in one place. Every desktop and web surface that can act on a wallpaper
  * -- grid hover buttons, the right-click menu, the detail pane -- routes through this, so the
  * behaviour and the messages stay identical across all of them.
  */
@@ -76,8 +76,14 @@ class DesktopWallpaperActions(
             toast.showToast(strings.downloading)
             val name = "screeny-${wallpaper.id}.jpg"
             when (val result = WallpaperDownloader().downloadWallpaper(wallpaper.fullUrl, name)) {
-                is DownloadResult.Success ->
-                    toast.showToast(strings.savedTo.format(result.filePath))
+                is DownloadResult.Success -> {
+                    val msg = if (strings.savedTo.contains("%s")) {
+                        strings.savedTo.replace("%s", result.filePath)
+                    } else {
+                        "${strings.savedTo}: ${result.filePath}"
+                    }
+                    toast.showToast(msg)
+                }
 
                 is DownloadResult.Failure ->
                     toast.showToast(result.throwable.message ?: strings.downloadFailed)

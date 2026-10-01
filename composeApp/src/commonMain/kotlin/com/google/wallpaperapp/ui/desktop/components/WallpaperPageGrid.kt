@@ -8,8 +8,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.ContextMenuArea
-import androidx.compose.foundation.ContextMenuItem
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -110,16 +108,16 @@ fun WallpaperPageGrid(
                             val wallpaper = state.items[index]
                             val isFavourite = wallpaper.id in favouriteIds
 
-                            ContextMenuArea(items = {
+                            DesktopContextMenuArea(items = {
                                 listOf(
-                                    ContextMenuItem(fullScreenLabel) { onOpenFullScreen(wallpaper) },
-                                    ContextMenuItem(applyLabel) { onApply(wallpaper) },
-                                    ContextMenuItem(downloadLabel) { onDownload(wallpaper) },
-                                    ContextMenuItem(
+                                    DesktopContextMenuItem(fullScreenLabel) { onOpenFullScreen(wallpaper) },
+                                    DesktopContextMenuItem(applyLabel) { onApply(wallpaper) },
+                                    DesktopContextMenuItem(downloadLabel) { onDownload(wallpaper) },
+                                    DesktopContextMenuItem(
                                         if (isFavourite) removeFavLabel else addFavLabel
                                     ) { onToggleFavourite(wallpaper) },
-                                    ContextMenuItem(copyLinkLabel) { onCopyUrl(wallpaper) },
-                                    ContextMenuItem("$photographerLabel: ${wallpaper.photographerName}") {
+                                    DesktopContextMenuItem(copyLinkLabel) { onCopyUrl(wallpaper) },
+                                    DesktopContextMenuItem("$photographerLabel: ${wallpaper.photographerName}") {
                                         onOpenPhotographer(wallpaper)
                                     },
                                 )

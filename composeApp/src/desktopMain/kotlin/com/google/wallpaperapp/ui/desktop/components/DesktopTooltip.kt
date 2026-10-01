@@ -17,9 +17,9 @@ import com.google.wallpaperapp.ui.theme.glass
  */
 @OptIn(androidx.compose.foundation.ExperimentalFoundationApi::class)
 @Composable
-fun DesktopTooltip(
+actual fun DesktopTooltip(
     text: String,
-    modifier: Modifier = Modifier,
+    modifier: Modifier,
     content: @Composable () -> Unit
 ) {
     TooltipArea(

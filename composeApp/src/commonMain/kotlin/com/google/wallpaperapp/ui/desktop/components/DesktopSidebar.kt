@@ -36,13 +36,11 @@ import com.google.wallpaperapp.ui.routs.bottomNavigationItems
 import com.google.wallpaperapp.ui.theme.EmberGradient
 import com.google.wallpaperapp.ui.theme.GlassBorder
 import com.google.wallpaperapp.ui.theme.Ink950
-import com.google.wallpaperapp.ui.theme.ScreenyGradient
 import com.google.wallpaperapp.ui.theme.TextHi
 import com.google.wallpaperapp.ui.theme.TextLow
 import com.google.wallpaperapp.ui.theme.TextMid
 import com.google.wallpaperapp.ui.theme.eyebrowStyle
 import org.jetbrains.compose.resources.stringResource
-
 import org.jetbrains.compose.resources.painterResource
 import wallpaperapp.composeapp.generated.resources.Res
 import wallpaperapp.composeapp.generated.resources.app_logo

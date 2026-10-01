@@ -151,7 +151,7 @@ private sealed interface PageSlot {
 private fun pageWindow(current: Int, total: Int, radius: Int = 2): List<PageSlot> {
     if (total <= 7) return (1..total).map { PageSlot.Number(it) }
 
-    val pages = sortedSetOf(1, total)
+    val pages = mutableSetOf(1, total)
     for (p in (current - radius)..(current + radius)) {
         if (p in 1..total) pages.add(p)
     }
@@ -161,7 +161,7 @@ private fun pageWindow(current: Int, total: Int, radius: Int = 2): List<PageSlot
 
     val slots = mutableListOf<PageSlot>()
     var previous = 0
-    for (page in pages) {
+    for (page in pages.sorted()) {
         if (previous != 0 && page - previous > 1) slots.add(PageSlot.Gap)
         slots.add(PageSlot.Number(page))
         previous = page

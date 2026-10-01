@@ -28,9 +28,7 @@ import com.google.wallpaperapp.ui.routs.TopLevelBackStack
 import com.google.wallpaperapp.ui.theme.auroraBackground
 
 /**
- * The desktop window frame: fixed left rail, toolbar with a live search field, content area.
- * Native window decorations are kept -- a macOS user expects real traffic lights, and a custom
- * title bar would only cost us window snapping and accessibility for no gain.
+ * The desktop and web window frame: fixed left rail, toolbar with a live search field, content area.
  */
 @Composable
 fun DesktopShell(
@@ -42,11 +40,11 @@ fun DesktopShell(
     onSelectSection: (TopLevelBackStack) -> Unit,
     onSearchChange: (String) -> Unit,
     onBack: () -> Unit,
+    modifier: Modifier = Modifier,
     content: @Composable (isWide: Boolean) -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
-    // ToastManager has no desktop equivalent, so its emissions land here instead.
     LaunchedEffect(Unit) {
         desktopToasts.collect { toast ->
             snackbarHostState.currentSnackbarData?.dismiss()
@@ -60,7 +58,7 @@ fun DesktopShell(
         }
     }
 
-    BoxWithConstraints(modifier = Modifier.fillMaxSize().auroraBackground()) {
+    BoxWithConstraints(modifier = modifier.fillMaxSize().auroraBackground()) {
         val collapsed = maxWidth < DesktopDimens.SidebarCollapseThreshold
         val isWide = maxWidth >= DesktopDimens.SplitViewThreshold
 
