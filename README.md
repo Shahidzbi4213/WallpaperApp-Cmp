@@ -222,6 +222,14 @@ Open `iosApp/iosApp.xcodeproj` in Xcode and press **Run**, or run via Fleet / An
 
 ---
 
+## 👨‍💻 Author
+
+Developed by **[Shahid Iqbal](https://shahid-iqbal.dev/)** — Senior Android & Kotlin Multiplatform Engineer.
+
+Connect: [Portfolio](https://shahid-iqbal.dev/) • [LinkedIn](https://www.linkedin.com/in/shahidzbi/) • [GitHub](https://github.com/Shahidzbi4213) • [X (Twitter)](https://x.com/shahidzbi)
+
+---
+
 ## 💖 Star the Repo
 
 If you enjoy Screeny or find this Compose Multiplatform reference helpful, please give it a **⭐ on GitHub**!
